@@ -1,0 +1,31 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content-container {
+  flex: 1;
+  padding: 1rem;
+  margin-bottom: 10vh; /* Add margin to prevent content from being hidden behind the fixed footer */
+}
+
+table {
+  max-width: 50rem;
+  margin: 2rem auto;
+  padding: 1rem;
+  table-layout: fixed;
+  border-spacing: 1rem;
+  text-align: right;
+}
+
+table thead {
+  font-size: 0.7rem;
+  color: #D3D3D3;
+}
+
+table tbody {
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: 0.85rem;
+  color: #c2e9e0;
+}
