@@ -2,17 +2,18 @@ header {
   padding: 0.75rem 0.1rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 3rem; /* Increased gap for better spacing with absolute positioned title */
   justify-content: space-between;
   align-items: center;
   font-size: 1rem;
+  position: relative;
 }
 
 #logo {
   width: 7.5rem;
   height: 7.5rem;
   background-color: #f5f5f5;
-  padding: 1.25rem;
+  padding: 1.00rem;
   border-radius: 50%;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.35);
 }
@@ -27,6 +28,10 @@ header {
   width: 100%;
   text-align: center;
   margin: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1;
 }
 
 nav ul {
@@ -54,10 +59,19 @@ nav ul li a:hover {
     flex-direction: row;
     gap: 0;
     padding: 1.5rem 10%;
+    justify-content: space-between;
   }
 
   .header-title {
-    flex: 1;
+    position: absolute;
+    left: 0;
+    right: 0;
     text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  #logo, nav {
+    z-index: 2;
   }
 }

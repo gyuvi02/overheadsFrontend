@@ -3,12 +3,10 @@
     <img src="logo.png" alt="Website logo, a server" />
   </div>
 
-  <p class="header-title" style="font-size: 2em;">APPARTEMENT MANAGEMET</p>
-
-
+  <p class="header-title" style="font-size: 1.9rem; font-weight: bold">APARTMENT MANAGEMENT</p>
   <nav>
     <ul>
-      <li>
+      <li *ngIf="!isLoginRoute()">
         <a href="/">Home</a>
       </li>
       <li *ngIf="!isLoginRoute()">

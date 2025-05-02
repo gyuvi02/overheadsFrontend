@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './main/login/login.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' }
+  { path: 'localhost:8080/api/v1', redirectTo: '/login', pathMatch: 'full' }
 ];
