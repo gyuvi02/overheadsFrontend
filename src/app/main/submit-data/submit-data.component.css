@@ -1,0 +1,134 @@
+.submit-data-container {
+  width: 90%;
+  height: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+  margin: 0 auto; /* Center horizontally */
+}
+
+.form-container {
+  width: 90%;
+  margin: 0 auto;
+  background-color: #FFFFEF;
+  padding: 5px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: left;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+label {
+  display: inline-block;
+  width: 120px;
+  margin-right: 10px;
+  font-weight: bold;
+  color: #555;
+}
+
+select, input[type="number"] {
+  width: 40%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.file-upload-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.file-name {
+  margin-left: 10px;
+  font-size: 14px;
+  color: #555;
+  word-break: break-all;
+  min-width: 150px;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.empty-file {
+  color: #999;
+  font-style: italic;
+}
+
+.file-upload-container input[type="file"] {
+  position: absolute;
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.file-upload-container label {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+  height: 42px;
+  box-sizing: border-box;
+  line-height: 22px;
+}
+
+.file-upload-container button {
+  height: 42px;
+  box-sizing: border-box;
+}
+
+.file-upload-container label:hover {
+  background-color: #45a049;
+}
+
+small {
+  display: block;
+  margin-top: 5px;
+  margin-left: 0;
+  color: #777;
+  font-size: 12px;
+  width: 100%;
+  text-align: left;
+}
+
+.submit-button-container {
+  margin-top: 30px;
+  text-align: center;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button:hover {
+  background-color: #45a049;
+}

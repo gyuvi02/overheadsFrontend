@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { API_KEY_VALID } from '../../core/constants';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import { AuthService } from '../../core/auth.service';
 
 
 @Component({
@@ -15,6 +16,7 @@ import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 export class LoginComponent {
   private httpClient = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
+  private authService = inject(AuthService);
   username: string = '';
   password: string = '';
 
@@ -28,20 +30,53 @@ export class LoginComponent {
       headers: {'API-KEY': API_KEY_VALID},
       responseType: 'text'
     }).subscribe(
-      {next: (data) => console.log(data),
+      {
+        next: (data) => {
+          console.log(data);
+          this.authService.login();
+        },
         error: (err: HttpErrorResponse) => {
-          // Use alert() to show the error message from the response body
-          if (err && err.error) {
-            alert(err.error);
-          } else {
-            // Fallback message if the error structure is unexpected
-            alert('An unknown error occurred during login.');
-            console.error('Login error:', err); // Log the full error for debugging
-          }
+          const errorDiv = document.createElement('div');
+          errorDiv.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: red;
+            padding: 50px;
+            z-index: 1000;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+          `;
+
+          const errorMessage = document.createElement('div');
+          errorMessage.textContent = err.error || 'An unknown error occurred during login.';
+
+          const okButton = document.createElement('button');
+          okButton.textContent = 'OK';
+          okButton.style.cssText = `
+            padding: 8px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem; /* Ensure readable font size */
+
+          `;
+          okButton.onclick = () => errorDiv.remove();
+
+          errorDiv.appendChild(errorMessage);
+          errorDiv.appendChild(okButton);
+          document.body.appendChild(errorDiv);
+          console.error('Login error:', err);
         }
       }
     )
-
 
     this.destroyRef.onDestroy(() => {
       loginData.unsubscribe();

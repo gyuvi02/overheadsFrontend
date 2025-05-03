@@ -26,6 +26,6 @@ export class HeaderComponent {
   }
 
   isLoginRoute(): boolean {
-    return this.currentRoute === './main/login' || this.currentRoute === '/';
+    return this.currentRoute === '/main/login' || this.currentRoute === '/';
   }
 }

@@ -1,0 +1,10 @@
+<div class="user-menu" *ngIf="isLoggedIn$ | async">
+  <div class="menu-buttons">
+    <button appButton (click)="onSubmitNewMeterValue()">
+      Submit meter value
+    </button>
+    <button appButton (click)="onCheckLatestMeterValues()">
+      Check latest values
+    </button>
+  </div>
+</div>

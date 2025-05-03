@@ -1,2 +1,10 @@
-<app-login></app-login>
+<app-login *ngIf="!(isLoggedIn$ | async)"></app-login>
 
+<div class="main-content" *ngIf="isLoggedIn$ | async">
+
+    <app-user-menu></app-user-menu>
+
+
+    <app-submit-data></app-submit-data>
+
+</div>
