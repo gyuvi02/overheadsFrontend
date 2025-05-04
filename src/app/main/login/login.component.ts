@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { API_KEY_VALID } from '../../core/constants';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import { AuthService } from '../../core/auth.service';
+import { AuthService, LoginResponse } from '../../core/auth.service';
 
 
 @Component({
@@ -28,12 +28,15 @@ export class LoginComponent {
       "password": this.password
     }, {
       headers: {'API-KEY': API_KEY_VALID},
-      responseType: 'text'
+      responseType: 'json'
     }).subscribe(
       {
         next: (data) => {
           console.log(data);
-          this.authService.login();
+          // Parse the response as LoginResponse
+          const loginResponse = data as LoginResponse;
+          // Pass the response to the auth service
+          this.authService.login(loginResponse);
         },
         error: (err: HttpErrorResponse) => {
           const errorDiv = document.createElement('div');

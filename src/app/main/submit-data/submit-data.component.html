@@ -12,13 +12,16 @@
 
     <div class="form-group">
       <label for="meterValue">Meter value</label>
-      <input
-        type="number"
-        id="meterValue"
-        [(ngModel)]="meterValue"
-        placeholder="Enter meter value"
-        step="0.01"
-      >
+      <div class="meter-value-container">
+        <input
+          type="number"
+          id="meterValue"
+          [(ngModel)]="meterValue"
+          placeholder="Whole numbers only!"
+          step="1"
+        >
+        <span *ngIf="actualValue" class="actual-value">Latest value: {{ actualValue }}</span>
+      </div>
     </div>
 
     <div class="form-group">
@@ -29,12 +32,13 @@
           (change)="onFileSelected($event)"
           accept=".png,.tiff,.jpg,.jpeg"
         >
-        <label for="imageUpload">Upload image</label>
-        <span class="file-name" *ngIf="selectedFile">{{ selectedFile.name }}</span>
-        <span class="file-name empty-file" *ngIf="!selectedFile">No file selected</span>
-        <button appButton (click)="onSubmitImage()">Upload</button>
+        <label for="imageUpload" style="width: 200px;">Upload image</label>
+        <span class="file-name" *ngIf="selectedFile" style="width: 220px">{{ selectedFile.name }}</span>
+        <span class="file-name empty-file" *ngIf="!selectedFile" style="width: 220px">No file selected</span>
+<!--        <button appButton (click)="onSubmitImage()">Upload</button>-->
+        <small>Max size: 10MB. Allowed formats: PNG, TIFF, JPG, JPEG</small>
+
       </div>
-      <small>Max size: 10MB. Allowed formats: PNG, TIFF, JPG, JPEG</small>
     </div>
 
     <div class="submit-button-container">

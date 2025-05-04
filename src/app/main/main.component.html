@@ -4,7 +4,7 @@
 
     <app-user-menu></app-user-menu>
 
-
-    <app-submit-data></app-submit-data>
+    <app-submit-data *ngIf="(activeComponent$ | async) === DisplayComponent.SUBMIT_DATA"></app-submit-data>
+    <app-latest-values *ngIf="(activeComponent$ | async) === DisplayComponent.LATEST_VALUES"></app-latest-values>
 
 </div>

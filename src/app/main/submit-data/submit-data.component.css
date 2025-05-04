@@ -43,6 +43,19 @@ select, input[type="number"] {
   font-size: 16px;
 }
 
+.meter-value-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 60%;
+}
+
+.actual-value {
+  margin-left: 10px;
+  color: #999;
+  font-style: italic;
+}
+
 .file-upload-container {
   display: flex;
   align-items: center;
@@ -82,17 +95,17 @@ select, input[type="number"] {
 
 .file-upload-container label {
   display: inline-block;
+  height: 36px;
   padding: 10px 20px;
   background-color: #4CAF50;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   text-align: center;
-  height: 42px;
   box-sizing: border-box;
-  line-height: 22px;
+  line-height: 1.5;
 }
 
 .file-upload-container button {
