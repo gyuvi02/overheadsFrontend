@@ -1,0 +1,10 @@
+<div class="popup-overlay" *ngIf="showPopup">
+  <div class="popup-container">
+    <div class="popup-content">
+      <p class="popup-message">{{ message }}</p>
+      <div class="popup-actions">
+        <button appButton (click)="onOkClick()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
