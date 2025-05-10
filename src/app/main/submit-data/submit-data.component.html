@@ -19,6 +19,7 @@
           [(ngModel)]="meterValue"
           placeholder="Whole numbers only!"
           step="1"
+          (keyup.enter)="onSubmitData()"
         >
         <span *ngIf="actualValue" class="actual-value">Latest value: {{ actualValue }}</span>
       </div>

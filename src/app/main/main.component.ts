@@ -4,6 +4,11 @@ import { LoginComponent } from './login/login.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 import { SubmitDataComponent } from './submit-data/submit-data.component';
 import { LatestValuesComponent } from './latest-values/latest-values.component';
+import { EditApartmentComponent } from './edit-apartment/edit-apartment.component';
+import { AddApartmentComponent } from './add-apartment/add-apartment.component';
+import { AddDefaultComponent } from './add-default/add-default.component';
+import { GetAdminDataComponent } from './get-admin-data/get-admin-data.component';
+import { GetAdminListsComponent } from './get-admin-lists/get-admin-lists.component';
 import { AuthService } from '../core/auth.service';
 import { ComponentDisplayService, DisplayComponent } from '../core/component-display.service';
 
@@ -15,7 +20,12 @@ import { ComponentDisplayService, DisplayComponent } from '../core/component-dis
     LoginComponent,
     UserMenuComponent,
     SubmitDataComponent,
-    LatestValuesComponent
+    LatestValuesComponent,
+    EditApartmentComponent,
+    AddApartmentComponent,
+    AddDefaultComponent,
+    GetAdminDataComponent,
+    GetAdminListsComponent
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.css'

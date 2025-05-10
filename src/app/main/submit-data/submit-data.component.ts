@@ -100,14 +100,14 @@ export class SubmitDataComponent implements OnInit {
 
     // Check if the new meter value is less than the previous value
     if (this.actualValue && this.meterValue < parseFloat(this.actualValue)) {
-      this.popupService.showPopup('Error: The new meter value cannot be less than the previous value. Please enter a value greater than or equal to ' + this.actualValue);
+      this.popupService.showPopup('Error: The new meter value cannot be less than the previous value. Please enter a value greater than ' + this.actualValue);
       return;
     }
 
     // Check if the new meter value is equal to the previous value
     if (this.actualValue && this.meterValue === parseFloat(this.actualValue)) {
       this.popupService.showPopup('The new meter value is the same as the previous value. No new value will be stored.');
-      this.router.navigate(['/main']);
+      this.router.navigate(['/me']);
       return;
     }
 
@@ -166,14 +166,19 @@ export class SubmitDataComponent implements OnInit {
         // Reset the form
         this.resetForm();
 
-        // Navigate back to the submit-data component (effectively refreshing it)
+        // Navigate back to the main page (effectively refreshing it)
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-          this.router.navigate(['/submit-data']);
+          this.router.navigate(['/me']);
         });
       },
       error: (error) => {
-        console.error('Submission error:', error);
-        this.popupService.showPopup('An error occurred while submitting the data. Please try again.');
+        if (error.status === 401) {
+          this.popupService.showPopup('Session expired, please, log in again');
+          this.authService.logout();
+        } else {
+          console.error('Submission error:', error);
+          this.popupService.showPopup('An error occurred while submitting the data. Please try again.');
+        }
       }
     });
   }

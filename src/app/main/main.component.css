@@ -1,7 +1,8 @@
 .main-content {
   display: flex;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
+  height: auto;
 }
 
 .main-content > app-user-menu {
@@ -10,7 +11,12 @@
 }
 
 .main-content > app-submit-data,
-.main-content > app-latest-values {
+.main-content > app-latest-values,
+.main-content > app-edit-apartment,
+.main-content > app-add-default,
+.main-content > app-get-admin-data,
+.main-content > app-get-admin-lists,
+.main-content > app-add-apartment {
   width: 80%;
   display: flex;
   justify-content: center;

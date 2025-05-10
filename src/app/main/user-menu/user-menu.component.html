@@ -1,10 +1,39 @@
 <div class="user-menu" *ngIf="isLoggedIn$ | async">
   <div class="menu-buttons">
-    <button appButton (click)="onSubmitNewMeterValue()">
-      Submit meter value
-    </button>
-    <button appButton (click)="onCheckLatestMeterValues()">
-      Check latest values
-    </button>
+    <!-- Regular user buttons - only visible for non-admin users -->
+    <div *ngIf="!isAdmin">
+      <button appButton (click)="onSubmitNewMeterValue()">
+        Submit meter value
+      </button>
+      <button appButton (click)="onCheckLatestMeterValues()">
+        Check latest values
+      </button>
+    </div>
+
+    <!-- Admin buttons - only visible for admin users -->
+    <div *ngIf="isAdmin" class="admin-buttons">
+      <h3>Admin Functions</h3>
+      <button appButton (click)="onGetAdminData()">
+        Get admin values
+      </button>
+      <button appButton (click)="onGetAdminLists()">
+        Get value lists
+      </button>
+      <button appButton (click)="onEditApartment()">
+        Edit apartment
+      </button>
+      <button appButton (click)="onAddApartment()">
+        Add apartment
+      </button>
+      <button appButton (click)="onAddDefault()">
+        Add default meters
+      </button>
+      <button appButton (click)="onDeleteApartment()">
+        Delete apartment
+      </button>
+      <button appButton (click)="onSendEmail()">
+        Send email
+      </button>
+    </div>
   </div>
 </div>

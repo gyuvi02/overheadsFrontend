@@ -3,7 +3,12 @@ import { BehaviorSubject } from 'rxjs';
 
 export enum DisplayComponent {
   SUBMIT_DATA = 'submit-data',
-  LATEST_VALUES = 'latest-values'
+  LATEST_VALUES = 'latest-values',
+  EDIT_APARTMENT = 'edit-apartment',
+  ADD_APARTMENT = 'add-apartment',
+  ADD_DEFAULT = 'add-default',
+  GET_ADMIN_DATA = 'get-admin-data',
+  GET_ADMIN_LISTS = 'get-admin-lists'
 }
 
 @Injectable({

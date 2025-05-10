@@ -16,6 +16,10 @@ export class UserMenuComponent {
   private componentDisplayService = inject(ComponentDisplayService);
   isLoggedIn$ = this.authService.isLoggedIn$;
 
+  get isAdmin(): boolean {
+    return this.authService.isAdmin;
+  }
+
   onSubmitNewMeterValue() {
     console.log('Submit new meter value clicked');
     this.componentDisplayService.setActiveComponent(DisplayComponent.SUBMIT_DATA);
@@ -24,5 +28,51 @@ export class UserMenuComponent {
   onCheckLatestMeterValues() {
     console.log('Check latest meter values clicked');
     this.componentDisplayService.setActiveComponent(DisplayComponent.LATEST_VALUES);
+  }
+
+  // Admin functions
+  onGetAllApartments() {
+    console.log('Get all apartments clicked');
+    this.authService.fetchAllApartments();
+    this.componentDisplayService.setActiveComponent(DisplayComponent.EDIT_APARTMENT);
+  }
+
+  onEditApartment() {
+    console.log('Edit apartment clicked');
+    this.authService.fetchAllApartments();
+    this.componentDisplayService.setActiveComponent(DisplayComponent.EDIT_APARTMENT);
+  }
+
+  onAddApartment() {
+    console.log('Add apartment clicked');
+    this.componentDisplayService.setActiveComponent(DisplayComponent.ADD_APARTMENT);
+  }
+
+  onAddDefault() {
+    console.log('Add default meters clicked');
+    this.authService.fetchAllApartments();
+    this.componentDisplayService.setActiveComponent(DisplayComponent.ADD_DEFAULT);
+  }
+
+  onGetAdminLists() {
+    console.log('Get value lists clicked');
+    this.authService.fetchAllApartments();
+    this.componentDisplayService.setActiveComponent(DisplayComponent.GET_ADMIN_LISTS);
+  }
+
+  onGetAdminData() {
+    console.log('Get Admin Data clicked');
+    this.authService.fetchAllApartments();
+    this.componentDisplayService.setActiveComponent(DisplayComponent.GET_ADMIN_DATA);
+  }
+
+  onDeleteApartment() {
+    console.log('Delete apartment clicked');
+    // Implementation will be added in future stories
+  }
+
+  onSendEmail() {
+    console.log('Send email clicked');
+    // Implementation will be added in future stories
   }
 }

@@ -7,7 +7,7 @@
 }
 
 .form-container {
-  width: 90%;
+  width: 100%;
   margin: 0 auto;
   background-color: #FFFFEF;
   padding: 5px;
@@ -29,7 +29,7 @@ h2 {
 
 label {
   display: inline-block;
-  width: 120px;
+  width: 95px;
   margin-right: 10px;
   font-weight: bold;
   color: #555;
@@ -44,7 +44,7 @@ select {
 }
 
 .submit-button-container {
-  margin-top: 30px;
+  margin-left: 20px;
   text-align: center;
 }
 
@@ -55,4 +55,40 @@ button[disabled] {
 
 button[disabled]:hover {
   background-color: #cccccc;
+}
+
+/* Table styles */
+.table-container {
+  margin-top: 30px;
+  width: 100%;
+}
+
+.table-container h3 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.meter-values-table {
+  width: 50%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.meter-values-table th,
+.meter-values-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.meter-values-table th {
+  background-color: #FFFFEF;
+  font-weight: bold;
+  color: #555;
+
+}
+
+.meter-values-table tr:hover {
+  background-color: #FFFFEF;
 }

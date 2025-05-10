@@ -10,6 +10,7 @@
           [(ngModel)]="username"
           placeholder="Enter your username"
           required
+          (keydown.enter)="onLogin()"
         >
       </div>
     </div>
@@ -24,6 +25,7 @@
           [(ngModel)]="password"
           placeholder="Enter your password"
           required
+          (keydown.enter)="onLogin()"
         >
       </div>
     </div>

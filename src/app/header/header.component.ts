@@ -30,15 +30,14 @@ export class HeaderComponent {
   }
 
   isLoginRoute(): boolean {
-    return this.currentRoute === '/main/login' || this.currentRoute === '/';
+    return this.currentRoute === '/login' || this.currentRoute === '/';
   }
 
   onLogout(): void {
     this.authService.logout();
-    this.router.navigate(['/main/login']);
   }
 
   onHome(): void {
-    this.router.navigate(['/main']);
+    this.router.navigate(['/me']);
   }
 }

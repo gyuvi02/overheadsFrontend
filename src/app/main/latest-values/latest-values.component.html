@@ -8,10 +8,28 @@
         <option value="" disabled selected>Select meter type</option>
         <option *ngFor="let type of meterTypes" [value]="type">{{ type }}</option>
       </select>
+      <div class="submit-button-container">
+        <button appButton [disabled]="!selectedMeterType" (click)="onSubmit()">Submit</button>
+      </div>
     </div>
 
-    <div class="submit-button-container">
-      <button appButton [disabled]="!selectedMeterType" (click)="onSubmit()">Submit</button>
+    <!-- Meter Values Table -->
+    <div class="table-container">
+      <h3 *ngIf="showTable && meterValues.length > 0">Latest Meter Values for {{ selectedMeterType }}</h3>
+      <table class="meter-values-table" *ngIf="showTable && meterValues.length > 0">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Meter Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let value of meterValues">
+            <td>{{ value.date }}</td>
+            <td>{{ value.value }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

@@ -1,10 +1,11 @@
-<app-login *ngIf="!(isLoggedIn$ | async)"></app-login>
-
-<div class="main-content" *ngIf="isLoggedIn$ | async">
-
+<div class="main-content">
     <app-user-menu></app-user-menu>
 
     <app-submit-data *ngIf="(activeComponent$ | async) === DisplayComponent.SUBMIT_DATA"></app-submit-data>
     <app-latest-values *ngIf="(activeComponent$ | async) === DisplayComponent.LATEST_VALUES"></app-latest-values>
-
+    <app-edit-apartment *ngIf="(activeComponent$ | async) === DisplayComponent.EDIT_APARTMENT"></app-edit-apartment>
+    <app-add-apartment *ngIf="(activeComponent$ | async) === DisplayComponent.ADD_APARTMENT"></app-add-apartment>
+    <app-add-default *ngIf="(activeComponent$ | async) === DisplayComponent.ADD_DEFAULT"></app-add-default>
+    <app-get-admin-data *ngIf="(activeComponent$ | async) === DisplayComponent.GET_ADMIN_DATA"></app-get-admin-data>
+    <app-get-admin-lists *ngIf="(activeComponent$ | async) === DisplayComponent.GET_ADMIN_LISTS"></app-get-admin-lists>
 </div>

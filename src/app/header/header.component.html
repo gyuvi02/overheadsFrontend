@@ -7,9 +7,6 @@
   <nav>
     <ul>
       <li *ngIf="isLoggedIn$ | async">
-        <a href="javascript:void(0)" (click)="onHome()">Home</a>
-      </li>
-      <li *ngIf="isLoggedIn$ | async">
         <button appButton style="background-color: darkgreen;" (click)="onLogout()">Logout
           <span ngProjectAs="icon">→</span>
         </button>
