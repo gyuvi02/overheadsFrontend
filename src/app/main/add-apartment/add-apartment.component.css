@@ -1,0 +1,74 @@
+.add-apartment-container {
+  width: 90%;
+  height: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+  margin: 0 auto; /* Center horizontally */
+}
+
+.form-container {
+  width: 100%;
+  margin: 0 auto;
+  background-color: #FFFFEF;
+  padding: 5px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: left;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.apartment-details {
+  width: 100%;
+  margin: 10px auto 0;
+  background-color: #FFFFEF;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  padding: 20px 20px 50px;
+}
+
+.form-field {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.form-field label {
+  display: inline-block;
+  width: 200px;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.form-field input {
+  width: 30%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.submit-button-container {
+  margin-top: 10px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px; /* Add fixed height for vertical centering */
+  background-color: #FFFFEF;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 30px 30px;
+}

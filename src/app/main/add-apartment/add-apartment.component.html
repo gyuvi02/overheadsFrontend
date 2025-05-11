@@ -1,0 +1,46 @@
+<div class="add-apartment-container" *ngIf="isLoggedIn$ | async">
+  <div class="form-container">
+    <h2>Add New Apartment</h2>
+    <div class="apartment-details">
+      <div class="form-field" style="flex-direction: row; align-items: center;">
+        <label for="city">City</label>
+        <input type="text" id="city" [(ngModel)]="apartment.city" maxlength="15">
+        <div class="error-message" *ngIf="errors.city">{{ errors.city }}</div>
+      </div>
+
+      <div class="form-field" style="flex-direction: row; align-items: center;">
+        <label for="zip">ZIP</label>
+        <input type="text" id="zip" [(ngModel)]="apartment.zip" maxlength="4">
+        <div class="error-message" *ngIf="errors.zip">{{ errors.zip }}</div>
+      </div>
+
+      <div class="form-field" style="flex-direction: row; align-items: center;">
+        <label for="street">Street</label>
+        <input type="text" id="street" [(ngModel)]="apartment.street">
+        <div class="error-message" *ngIf="errors.street">{{ errors.street }}</div>
+      </div>
+
+      <div class="form-field" style="flex-direction: row; align-items: center;">
+        <label for="gasMeterID">Gas Meter ID</label>
+        <input type="text" id="gasMeterID" [(ngModel)]="apartment.gasMeterID">
+        <div class="error-message" *ngIf="errors.gasMeterID">{{ errors.gasMeterID }}</div>
+      </div>
+
+      <div class="form-field" style="flex-direction: row; align-items: center;">
+        <label for="electricityMeterID">Electricity Meter ID</label>
+        <input type="text" id="electricityMeterID" [(ngModel)]="apartment.electricityMeterID">
+        <div class="error-message" *ngIf="errors.electricityMeterID">{{ errors.electricityMeterID }}</div>
+      </div>
+
+      <div class="form-field" style="flex-direction: row; align-items: center;">
+        <label for="waterMeterID">Water Meter ID</label>
+        <input type="text" id="waterMeterID" [(ngModel)]="apartment.waterMeterID">
+        <div class="error-message" *ngIf="errors.waterMeterID">{{ errors.waterMeterID }}</div>
+      </div>
+
+      <div class="submit-button-container">
+        <button appButton (click)="onSubmit()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>

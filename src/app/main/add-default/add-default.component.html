@@ -1,0 +1,49 @@
+<div class="add-default-container" *ngIf="isLoggedIn$ | async">
+  <div class="form-container">
+    <h2>Add Default Meters</h2>
+
+    <div class="form-group">
+      <label for="apartmentSelect">Apartments</label>
+      <select id="apartmentSelect" [(ngModel)]="selectedApartmentId">
+        <option value="" disabled selected>Select an apartment</option>
+        <option *ngFor="let apartment of apartments" [value]="apartment.id">
+          {{ getApartmentDisplayName(apartment) }}
+        </option>
+      </select>
+      <div class="submit-button-container">
+        <button appButton [disabled]="!selectedApartmentId" (click)="onSubmit()">Choose</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Meter checkboxes - shown when an apartment is selected -->
+  <div class="meter-options" *ngIf="selectedApartment">
+    <h3>Select Default Meters</h3>
+    <p class="info-text">Check the meters you want to add to this apartment.</p>
+    <p class="info-text">Meters that already exist are checked and cannot be modified.</p>
+
+    <div class="checkbox-group">
+      <div class="checkbox-item">
+        <input type="checkbox" id="gasMeter" [(ngModel)]="gasChecked" [disabled]="gasReadOnly">
+        <label for="gasMeter" [class.readonly]="gasReadOnly">Gas Meter</label>
+        <span *ngIf="gasReadOnly" class="readonly-indicator">(Already exists)</span>
+      </div>
+
+      <div class="checkbox-item">
+        <input type="checkbox" id="electricityMeter" [(ngModel)]="electricityChecked" [disabled]="electricityReadOnly">
+        <label for="electricityMeter" [class.readonly]="electricityReadOnly">Electricity Meter</label>
+        <span *ngIf="electricityReadOnly" class="readonly-indicator">(Already exists)</span>
+      </div>
+
+      <div class="checkbox-item">
+        <input type="checkbox" id="waterMeter" [(ngModel)]="waterChecked" [disabled]="waterReadOnly">
+        <label for="waterMeter" [class.readonly]="waterReadOnly">Water Meter</label>
+        <span *ngIf="waterReadOnly" class="readonly-indicator">(Already exists)</span>
+      </div>
+    </div>
+
+    <div class="submit-button-container">
+      <button appButton (click)="onSaveDefaults()">Submit</button>
+    </div>
+  </div>
+</div>

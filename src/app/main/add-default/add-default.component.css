@@ -1,0 +1,142 @@
+.add-default-container {
+  width: 90%;
+  height: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+  margin: 0 auto; /* Remove auto margin */
+}
+
+.form-container {
+  width: 100%;
+  margin: 0 auto;
+  background-color: #FFFFEF;
+  padding: 5px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2, h3 {
+  text-align: left;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+label {
+  display: inline-block;
+  width: 95px;
+  margin-right: 10px;
+  font-weight: bold;
+  color: #555;
+}
+
+select {
+  width: 40%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.submit-button-container {
+  margin-left: 20px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+button[disabled] {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+button[disabled]:hover {
+  background-color: #cccccc;
+}
+
+/* Meter options styles */
+.meter-options {
+  width: 100%;
+  margin: 10px 0 0;
+  background-color: #FFFFEF;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.info-text {
+  margin-bottom: 10px;
+  color: #666;
+  font-size: 14px;
+}
+
+.checkbox-group {
+  margin: 20px 0;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.checkbox-item input[type="checkbox"] {
+  margin-right: 10px;
+  width: 18px;
+  height: 18px;
+}
+
+.checkbox-item label {
+  width: auto;
+  margin-right: 10px;
+}
+
+.checkbox-item label.readonly {
+  color: #999;
+}
+
+.readonly-indicator {
+  color: #999;
+  font-style: italic;
+  font-size: 14px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .form-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  select {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .submit-button-container {
+    margin-left: 0;
+  }
+
+  .checkbox-item {
+    flex-wrap: wrap;
+  }
+}
