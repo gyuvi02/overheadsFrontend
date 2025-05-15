@@ -16,6 +16,9 @@
 .main-content > app-add-default,
 .main-content > app-get-admin-data,
 .main-content > app-get-admin-lists,
+.main-content > app-delete-apartment,
+.main-content > app-send-email,
+.main-content > app-edit-user,
 .main-content > app-add-apartment {
   width: 80%;
   display: flex;

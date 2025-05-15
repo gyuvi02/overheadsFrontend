@@ -5,9 +5,9 @@ import { AuthService } from '../../core/auth.service';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { API_KEY_VALID } from '../../core/constants';
 import { Router } from '@angular/router';
 import { PopupService } from '../../shared/popup/popup.service';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-submit-data',
@@ -150,9 +150,9 @@ export class SubmitDataComponent implements OnInit {
     }
 
     // Make the HTTP POST request
-    this.httpClient.post('http://localhost:8080/api/v1/user/submitMeterValue', formData, {
+    this.httpClient.post(`${environment.apiBaseUrl}/user/submitMeterValue`, formData, {
       headers: {
-        'API-KEY': API_KEY_VALID,
+        'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`
       },
       responseType: 'text'

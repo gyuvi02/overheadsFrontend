@@ -2,9 +2,9 @@ import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ComponentDisplayService, DisplayComponent } from './component-display.service';
 import { HttpClient } from '@angular/common/http';
-import { API_KEY_VALID } from './constants';
 import { Apartment } from '../main/edit-apartment/edit-apartment.component';
 import { Router } from '@angular/router';
+import {environment} from '../../environments/environment';
 
 export interface ApartmentData {
   zip: string;
@@ -91,9 +91,9 @@ export class AuthService {
     }
 
     // Make the HTTP GET request to fetch all apartments
-    this.httpClient.get('http://localhost:8080/api/v1/admin/getAllApartments', {
+    this.httpClient.get(`${environment.apiBaseUrl}/admin/getAllApartments`, {
       headers: {
-        'API-KEY': API_KEY_VALID,
+        'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`
       }
     }).subscribe({

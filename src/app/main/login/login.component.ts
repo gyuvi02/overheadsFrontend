@@ -1,9 +1,9 @@
 import {Component, DestroyRef, inject} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonComponent } from '../../shared/button/button.component';
-import { API_KEY_VALID } from '../../core/constants';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import { AuthService, LoginResponse } from '../../core/auth.service';
+import {environment} from '../../../environments/environment';
 
 
 @Component({
@@ -22,12 +22,11 @@ export class LoginComponent {
 
   onLogin() {
     console.log('Login attempt with:', this.username);
-    console.log(API_KEY_VALID);
-    const loginData = this.httpClient.post('http://localhost:8080/api/v1/login', {
+    const loginData = this.httpClient.post(`${environment.apiBaseUrl}/login`, {
       "username": this.username,
       "password": this.password
     }, {
-      headers: {'API-KEY': API_KEY_VALID},
+      headers: {'API-KEY': environment.apiKeyValid},
       responseType: 'json'
     }).subscribe(
       {

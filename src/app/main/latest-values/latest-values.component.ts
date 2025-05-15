@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../core/auth.service';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { HttpClient } from '@angular/common/http';
-import { API_KEY_VALID } from '../../core/constants';
 import { PopupService } from '../../shared/popup/popup.service';
+import {environment} from '../../../environments/environment';
 
 // Interface for meter values
 interface MeterValue {
@@ -63,14 +63,14 @@ export class LatestValuesComponent implements OnInit {
     }
 
     // Make the HTTP POST request with JSON body
-    this.httpClient.post(`http://localhost:8080/api/v1/user/getLastMeterValues`,
+    this.httpClient.post(`${environment.apiBaseUrl}/user/getLastMeterValues`,
       {
         "apartmentId": apartmentId,
         "meterType": this.selectedMeterType.split(' ')[0].toLowerCase()
       },
       {
         headers: {
-          'API-KEY': API_KEY_VALID,
+          'API-KEY': environment.apiKeyValid,
           'Authorization': `Bearer ${token}`
         }
       }

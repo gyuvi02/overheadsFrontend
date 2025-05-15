@@ -14,10 +14,10 @@
     <div *ngIf="isAdmin" class="admin-buttons">
       <h3>Admin Functions</h3>
       <button appButton (click)="onGetAdminData()">
-        Get admin values
+        Get latest values
       </button>
       <button appButton (click)="onGetAdminLists()">
-        Get value lists
+        Get 12 latest values
       </button>
       <button appButton (click)="onEditApartment()">
         Edit apartment
@@ -33,6 +33,9 @@
       </button>
       <button appButton (click)="onSendEmail()">
         Send email
+      </button>
+      <button appButton (click)="onEditUsers()">
+        Edit users
       </button>
     </div>
   </div>

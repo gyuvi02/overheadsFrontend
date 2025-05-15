@@ -8,7 +8,10 @@ export enum DisplayComponent {
   ADD_APARTMENT = 'add-apartment',
   ADD_DEFAULT = 'add-default',
   GET_ADMIN_DATA = 'get-admin-data',
-  GET_ADMIN_LISTS = 'get-admin-lists'
+  GET_ADMIN_LISTS = 'get-admin-lists',
+  DELETE_APARTMENT = 'delete-apartment',
+  SEND_EMAIL = 'send-email',
+  EDIT_USER = 'edit-user'
 }
 
 @Injectable({

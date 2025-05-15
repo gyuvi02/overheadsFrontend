@@ -4,10 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../core/auth.service';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { HttpClient } from '@angular/common/http';
-import { API_KEY_VALID } from '../../core/constants';
 import { PopupService } from '../../shared/popup/popup.service';
 import { ComponentDisplayService, DisplayComponent } from '../../core/component-display.service';
 import { Apartment } from '../edit-apartment/edit-apartment.component';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-add-default',
@@ -57,9 +57,9 @@ export class AddDefaultComponent implements OnInit {
     }
 
     // Make the HTTP GET request to fetch all apartments
-    this.httpClient.get('http://localhost:8080/api/v1/admin/getAllApartments', {
+    this.httpClient.get(`${environment.apiBaseUrl}/admin/getAllApartments`, {
       headers: {
-        'API-KEY': API_KEY_VALID,
+        'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`
       }
     }).subscribe({
@@ -108,14 +108,14 @@ export class AddDefaultComponent implements OnInit {
     }
 
     // Call the getAllLastMeterValues endpoint with the apartment ID
-    this.httpClient.post('http://localhost:8080/api/v1/admin/getAllLastMeterValues',
+    this.httpClient.post(`${environment.apiBaseUrl}/admin/getAllLastMeterValues`,
       {
         apartmentId: this.selectedApartment.id.toString(),
         withImage: "0"
       },
       {
         headers: {
-          'API-KEY': API_KEY_VALID,
+          'API-KEY': environment.apiKeyValid,
           'Authorization': `Bearer ${token}`
         }
       }).subscribe({
@@ -198,9 +198,9 @@ export class AddDefaultComponent implements OnInit {
       formData.append('values', JSON.stringify(values));
 
       // Make the HTTP POST request
-      this.httpClient.post('http://localhost:8080/api/v1/user/submitMeterValue', formData, {
+      this.httpClient.post(`${environment.apiBaseUrl}/user/submitMeterValue`, formData, {
         headers: {
-          'API-KEY': API_KEY_VALID,
+          'API-KEY': environment.apiKeyValid,
           'Authorization': `Bearer ${token}`
         },
         responseType: 'text'

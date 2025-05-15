@@ -8,4 +8,7 @@
     <app-add-default *ngIf="(activeComponent$ | async) === DisplayComponent.ADD_DEFAULT"></app-add-default>
     <app-get-admin-data *ngIf="(activeComponent$ | async) === DisplayComponent.GET_ADMIN_DATA"></app-get-admin-data>
     <app-get-admin-lists *ngIf="(activeComponent$ | async) === DisplayComponent.GET_ADMIN_LISTS"></app-get-admin-lists>
+    <app-delete-apartment *ngIf="(activeComponent$ | async) === DisplayComponent.DELETE_APARTMENT"></app-delete-apartment>
+    <app-send-email *ngIf="(activeComponent$ | async) === DisplayComponent.SEND_EMAIL"></app-send-email>
+    <app-edit-user *ngIf="(activeComponent$ | async) === DisplayComponent.EDIT_USER"></app-edit-user>
 </div>

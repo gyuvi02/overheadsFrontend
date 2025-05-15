@@ -9,6 +9,9 @@ import { AddApartmentComponent } from './add-apartment/add-apartment.component';
 import { AddDefaultComponent } from './add-default/add-default.component';
 import { GetAdminDataComponent } from './get-admin-data/get-admin-data.component';
 import { GetAdminListsComponent } from './get-admin-lists/get-admin-lists.component';
+import { DeleteApartmentComponent } from './delete-apartment/delete-apartment.component';
+import { SendEmailComponent } from './send-email/send-email.component';
+import { EditUserComponent } from './edit-user/edit-user.component';
 import { AuthService } from '../core/auth.service';
 import { ComponentDisplayService, DisplayComponent } from '../core/component-display.service';
 
@@ -25,7 +28,10 @@ import { ComponentDisplayService, DisplayComponent } from '../core/component-dis
     AddApartmentComponent,
     AddDefaultComponent,
     GetAdminDataComponent,
-    GetAdminListsComponent
+    GetAdminListsComponent,
+    DeleteApartmentComponent,
+    SendEmailComponent,
+    EditUserComponent
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.css'

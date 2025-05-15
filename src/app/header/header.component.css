@@ -1,19 +1,19 @@
 header {
-  padding: 0.75rem 0.1rem;
+  padding: 0.2rem 0.1rem;
   display: flex;
   flex-direction: column;
-  gap: 3rem; /* Increased gap for better spacing with absolute positioned title */
+  gap: 2rem; /* Increased gap for better spacing with absolute positioned title */
   justify-content: space-between;
   align-items: center;
-  font-size: 1rem;
+  font-size: 0.8rem;
   position: relative;
 }
 
 #logo {
-  width: 7.5rem;
-  height: 7.5rem;
+  width: 6rem;
+  height: 6rem;
   background-color: #f5f5f5;
-  padding: 1.00rem;
+  padding: 0.4rem;
   border-radius: 50%;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.35);
 }
@@ -55,10 +55,10 @@ nav ul li a:hover {
 
 @media (min-width: 768px) {
   header {
-    font-size: 1.25rem;
+    font-size: 1.00rem;
     flex-direction: row;
     gap: 0;
-    padding: 1.5rem 10%;
+    padding: 1rem 10%;
     justify-content: space-between;
   }
 

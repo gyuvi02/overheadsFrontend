@@ -1,12 +1,12 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../core/auth.service';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { HttpClient } from '@angular/common/http';
-import { API_KEY_VALID } from '../../core/constants';
 import { PopupService } from '../../shared/popup/popup.service';
 import { ComponentDisplayService, DisplayComponent } from '../../core/component-display.service';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-add-apartment',
@@ -15,12 +15,49 @@ import { ComponentDisplayService, DisplayComponent } from '../../core/component-
   templateUrl: './add-apartment.component.html',
   styleUrls: ['./add-apartment.component.css']
 })
-export class AddApartmentComponent {
+export class AddApartmentComponent implements OnInit {
   private authService = inject(AuthService);
   private httpClient = inject(HttpClient);
   private popupService = inject(PopupService);
   private componentDisplayService = inject(ComponentDisplayService);
   isLoggedIn$ = this.authService.isLoggedIn$;
+
+  ngOnInit() {
+    // No need to fetch apartments on init for this component
+  }
+
+  fetchAllApartments() {
+    // Get the token from sessionStorage
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+      this.popupService.showPopup('Authentication token not found. Please log in again.');
+      return;
+    }
+
+    // Make the HTTP GET request to fetch all apartments
+    this.httpClient.get(`${environment.apiBaseUrl}/admin/getAllApartments`, {
+      headers: {
+        'API-KEY': environment.apiKeyValid,
+        'Authorization': `Bearer ${token}`
+      }
+    }).subscribe({
+      next: (response: any) => {
+        console.log('Apartments fetched successfully:', response);
+
+        // Store apartments in sessionStorage
+        sessionStorage.setItem('apartments', JSON.stringify(response));
+      },
+      error: (error) => {
+        if (error.status === 401) {
+          this.popupService.showPopup('Session expired, please, log in again');
+          this.authService.logout();
+        } else {
+          console.error('Error fetching apartments:', error);
+          this.popupService.showPopup('An error occurred while fetching apartments. Please try again.');
+        }
+      }
+    });
+  }
 
   // Form data
   apartment = {
@@ -128,20 +165,26 @@ export class AddApartmentComponent {
     }
 
     // Make the HTTP POST request to add the apartment
-    this.httpClient.post('http://localhost:8080/api/v1/admin/addApartment', this.apartment, {
+    this.httpClient.post(`${environment.apiBaseUrl}/admin/addApartment`, this.apartment, {
       headers: {
-        'API-KEY': API_KEY_VALID,
+        'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`
       }
     }).subscribe({
       next: (response: any) => {
         console.log('Apartment added successfully:', response);
 
+        // Delete the apartment list from sessionStorage
+        sessionStorage.removeItem('apartments');
+
         // Show success message
         this.popupService.showPopup('Apartment added successfully');
 
         // Reset the form
         this.resetForm();
+
+        // Fetch updated apartment list
+        this.fetchAllApartments();
       },
       error: (error) => {
         if (error.status === 401) {

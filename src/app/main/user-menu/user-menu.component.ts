@@ -68,11 +68,18 @@ export class UserMenuComponent {
 
   onDeleteApartment() {
     console.log('Delete apartment clicked');
-    // Implementation will be added in future stories
+    this.authService.fetchAllApartments();
+    this.componentDisplayService.setActiveComponent(DisplayComponent.DELETE_APARTMENT);
   }
 
   onSendEmail() {
     console.log('Send email clicked');
-    // Implementation will be added in future stories
+    this.authService.fetchAllApartments();
+    this.componentDisplayService.setActiveComponent(DisplayComponent.SEND_EMAIL);
+  }
+
+  onEditUsers() {
+    console.log('Edit users clicked');
+    this.componentDisplayService.setActiveComponent(DisplayComponent.EDIT_USER);
   }
 }
