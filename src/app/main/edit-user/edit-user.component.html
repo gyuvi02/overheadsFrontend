@@ -1,0 +1,58 @@
+<div class="edit-user-container" *ngIf="isLoggedIn$ | async">
+  <div class="form-container">
+    <h2>Edit Users</h2>
+
+    <div class="form-group">
+      <label for="userSelect">Users</label>
+      <select id="userSelect" [(ngModel)]="selectedUserId">
+        <option value="" disabled selected>Select a user</option>
+        <option *ngFor="let user of users" [value]="user.id">
+          {{ getUserDisplayName(user) }}
+        </option>
+      </select>
+      <div class="submit-button-container">
+        <button appButton [disabled]="!selectedUserId" (click)="onSubmit()">Choose</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- User details form - shown when a user is selected -->
+  <div class="user-details" *ngIf="selectedUser">
+    <div class="form-field">
+      <label for="userId">Id</label>
+      <input type="text" id="userId" [value]="selectedUser.id" disabled>
+    </div>
+
+    <div class="form-field">
+      <label for="username">Username</label>
+      <input type="text" id="username" [(ngModel)]="selectedUser.username">
+    </div>
+
+    <div class="form-field">
+      <label for="email">Email</label>
+      <input type="email" id="email" [(ngModel)]="selectedUser.email">
+    </div>
+
+    <div class="form-field">
+      <label for="apartmentId">Apartment ID</label>
+      <input type="number" id="apartmentId" [(ngModel)]="selectedUser.apartmentId" min="0"
+             [value]="selectedUser.apartmentId === 0 ? 'No apartment' : selectedUser.apartmentId">
+    </div>
+    <div class="button-container">
+      <button appButton (click)="onSaveChanges()">Save</button>
+      <button appButton class="delete-button" (click)="onDeleteUser()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirmation dialog - shown when Delete button is clicked -->
+<div class="confirmation-dialog" *ngIf="showConfirmation">
+  <div class="confirmation-content">
+    <h3>Confirm Deletion</h3>
+    <p>Are you sure you want to delete the user {{ selectedUser?.username }}?</p>
+    <div class="confirmation-buttons">
+      <button appButton (click)="onConfirmDelete()">Confirm</button>
+      <button appButton (click)="onCancelDelete()">Cancel</button>
+    </div>
+  </div>
+</div>

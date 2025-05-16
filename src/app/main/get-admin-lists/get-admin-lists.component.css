@@ -1,0 +1,136 @@
+.get-admin-lists-container {
+  width: 90%;
+  height: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+  margin: 0 auto; /* Center horizontally */
+}
+
+.form-container {
+  width: 100%;
+  text-align: left;
+  margin: 0 auto;
+  background-color: #FFFFEF;
+  padding: 5px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2, h3 {
+  text-align: left;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+label {
+  display: inline-block;
+  width: 95px;
+  margin-right: 10px;
+  font-weight: bold;
+  color: #555;
+}
+
+select {
+  width: 40%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.submit-button-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+button[disabled] {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+button[disabled]:hover {
+  background-color: #cccccc;
+}
+
+/* Meter values container styles */
+.meter-values-container {
+  width: 60%;
+  margin: 10px auto 0;
+  background-color: #FFFFEF;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.meter-values-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.meter-values-table th,
+.meter-values-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.meter-values-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  color: #555;
+}
+
+.meter-values-table tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* No data message styles */
+.no-data-message {
+  width: 100%;
+  margin: 10px auto 0;
+  background-color: #FFFFEF;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  color: #666;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .form-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  select {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .submit-button-container {
+    margin-left: 0;
+  }
+}

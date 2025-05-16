@@ -1,0 +1,62 @@
+<div class="edit-apartment-container" *ngIf="isLoggedIn$ | async">
+  <div class="form-container">
+    <h2>Edit Apartment</h2>
+
+    <div class="form-group">
+      <label for="apartmentSelect">Apartments</label>
+      <select id="apartmentSelect" [(ngModel)]="selectedApartmentId">
+        <option value="" disabled selected>Select an apartment</option>
+        <option *ngFor="let apartment of apartments" [value]="apartment.id">
+          {{ getApartmentDisplayName(apartment) }}
+        </option>
+      </select>
+      <div class="submit-button-container">
+        <button appButton [disabled]="!selectedApartmentId" (click)="onSubmit()">Choose</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Apartment details form - shown when an apartment is selected -->
+  <div class="apartment-details" *ngIf="selectedApartment">
+    <div class="form-field">
+      <label for="apartmentId">id</label>
+      <input type="text" id="apartmentId" [value]="selectedApartment.id" disabled>
+    </div>
+
+    <div class="form-field">
+      <label for="city">City</label>
+      <input type="text" id="city" [(ngModel)]="selectedApartment.city">
+    </div>
+
+    <div class="form-field">
+      <label for="zip">ZIP</label>
+      <input type="text" id="zip" [(ngModel)]="selectedApartment.zip">
+    </div>
+
+    <div class="form-field">
+      <label for="street">Address</label>
+      <input type="text" id="street" [(ngModel)]="selectedApartment.street">
+    </div>
+
+    <div class="form-field">
+      <label for="gasMeterID">Gas Meter ID</label>
+      <input type="text" id="gasMeterID" [(ngModel)]="selectedApartment.gasMeterID">
+    </div>
+
+    <div class="form-field">
+      <label for="electricityMeterID">Electricity Meter ID</label>
+      <input type="text" id="electricityMeterID" [(ngModel)]="selectedApartment.electricityMeterID">
+    </div>
+
+    <div class="form-field">
+      <label for="waterMeterID">Water Meter ID</label>
+      <input type="text" id="waterMeterID" [(ngModel)]="selectedApartment.waterMeterID">
+    </div>
+
+    <div class="save-button-container" *ngIf="selectedApartment">
+      <button appButton (click)="onSaveChanges()">Save changes</button>
+    </div>
+  </div>
+
+
+</div>

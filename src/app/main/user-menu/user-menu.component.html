@@ -13,30 +13,54 @@
     <!-- Admin buttons - only visible for admin users -->
     <div *ngIf="isAdmin" class="admin-buttons">
       <h3>Admin Functions</h3>
-      <button appButton (click)="onGetAdminData()">
-        Get latest values
+
+      <!-- Meter functions -->
+      <button appButton class="parent-menu-button" (click)="toggleSection('meter')">
+        Meter functions
       </button>
-      <button appButton (click)="onGetAdminLists()">
-        Get 12 latest values
+      <div class="child-menu-buttons" [ngClass]="{'open': openSection === 'meter'}">
+        <button appButton (click)="onGetAdminData()">
+          Get latest values
+        </button>
+        <button appButton (click)="onGetAdminLists()">
+          Get 12 latest values
+        </button>
+        <button appButton (click)="onAdminSubmitData()">
+          Submit meter value
+        </button>
+        <button appButton (click)="onAddDefault()">
+          Add default meters
+        </button>
+      </div>
+
+      <!-- User functions -->
+      <button appButton class="parent-menu-button" (click)="toggleSection('user')">
+        User functions
       </button>
-      <button appButton (click)="onEditApartment()">
-        Edit apartment
+      <div class="child-menu-buttons" [ngClass]="{'open': openSection === 'user'}">
+        <button appButton (click)="onEditUsers()">
+          Edit users
+        </button>
+        <button appButton (click)="onSendEmail()">
+          Send email
+        </button>
+      </div>
+
+      <!-- Apartment functions -->
+      <button appButton class="parent-menu-button" (click)="toggleSection('apartment')">
+        Apartment functions
       </button>
-      <button appButton (click)="onAddApartment()">
-        Add apartment
-      </button>
-      <button appButton (click)="onAddDefault()">
-        Add default meters
-      </button>
-      <button appButton (click)="onDeleteApartment()">
-        Delete apartment
-      </button>
-      <button appButton (click)="onSendEmail()">
-        Send email
-      </button>
-      <button appButton (click)="onEditUsers()">
-        Edit users
-      </button>
+      <div class="child-menu-buttons" [ngClass]="{'open': openSection === 'apartment'}">
+        <button appButton (click)="onEditApartment()">
+          Edit apartment
+        </button>
+        <button appButton (click)="onAddApartment()">
+          Add apartment
+        </button>
+        <button appButton (click)="onDeleteApartment()">
+          Delete apartment
+        </button>
+      </div>
     </div>
   </div>
 </div>

@@ -1,0 +1,56 @@
+<div class="get-admin-lists-container" *ngIf="isLoggedIn$ | async">
+  <div class="form-container">
+    <h2>Get Meter Value Lists</h2>
+
+    <div class="form-group">
+      <label for="apartmentSelect">Apartments</label>
+      <select id="apartmentSelect" [(ngModel)]="selectedApartmentId">
+        <option value="" disabled selected>Select an apartment</option>
+        <option *ngFor="let apartment of apartments" [value]="apartment.id">
+          {{ getApartmentDisplayName(apartment) }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="meterTypeSelect">Meter Type</label>
+      <select id="meterTypeSelect" [(ngModel)]="selectedMeterType">
+        <option value="" disabled selected>Select meter type</option>
+        <option *ngFor="let type of meterTypes" [value]="type">{{ type }}</option>
+      </select>
+    </div>
+
+    <div class="submit-button-container">
+      <button appButton [disabled]="!selectedApartmentId || !selectedMeterType" (click)="onSubmit()">Submit</button>
+    </div>
+  </div>
+
+  <!-- Meter values table - shown when data is loaded -->
+  <div class="meter-values-container" *ngIf="isDataLoaded && tableData.length > 0">
+    <h3>Meter Values</h3>
+    <table class="meter-values-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Meter value</th>
+          <th>Image</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of tableData">
+          <td>{{ item.date | date: 'yyyy.MM.dd' }}</td>
+          <td>{{ item.value }}</td>
+          <td>
+            <button *ngIf="item.image" (click)="downloadImage(item.image)">Download</button>
+            <span *ngIf="!item.image">-</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- No data message - shown when data is loaded but no values are available -->
+  <div class="no-data-message" *ngIf="isDataLoaded && tableData.length === 0">
+    <p>For this apartment no {{ lastLoadedMeterType.toLowerCase() }} data is available.</p>
+  </div>
+</div>

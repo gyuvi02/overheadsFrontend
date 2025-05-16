@@ -1,0 +1,24 @@
+<div class="send-email-container" *ngIf="isLoggedIn$ | async">
+  <div class="form-container">
+    <h2>Send Email</h2>
+
+    <div class="form-group">
+      <label for="apartmentSelect">Apartments</label>
+      <select id="apartmentSelect" [(ngModel)]="selectedApartmentId" (ngModelChange)="onApartmentSelect()">
+        <option value="" disabled selected>Select an apartment</option>
+        <option *ngFor="let apartment of apartments" [value]="apartment.id">
+          {{ getApartmentDisplayName(apartment) }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="emailInput">Email</label>
+      <input type="email" id="emailInput" [(ngModel)]="email" placeholder="Enter email address">
+    </div>
+
+    <div class="submit-button-container">
+      <button appButton [disabled]="!selectedApartment || !email" (click)="onSubmit()">Submit</button>
+    </div>
+  </div>
+</div>

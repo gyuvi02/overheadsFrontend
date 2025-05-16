@@ -12,6 +12,7 @@ import { GetAdminListsComponent } from './get-admin-lists/get-admin-lists.compon
 import { DeleteApartmentComponent } from './delete-apartment/delete-apartment.component';
 import { SendEmailComponent } from './send-email/send-email.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
+import { AdminSubmitDataComponent } from './admin-submit-data/admin-submit-data.component';
 import { AuthService } from '../core/auth.service';
 import { ComponentDisplayService, DisplayComponent } from '../core/component-display.service';
 
@@ -31,7 +32,8 @@ import { ComponentDisplayService, DisplayComponent } from '../core/component-dis
     GetAdminListsComponent,
     DeleteApartmentComponent,
     SendEmailComponent,
-    EditUserComponent
+    EditUserComponent,
+    AdminSubmitDataComponent
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.css'

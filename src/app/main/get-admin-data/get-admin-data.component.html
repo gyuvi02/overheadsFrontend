@@ -1,0 +1,54 @@
+<div class="get-admin-data-container" *ngIf="isLoggedIn$ | async">
+  <div class="form-container">
+    <h2>Get latest meter data for an apartment</h2>
+
+    <div class="form-group">
+      <label for="apartmentSelect">Apartments</label>
+      <select id="apartmentSelect" [(ngModel)]="selectedApartmentId">
+        <option value="" disabled selected>Select an apartment</option>
+        <option *ngFor="let apartment of apartments" [value]="apartment.id">
+          {{ getApartmentDisplayName(apartment) }}
+        </option>
+      </select>
+      <div class="submit-button-container">
+        <button appButton [disabled]="!selectedApartmentId" (click)="onSubmit()">Choose</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Meter data table - shown when an apartment is selected and data is loaded -->
+  <div class="meter-data-container" *ngIf="selectedApartment && getMeterTypes().length > 0">
+    <h3>Latest meter Data for {{ getApartmentDisplayName(selectedApartment) }}</h3>
+
+    <table class="meter-data-table">
+      <thead>
+        <tr>
+          <th>Meter Type</th>
+          <th>Value</th>
+          <th>Image</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let meterType of getMeterTypes()">
+          <td>{{ meterType }}</td>
+          <td>{{ meterData[meterType] }}</td>
+          <td>
+            <button
+              appButton
+              [disabled]="!hasImage(meterType)"
+              (click)="downloadImage(meterType)"
+              class="download-button"
+            >
+              Download
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- No data message - shown when an apartment is selected but no data is available -->
+  <div class="no-data-message" *ngIf="selectedApartment && getMeterTypes().length === 0">
+    <p>No meter data available for this apartment.</p>
+  </div>
+</div>

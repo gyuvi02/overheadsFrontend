@@ -11,7 +11,8 @@ export enum DisplayComponent {
   GET_ADMIN_LISTS = 'get-admin-lists',
   DELETE_APARTMENT = 'delete-apartment',
   SEND_EMAIL = 'send-email',
-  EDIT_USER = 'edit-user'
+  EDIT_USER = 'edit-user',
+  ADMIN_SUBMIT_DATA = 'admin-submit-data'
 }
 
 @Injectable({

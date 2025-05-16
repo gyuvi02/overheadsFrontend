@@ -1,0 +1,32 @@
+<div class="delete-apartment-container" *ngIf="isLoggedIn$ | async">
+  <div class="form-container">
+    <h2>Delete Apartment</h2>
+
+    <div class="form-group">
+      <label for="apartmentSelect">Apartments</label>
+      <select id="apartmentSelect" [(ngModel)]="selectedApartmentId" (ngModelChange)="onApartmentSelect()">
+        <option value="" disabled selected>Select an apartment</option>
+        <option *ngFor="let apartment of apartments" [value]="apartment.id">
+          {{ getApartmentDisplayName(apartment) }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Delete button - always visible but disabled until an apartment is selected -->
+  <div class="delete-button-container">
+    <button appButton [disabled]="!selectedApartment" (click)="onDeleteClick()">Delete</button>
+  </div>
+
+  <!-- Confirmation dialog - shown when Delete button is clicked -->
+  <div class="confirmation-dialog" *ngIf="showConfirmation">
+    <div class="confirmation-content">
+      <h3>Confirm Deletion</h3>
+      <p>Are you sure you want to delete the apartment {{ getApartmentDisplayName(selectedApartment!) }}?</p>
+      <div class="confirmation-buttons">
+        <button appButton (click)="onConfirmDelete()">Confirm</button>
+        <button appButton (click)="onCancelDelete()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

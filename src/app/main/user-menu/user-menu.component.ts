@@ -16,8 +16,22 @@ export class UserMenuComponent {
   private componentDisplayService = inject(ComponentDisplayService);
   isLoggedIn$ = this.authService.isLoggedIn$;
 
+  // Track which menu section is open
+  openSection: 'meter' | 'user' | 'apartment' | null = null;
+
   get isAdmin(): boolean {
     return this.authService.isAdmin;
+  }
+
+  // Toggle a menu section
+  toggleSection(section: 'meter' | 'user' | 'apartment'): void {
+    // If the section is already open, close it
+    if (this.openSection === section) {
+      this.openSection = null;
+    } else {
+      // Otherwise, open it and close any other open section
+      this.openSection = section;
+    }
   }
 
   onSubmitNewMeterValue() {
@@ -81,5 +95,11 @@ export class UserMenuComponent {
   onEditUsers() {
     console.log('Edit users clicked');
     this.componentDisplayService.setActiveComponent(DisplayComponent.EDIT_USER);
+  }
+
+  onAdminSubmitData() {
+    console.log('Admin Submit meter value clicked');
+    this.authService.fetchAllApartments();
+    this.componentDisplayService.setActiveComponent(DisplayComponent.ADMIN_SUBMIT_DATA);
   }
 }
