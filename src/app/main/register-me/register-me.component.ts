@@ -145,19 +145,40 @@ export class RegisterMeComponent implements OnInit {
         }, 1500);
       },
       error: (error: HttpErrorResponse) => {
-        console.error('Registration error:', error);
+        console.error('Registration error:', error); // Very useful for debugging! Inspect this in your browser console.
 
         // Show error message
         if (error.status === 409) {
           // Handle conflict (username already taken)
           this.popupService.showPopup('The username is already taken, please choose another one.');
+        } else if (error.error && typeof error.error === 'object' && error.error.hasOwnProperty('error') && typeof error.error.error === 'string') {
+          // Handles JSON responses like { "error": "message" }
+          // This is the likely case given your Java backend.
+          const errorMessage = error.error.error;
+          if (errorMessage === "Invalid or already used token.") {
+            console.log('error message: ', errorMessage);
+            this.popupService.showPopup('Invalid or already used token.');
+          } else {
+            this.popupService.showPopup(errorMessage); // Display the actual error message
+          }
         } else if (error.error && typeof error.error === 'string') {
-          this.popupService.showPopup(error.error);
+          // Handles cases where error.error is a plain string
+          if (error.error === "Invalid or already used token.") {
+            console.log('error.error: ', error.error);
+
+            this.popupService.showPopup('Invalid or already used token.');
+          } else {
+            console.log('error.error else: ', error.error);
+            this.popupService.showPopup(error.error);
+          }
         } else {
-          this.popupService.showPopup('An error occurred during registration. Please try again.');
+          // Fallback for other error structures or unexpected errors
+          // this.popupService.showPopup('An error occurred during registration. Please try again.');
+          this.popupService.showPopup(error.error);
         }
       }
     });
+
 
     this.destroyRef.onDestroy(() => {
       registerRequest.unsubscribe();

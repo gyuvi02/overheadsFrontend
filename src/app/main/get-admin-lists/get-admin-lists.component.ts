@@ -153,20 +153,51 @@ export class GetAdminListsComponent implements OnInit {
     return `${apartment.city}, ${apartment.street}`;
   }
 
-  // Method to handle image download
-  downloadImage(imageUrl: string): void {
-    // Create a link element
-    const link = document.createElement('a');
-    link.href = imageUrl;
-    link.target = '_blank';
-
-    // Extract filename from URL or use a default name
-    const filename = imageUrl.split('/').pop() || 'image';
-    link.download = filename;
-
-    // Append to body, click, and remove
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  // Helper method to check if a meter type has an image
+  hasImage(meterType: string): boolean {
+    return this.meterValues[meterType]?.image !== undefined && this.meterValues[meterType]?.image !== null;
   }
+
+  // Helper method to download an image
+  downloadImage(imageData: string): void {
+    if (!imageData) {
+      console.error('No image data provided');
+      this.popupService.showPopup('No image data available for download.');
+      return;
+    }
+
+    try {
+      // Check if imageData is a valid string
+      if (typeof imageData !== 'string' || imageData.trim() === '') {
+        console.error('Invalid image data');
+        this.popupService.showPopup('Invalid image data. Cannot download.');
+        return;
+      }
+
+      const byteCharacters = atob(imageData);
+      const byteNumbers = new Array(byteCharacters.length);
+
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: 'image/jpeg' });
+
+      const link = document.createElement('a');
+      const objectUrl = window.URL.createObjectURL(blob);
+      link.href = objectUrl;
+      link.download = `${this.lastLoadedMeterType.toLowerCase()}_image.jpg`;
+      link.click();
+
+      // Clean up by revoking the object URL to prevent memory leaks
+      setTimeout(() => {
+        window.URL.revokeObjectURL(objectUrl);
+      }, 100);
+    } catch (error) {
+      console.error('Error downloading image:', error);
+      this.popupService.showPopup('An error occurred while downloading the image. Please try again.');
+    }
+  }
+
 }
