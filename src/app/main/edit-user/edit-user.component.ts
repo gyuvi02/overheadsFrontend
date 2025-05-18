@@ -194,7 +194,7 @@ export class EditUserComponent implements OnInit {
     }
 
     // Make the HTTP POST request to delete the user
-    this.httpClient.post(`${environment.apiBaseUrl}/deleteUser`, this.selectedUser.id.toString(), {
+    this.httpClient.post(`${environment.apiBaseUrl}/admin/deleteUser`, this.selectedUser.id.toString(), {
       headers: {
         'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`
@@ -218,6 +218,9 @@ export class EditUserComponent implements OnInit {
         if (error.status === 401) {
           this.popupService.showPopup('Session expired, please, log in again');
           this.authService.logout();
+        } else if (error.status === 403 && error.error === "Admin users cannot be deleted") {
+          this.popupService.showPopup('Admin users cannot be deleted');
+          this.showConfirmation = false;
         } else {
           this.popupService.showPopup('An error occurred while deleting user. Please, try again');
           this.showConfirmation = false;
