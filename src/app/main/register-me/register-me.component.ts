@@ -6,6 +6,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { PopupService } from '../../shared/popup/popup.service';
 import { environment } from '../../../environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ApiErrorHandlerService } from '../../core/api-error-handler.service';
 
 @Component({
   selector: 'app-register-me',
@@ -18,6 +19,7 @@ export class RegisterMeComponent implements OnInit {
   private httpClient = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
   private popupService = inject(PopupService);
+  private apiErrorHandler = inject(ApiErrorHandlerService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
@@ -147,8 +149,11 @@ export class RegisterMeComponent implements OnInit {
       error: (error: HttpErrorResponse) => {
         console.error('Registration error:', error); // Very useful for debugging! Inspect this in your browser console.
 
-        // Show error message
-        if (error.status === 409) {
+        // Check if it's a network error (API not available)
+        if (error.error instanceof ProgressEvent && error.error.type === 'error' || error.status === 0) {
+          // Use the API error handler for network errors
+          this.apiErrorHandler.handleError(error);
+        } else if (error.status === 409) {
           // Handle conflict (username already taken)
           this.popupService.showPopup('The username is already taken, please choose another one.');
         } else if (error.error && typeof error.error === 'object' && error.error.hasOwnProperty('error') && typeof error.error.error === 'string') {
