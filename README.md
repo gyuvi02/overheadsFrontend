@@ -1,4 +1,10 @@
+
 # OverheadsFrontend
+
+**This Angular hobby project is the frontend for my API "overheadBackend" and the product of my limited Angular knowledge + AI. 
+In the app, tenants can record the various meter readings (gas, water, electricity).**
+
+
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.10.
 
