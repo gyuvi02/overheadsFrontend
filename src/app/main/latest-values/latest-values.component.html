@@ -1,26 +1,26 @@
 <div class="latest-values-container" *ngIf="isLoggedIn$ | async">
   <div class="form-container">
-    <h2>Check Latest Meter Values</h2>
+    <h2 i18n="@@LatestValuesTitle">Check Latest Meter Values</h2>
 
     <div class="form-group">
-      <label for="meterType">Meter type</label>
+      <label for="meterType" i18n="@@submitDataMeterType">Meter type</label>
       <select id="meterType" [(ngModel)]="selectedMeterType">
-        <option value="" disabled selected>Select meter type</option>
+        <option value="" disabled selected i18n="@@selectMeterTypePlaceholder">Select meter type</option>
         <option *ngFor="let type of meterTypes" [value]="type">{{ type }}</option>
       </select>
       <div class="submit-button-container">
-        <button appButton [disabled]="!selectedMeterType" (click)="onSubmit()">Submit</button>
+        <button appButton [disabled]="!selectedMeterType" (click)="onSubmit()" i18n="@@submitDataSubmit">Submit</button>
       </div>
     </div>
 
     <!-- Meter Values Table -->
     <div class="table-container">
-      <h3 *ngIf="showTable && meterValues.length > 0">Latest Meter Values for {{ selectedMeterType }}</h3>
+      <h3 *ngIf="showTable && meterValues.length > 0" i18n="@@LatestValuesTable">Latest Meter Values for {{ selectedMeterType }}</h3>
       <table class="meter-values-table" *ngIf="showTable && meterValues.length > 0">
         <thead>
           <tr>
-            <th>Date</th>
-            <th>Meter Value</th>
+            <th i18n="@@date">Date (year.month.day)</th>
+            <th i18n="@@submitDataMeterValue">Meter Value</th>
           </tr>
         </thead>
         <tbody>

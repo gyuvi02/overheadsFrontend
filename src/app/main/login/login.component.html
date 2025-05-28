@@ -1,14 +1,16 @@
 <div class="login-container">
   <div class="login-form">
     <div class="form-group">
-      <label for="username">Username</label>
+      <label for="username" i18n="@@loginUsername">Username</label>
       <div class="input-container">
         <input
           type="text"
           id="username"
           name="username"
           [(ngModel)]="username"
+          i18n-placeholder="@@loginUsernamePlaceholder"
           placeholder="Enter your username"
+          step="1"
           required
           (keydown.enter)="onLogin()"
         >
@@ -16,14 +18,16 @@
     </div>
 
     <div class="form-group">
-      <label for="password">Password</label>
+      <label for="password" i18n="@@loginPassword">Password</label>
       <div class="input-container">
         <input
           type="password"
           id="password"
           name="password"
           [(ngModel)]="password"
+          i18n-placeholder="@@loginPasswordPlaceholder"
           placeholder="Enter your password"
+          step="1"
           required
           (keydown.enter)="onLogin()"
         >
@@ -31,7 +35,7 @@
     </div>
 
     <div class="button-container">
-      <button appButton (click)="onLogin()" style="background-color: darkgreen;">
+      <button appButton (click)="onLogin()" style="background-color: darkgreen;" i18n="@@loginButton">
         Login
         <span ngProjectAs="icon">→</span>
       </button>

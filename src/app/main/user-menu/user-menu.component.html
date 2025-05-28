@@ -2,10 +2,10 @@
   <div class="menu-buttons">
     <!-- Regular user buttons - only visible for non-admin users -->
     <div *ngIf="!isAdmin">
-      <button appButton (click)="onSubmitNewMeterValue()">
+      <button appButton (click)="onSubmitNewMeterValue()" i18n="@@userMenuSubmitNewMeterValue">
         Submit meter value
       </button>
-      <button appButton (click)="onCheckLatestMeterValues()">
+      <button appButton (click)="onCheckLatestMeterValues()" i18n="@@userMenuCheckLatest">
         Check latest values
       </button>
     </div>

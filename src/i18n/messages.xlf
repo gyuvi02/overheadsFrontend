@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="headerTitle">
+        <source>Apartment Management</source>
+      </trans-unit>
+      <trans-unit id="headerDescription">
+        <source>With this application, you can submit meter values.</source>
+      </trans-unit>
+      <trans-unit id="headerLogout">
+        <source>Logout</source>
+      </trans-unit>
+      <trans-unit id="loginUsername">
+        <source>Username</source>
+      </trans-unit>
+      <trans-unit id="loginUsernamePlaceholder" datatype="html">
+        <source>Enter your username</source>
+        <note from="description">Username input field</note>
+        <note category="location">app/main/login.component.html:8</note>
+      </trans-unit>
+      <trans-unit id="loginPassword">
+        <source>Password</source>
+      </trans-unit>
+      <trans-unit id="loginPasswordPlaceholder" datatype="html">
+        <source>Enter your password</source>
+        <note from="description">Password input field</note>
+        <note category="location">app/main/login.component.html:8</note>
+      </trans-unit>
+      <trans-unit id="loginButton">
+        <source>Login</source>
+      </trans-unit>
+      <trans-unit id="userMenuSubmitNewMeterValue">
+        <source>Submit meter value</source>
+      </trans-unit>
+      <trans-unit id="userMenuCheckLatest">
+        <source>Check latest values</source>
+      </trans-unit>
+      <trans-unit id="submitDataTitle">
+        <source>Submit Meter Data</source>
+      </trans-unit>
+      <trans-unit id="submitDataMeterType">
+        <source>Meter type</source>
+      </trans-unit>
+      <trans-unit id="submitDataMeterValue">
+        <source>Meter value</source>
+      </trans-unit>
+      <trans-unit id="submitDataValuePlaceholder" datatype="html">
+        <source>Whole numbers only!</source>
+        <note from="description">User phone number input field</note>
+        <note category="location">app/main/submit-data.component.html:8</note>
+      </trans-unit>
+      <trans-unit id="submitDataLatestValue">
+        <source>Latest value: <x id="INTERPOLATION" equiv-text="{{ actualValue }}"/></source>
+      </trans-unit>
+      <trans-unit id="submitDataUploadImage">
+        <source>Upload image</source>
+      </trans-unit>
+      <trans-unit id="submitDataInformation">
+        <source>Max size: 10MB. Allowed formats: PNG, TIFF, JPG, JPEG</source>
+      </trans-unit>
+      <trans-unit id="submitDataSubmit">
+        <source>Submit</source>
+      </trans-unit>
+      <trans-unit id="submitDataNoFile">
+        <source>No file selected</source>
+      </trans-unit>
+      <trans-unit id="selectMeterTypePlaceholder" datatype="html">
+        <source>Select meter type</source>
+        <note from="description">Select meter type from the list</note>
+        <note category="location">app/main/submit-data.component.html:8</note>
+      </trans-unit>
+      <trans-unit id="LatestValuesTitle">
+        <source>Check Latest Meter Values</source>
+      </trans-unit>
+      <trans-unit id="LatestValuesTable">
+        <source>Latest Meter Values for</source>
+      </trans-unit>
+      <trans-unit id="LatestValuesTable" datatype="html">
+        <source>Latest Meter Values for <x id="INTERPOLATION" equiv-text="{{ selectedMeterType }}"/></source>
+      </trans-unit>
+      <trans-unit id="date">
+        <source>Date (year.month.day)</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

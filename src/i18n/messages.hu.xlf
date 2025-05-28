@@ -1,0 +1,98 @@
+<xliff version="1.2">
+  <file source-language="en" target-language="hu" datatype="plaintext">
+    <body>
+      <trans-unit id="headerTitle">
+        <source>Apartment Management</source>
+        <target>Albérlet menedzsment</target>
+      </trans-unit>
+      <trans-unit id="headerDescription">
+        <source>With this application, you can submit meter values.</source>
+        <target>Ezzel az alkalmazással különböző mérőórák állásait diktálhatja be.</target>
+      </trans-unit>
+      <trans-unit id="headerLogout">
+        <source>Logout</source>
+        <target>Kilépés</target>
+      </trans-unit>
+      <trans-unit id="loginUsername">
+        <source>Username</source>
+        <target>Felhasználó</target>
+      </trans-unit>
+      <trans-unit id="loginUsernamePlaceholder">
+        <source>Enter your username</source>
+        <target>Adja meg a felhasználónevet</target>
+      </trans-unit>
+      <trans-unit id="loginPassword">
+        <source>Password</source>
+        <target>Jelszó</target>
+      </trans-unit>
+      <trans-unit id="loginPasswordPlaceholder">
+        <source>Enter your password</source>
+        <target>Adja meg a jelszót</target>
+      </trans-unit>
+      <trans-unit id="loginButton">
+        <source>Login</source>
+        <target>Belépés</target>
+      </trans-unit>
+      <trans-unit id="userMenuSubmitNewMeterValue">
+        <source>Submit meter value</source>
+        <target>Mérőállás beküldése</target>
+      </trans-unit>
+      <trans-unit id="userMenuCheckLatest">
+        <source>Check latest values</source>
+        <target>Legutóbbi mérőállások</target>
+      </trans-unit>
+      <trans-unit id="submitDataTitle">
+        <source>Submit Meter Data</source>
+        <target>Mérőállás beküldése</target>
+      </trans-unit>
+      <trans-unit id="submitDataMeterType">
+        <source>Meter type</source>
+        <target>Mérő típusa</target>
+      </trans-unit>
+      <trans-unit id="submitDataMeterValue">
+        <source>Meter value</source>
+        <target>Mérőóra állása</target>
+      </trans-unit>
+      <trans-unit id="submitDataValuePlaceholder">
+        <source>Whole numbers only!</source>
+        <target>Csak egész számok!</target>
+      </trans-unit>
+      <trans-unit id="submitDataLatestValue">
+        <source>Latest value: <x id="INTERPOLATION" equiv-text="{{ actualValue }}"/></source>
+        <target>Legutóbbi érték: <x id="INTERPOLATION" equiv-text="{{ actualValue }}"/></target>
+      </trans-unit>
+      <trans-unit id="submitDataUploadImage">
+        <source>Upload image</source>
+        <target>Kép feltöltése</target>
+      </trans-unit>
+      <trans-unit id="submitDataInformation">
+        <source>Max size: 10MB. Allowed formats: PNG, TIFF, JPG, JPEG</source>
+        <target>Max méret: 10MB. Lehetséges típusok: PNG, TIFF, JPG, JPEG</target>
+      </trans-unit>
+      <trans-unit id="submitDataSubmit">
+        <source>Submit</source>
+        <target>Beküldés</target>
+      </trans-unit>
+      <trans-unit id="submitDataNoFile">
+        <source>No file selected</source>
+        <target>Nincs fájl kiválasztva</target>
+      </trans-unit>
+      <trans-unit id="selectMeterTypePlaceholder">
+        <source>Select meter type</source>
+        <target>Mérőóra típusa</target>
+      </trans-unit>
+      <trans-unit id="LatestValuesTitle">
+        <source>Check Latest Meter Values</source>
+        <target>Legutóbbi mérőállások lekérdezése</target>
+      </trans-unit>
+      <trans-unit id="LatestValuesTable" datatype="html">
+        <source>Latest Meter Values for <x id="INTERPOLATION" equiv-text="{{ selectedMeterType }}"/></source>
+        <target>Legutóbbi mérőállások - <x id="INTERPOLATION" equiv-text="{{ selectedMeterType }}"/></target>
+      </trans-unit>
+      <trans-unit id="date">
+        <source>Date (year.month.day)</source>
+        <target>Dátum</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
