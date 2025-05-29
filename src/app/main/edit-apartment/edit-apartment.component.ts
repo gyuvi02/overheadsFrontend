@@ -17,6 +17,7 @@ export interface Apartment {
   gasMeterID: string;
   electricityMeterID: string;
   waterMeterID: string;
+  deadline: number; // Added deadline property
 }
 
 @Component({
@@ -120,7 +121,8 @@ export class EditApartmentComponent implements OnInit {
       this.selectedApartment.street !== this.originalApartment.street ||
       this.selectedApartment.gasMeterID !== this.originalApartment.gasMeterID ||
       this.selectedApartment.electricityMeterID !== this.originalApartment.electricityMeterID ||
-      this.selectedApartment.waterMeterID !== this.originalApartment.waterMeterID;
+      this.selectedApartment.waterMeterID !== this.originalApartment.waterMeterID ||
+      this.selectedApartment.deadline !== this.originalApartment.deadline; // Added deadline check
 
     if (!isModified) {
       this.popupService.showPopup('No data was modified, nothing to save');

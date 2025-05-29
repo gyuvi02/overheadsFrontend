@@ -66,7 +66,8 @@ export class AddApartmentComponent implements OnInit {
     street: '',
     gasMeterID: '',
     electricityMeterID: '',
-    waterMeterID: ''
+    waterMeterID: '',
+    deadline: null as number | null // Added deadline field
   };
 
   // Validation errors
@@ -76,7 +77,8 @@ export class AddApartmentComponent implements OnInit {
     street: '',
     gasMeterID: '',
     electricityMeterID: '',
-    waterMeterID: ''
+    waterMeterID: '',
+    deadline: '' // Added deadline error field
   };
 
   // Validate the form
@@ -126,6 +128,16 @@ export class AddApartmentComponent implements OnInit {
       isValid = false;
     }
 
+    // Validate Deadline (required, integer between 1 and 31)
+    if (this.apartment.deadline === null || this.apartment.deadline === undefined) {
+      this.errors.deadline = 'Deadline is required';
+      isValid = false;
+    } else if (!Number.isInteger(this.apartment.deadline) || this.apartment.deadline < 1 || this.apartment.deadline > 31) {
+      this.errors.deadline = 'Deadline must be an integer between 1 and 31';
+      isValid = false;
+    }
+
+
     return isValid;
   }
 
@@ -136,7 +148,8 @@ export class AddApartmentComponent implements OnInit {
       street: '',
       gasMeterID: '',
       electricityMeterID: '',
-      waterMeterID: ''
+      waterMeterID: '',
+      deadline: '' // Reset deadline error
     };
   }
 
@@ -147,7 +160,8 @@ export class AddApartmentComponent implements OnInit {
       street: '',
       gasMeterID: '',
       electricityMeterID: '',
-      waterMeterID: ''
+      waterMeterID: '',
+      deadline: null // Reset deadline field
     };
     this.resetErrors();
   }

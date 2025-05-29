@@ -1,4 +1,4 @@
-<div class="add-apartment-container" *ngIf="isLoggedIn$ | async">
+a<div class="add-apartment-container" *ngIf="isLoggedIn$ | async">
   <div class="form-container">
     <h2>Add New Apartment</h2>
     <div class="apartment-details">
@@ -37,6 +37,13 @@
         <input type="text" id="waterMeterID" [(ngModel)]="apartment.waterMeterID">
         <div class="error-message" *ngIf="errors.waterMeterID">{{ errors.waterMeterID }}</div>
       </div>
+
+      <div class="form-field" style="flex-direction: row; align-items: center;">
+        <label for="deadline">Deadline (day):</label>
+        <input type="number" id="deadline" name="deadline" [(ngModel)]="apartment.deadline" class="form-control" min="1" max="31" required>
+        <div *ngIf="errors.deadline" class="error-message">{{ errors.deadline }}</div>
+      </div>
+
 
       <div class="submit-button-container">
         <button appButton (click)="onSubmit()">Submit</button>

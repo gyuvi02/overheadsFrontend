@@ -53,10 +53,13 @@
       <input type="text" id="waterMeterID" [(ngModel)]="selectedApartment.waterMeterID">
     </div>
 
+    <div class="form-field" style="flex-direction: row; align-items: center;">
+      <label for="deadline">Deadline (day):</label>
+      <input type="number" id="deadline" [(ngModel)]="selectedApartment.deadline" name="deadline" min="1" max="31" required>
+    </div>
+
     <div class="save-button-container" *ngIf="selectedApartment">
       <button appButton (click)="onSaveChanges()">Save changes</button>
     </div>
   </div>
-
-
 </div>
