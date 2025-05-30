@@ -93,6 +93,71 @@
         <source>Date (year.month.day)</source>
         <target>Dátum</target>
       </trans-unit>
+
+      <trans-unit id="gasMeter" datatype="html">
+        <source>Gas meter</source>
+        <target>Gázóra</target>
+      </trans-unit>
+      <trans-unit id="electricityMeter" datatype="html">
+        <source>Electricity meter</source>
+        <target>Villanyóra</target>
+      </trans-unit>
+      <trans-unit id="waterMeter" datatype="html">
+        <source>Water meter</source>
+        <target>Vízóra</target>
+      </trans-unit>
+      <trans-unit id="errorSelectMeterType" datatype="html">
+        <source>Please select a meter type!</source>
+        <target>Válasszon mérőóra típust!</target>
+      </trans-unit>
+      <trans-unit id="errorAddMeterValue" datatype="html">
+        <source>Please enter a meter value!</source>
+        <target>Adjon meg egy mérőóra állást!</target>
+      </trans-unit>
+      <trans-unit id="errorAddWholeNumber" datatype="html">
+        <source>Please enter a whole number (integer) value!</source>
+        <target>Csak egész számokat tud rögzíteni!</target>
+      </trans-unit>
+      <trans-unit id="errorSmallerMeterValue" datatype="html">
+        <source>The new meter value cannot be less than the previous value!</source>
+        <target>A megadott érték nem lehet kisebb, mint a korábban rögzített!</target>
+      </trans-unit>
+      <trans-unit id="errorEqualMeterValue" datatype="html">
+        <source>The new meter value is the same as the previous value. No new value will be stored.</source>
+        <target>A megadott érték ugyanaz, mint a korábban rögzített. Ezt az értéket nem rögzítem.</target>
+      </trans-unit>
+      <trans-unit id="errorApartmentNotFound" datatype="html">
+        <source>Apartment data not found. Please log in again.</source>
+        <target>Nem találom a lakás adatait. Kérem, jelentkezzen be újra</target>
+      </trans-unit>
+      <trans-unit id="errorTokenNotFound" datatype="html">
+        <source>Authentication token not found. Please log in again.</source>
+        <target>Az azonosító token hiányzik. Kérem, jelentkezzen be újra.</target>
+      </trans-unit>
+      <trans-unit id="successSubmit" datatype="html">
+        <source>Submission successful! Thank you!</source>
+        <target>A beküldés sikerült! Köszönöm!</target>
+      </trans-unit>
+      <trans-unit id="errorSessionExpired" datatype="html">
+        <source>Session expired, please, log in again!</source>
+        <target>A folyamat már lejárt. Kérem, jelentkezzen be újra.</target>
+      </trans-unit>
+      <trans-unit id="errorUnknownError" datatype="html">
+        <source>An error occurred while submitting the data. Please try again later.</source>
+        <target>Váratlan hiba a rögzítés során. Kérem, próbálja meg újra később.</target>
+      </trans-unit>
+      <trans-unit id="errorFileSize" datatype="html">
+        <source>File size exceeds 10MB limit</source>
+        <target>A fájl mérete nagyobb, mint a megengedett 10MB</target>
+      </trans-unit>
+      <trans-unit id="errorWrongFormat" datatype="html">
+        <source>Only PNG, TIFF, JPG and JPEG files are allowed!</source>
+        <target>Csak PNG, TIFF, JPG és JPEG fájlok feltöltése megengedett!</target>
+      </trans-unit>
+      <trans-unit id="switchLanguage" datatype="html">
+        <source>HU</source>
+        <target>EN</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

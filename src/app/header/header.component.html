@@ -3,16 +3,25 @@
     <img src="logo.png" alt="Website logo, a server" />
   </div>
 
-  <p class="header-title" style="font-size: 1.9rem; font-weight: bold">APARTMENT MANAGEMENT</p>
+  <p class="header-title" style="font-size: 1.9rem; font-weight: bold" i18n="@@headerTitle">
+    Apartment Management
+  </p>
+
   <nav>
     <ul>
       <li *ngIf="isLoggedIn$ | async">
-        <button appButton style="background-color: darkgreen;" (click)="onLogout()">Logout
+        <button appButton style="background-color: darkgreen;" (click)="onLogout()" i18n="@@headerLogout">
+          Logout
           <span ngProjectAs="icon">→</span>
         </button>
       </li>
+      <!-- Language Buttons: show only on login route -->
+      <li *ngIf="showLangButton('en')">
+        <button appButton (click)="redirectToLanguage('en')">EN</button>
+      </li>
+      <li *ngIf="showLangButton('hu')">
+        <button appButton (click)="redirectToLanguage('hu')">HU</button>
+      </li>
     </ul>
   </nav>
-
-
 </header>

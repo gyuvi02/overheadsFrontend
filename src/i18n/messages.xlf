@@ -82,6 +82,55 @@
       <trans-unit id="date">
         <source>Date (year.month.day)</source>
       </trans-unit>
+
+      <trans-unit id="gasMeter" datatype="html">
+        <source>Gas meter</source>
+      </trans-unit>
+      <trans-unit id="electricityMeter" datatype="html">
+        <source>Electricity meter</source>
+      </trans-unit>
+      <trans-unit id="waterMeter" datatype="html">
+        <source>Water meter</source>
+      </trans-unit>
+      <trans-unit id="errorSelectMeterType" datatype="html">
+        <source>Please select a meter type!</source>
+      </trans-unit>
+      <trans-unit id="errorAddMeterValue" datatype="html">
+        <source>Please enter a meter value!</source>
+      </trans-unit>
+      <trans-unit id="errorAddWholeNumber" datatype="html">
+        <source>Please enter a whole number (integer) value!</source>
+      </trans-unit>
+      <trans-unit id="errorSmallerMeterValue" datatype="html">
+        <source>The new meter value cannot be less than the previous value!</source>
+      </trans-unit>
+      <trans-unit id="errorEqualMeterValue" datatype="html">
+        <source>The new meter value is the same as the previous value. No new value will be stored.</source>
+      </trans-unit>
+      <trans-unit id="errorApartmentNotFound" datatype="html">
+        <source>Apartment data not found. Please log in again.</source>
+      </trans-unit>
+      <trans-unit id="errorTokenNotFound" datatype="html">
+        <source>Authentication token not found. Please log in again.</source>
+      </trans-unit>
+      <trans-unit id="successSubmit" datatype="html">
+        <source>Submission successful! Thank you!</source>
+      </trans-unit>
+      <trans-unit id="errorSessionExpired" datatype="html">
+        <source>Session expired, please, log in again!</source>
+      </trans-unit>
+      <trans-unit id="errorUnknownError" datatype="html">
+        <source>An error occurred while submitting the data. Please try again later.</source>
+      </trans-unit>
+      <trans-unit id="errorFileSize" datatype="html">
+        <source>File size exceeds 10MB limit</source>
+      </trans-unit>
+      <trans-unit id="errorWrongFormat" datatype="html">
+        <source>Only PNG, TIFF, JPG, and JPEG files are allowed!</source>
+      </trans-unit>
+      <trans-unit id="switchLanguage" datatype="html">
+        <source>HU</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>
