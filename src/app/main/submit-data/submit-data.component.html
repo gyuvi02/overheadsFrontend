@@ -1,27 +1,30 @@
 <div class="submit-data-container" *ngIf="isLoggedIn$ | async">
   <div class="form-container">
-    <h2>Submit Meter Data</h2>
+    <h2 i18n="@@submitDataTitle">Submit Meter Data</h2>
 
     <div class="form-group">
-      <label for="meterType">Meter type</label>
+      <label for="meterType" i18n="@@submitDataMeterType">Meter type</label>
       <select id="meterType" [(ngModel)]="selectedMeterType">
-        <option value="" disabled selected>Select meter type</option>
-        <option *ngFor="let type of meterTypes" [value]="type">{{ type }}</option>
+        <option value="" disabled selected i18n="@@selectMeterTypePlaceholder">Select meter type</option>
+        <option *ngFor="let type of meterTypes" [value]="type">
+          {{ getTranslatedMeterType(type) }}
+        </option>
       </select>
     </div>
 
     <div class="form-group">
-      <label for="meterValue">Meter value</label>
+      <label for="meterValue" i18n="@@submitDataMeterValue">Meter value</label>
       <div class="meter-value-container">
         <input
           type="number"
           id="meterValue"
           [(ngModel)]="meterValue"
+          i18n-placeholder="@@submitDataValuePlaceholder"
           placeholder="Whole numbers only!"
           step="1"
           (keyup.enter)="onSubmitData()"
-        >
-        <span *ngIf="actualValue" class="actual-value">Latest value: {{ actualValue }}</span>
+          >
+        <span *ngIf="actualValue" class="actual-value" i18n="@@submitDataLatestValue">Latest value: {{ actualValue }}</span>
       </div>
     </div>
 
@@ -33,17 +36,17 @@
           (change)="onFileSelected($event)"
           accept=".png,.tiff,.jpg,.jpeg"
         >
-        <label for="imageUpload" style="width: 200px;">Upload image</label>
+        <label for="imageUpload" style="width: 200px;" i18n="@@submitDataUploadImage">Upload image</label>
         <span class="file-name" *ngIf="selectedFile" style="width: 220px">{{ selectedFile.name }}</span>
-        <span class="file-name empty-file" *ngIf="!selectedFile" style="width: 220px">No file selected</span>
+        <span class="file-name empty-file" *ngIf="!selectedFile" style="width: 220px" i18n="@@submitDataNoFile">No file selected</span>
 <!--        <button appButton (click)="onSubmitImage()">Upload</button>-->
-        <small>Max size: 10MB. Allowed formats: PNG, TIFF, JPG, JPEG</small>
+        <small i18n="@@submitDataInformation">Max size: 10MB. Allowed formats: PNG, TIFF, JPG, JPEG</small>
 
       </div>
     </div>
 
     <div class="submit-button-container">
-      <button appButton (click)="onSubmitData()">Submit</button>
+      <button appButton (click)="onSubmitData()" i18n="@@submitDataSubmit">Submit</button>
     </div>
   </div>
 </div>

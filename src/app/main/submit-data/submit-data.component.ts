@@ -20,8 +20,9 @@ export class SubmitDataComponent implements OnInit {
   private authService = inject(AuthService);
   private httpClient = inject(HttpClient);
   private router = inject(Router);
-  private popupService = inject(PopupService);
   isLoggedIn$ = this.authService.isLoggedIn$;
+
+  constructor(private popupService: PopupService) {}
 
   // Will be populated based on available meter data
   meterTypes: string[] = [];
@@ -32,13 +33,22 @@ export class SubmitDataComponent implements OnInit {
   // Store actual meter values from login response
   actualMeterValues: {[key: string]: string} = {};
 
+  // Translation mapping
+  meterTypeLabels: { [key: string]: string } = {
+    'Gas meter': $localize`:@@gasMeter:Gas meter`,
+    'Electricity meter': $localize`:@@electricityMeter:Electricity meter`,
+    'Water meter': $localize`:@@waterMeter:Water meter`
+  };
+
   ngOnInit() {
-    // Subscribe to meter values from auth service
     this.authService.meterValues$.subscribe(values => {
       this.actualMeterValues = values;
-      // Update meter types based on available values
       this.meterTypes = Object.keys(values);
     });
+  }
+
+  getTranslatedMeterType(type: string): string {
+    return this.meterTypeLabels[type] || type;
   }
 
   // Get the actual meter value for the selected meter type
@@ -53,7 +63,7 @@ export class SubmitDataComponent implements OnInit {
 
       // Check file size (max 10MB)
       if (file.size > 10 * 1024 * 1024) {
-        this.popupService.showPopup('File size exceeds 10MB limit');
+        this.popupService.showPopup($localize`:@@errorFileSize:File size exceeds 10MB limit`);
         input.value = '';
         this.selectedFile = null;
         return;
@@ -62,7 +72,7 @@ export class SubmitDataComponent implements OnInit {
       // Check file type
       const allowedTypes = ['image/png', 'image/tiff', 'image/jpg', 'image/jpeg'];
       if (!allowedTypes.includes(file.type)) {
-        this.popupService.showPopup('Only PNG, TIFF, JPG, and JPEG files are allowed');
+        this.popupService.showPopup($localize`:@@errorWrongFormat:Only PNG, TIFF, JPG and JPEG files are allowed!`);
         input.value = '';
         this.selectedFile = null;
         return;
@@ -72,41 +82,41 @@ export class SubmitDataComponent implements OnInit {
     }
   }
 
-  onSubmitImage() {
-    if (this.selectedFile) {
-      console.log('Uploading image:', this.selectedFile.name);
-      // Add logic to upload the image
-    } else {
-      this.popupService.showPopup('Please select an image first');
-    }
-  }
+  // onSubmitImage() {
+  //   if (this.selectedFile) {
+  //     console.log('Uploading image:', this.selectedFile.name);
+  //   } else {
+  //     this.popupService.showPopup('Please select an image first');
+  //   }
+  // }
 
   onSubmitData() {
     if (!this.selectedMeterType) {
-      this.popupService.showPopup('Please select a meter type');
+      this.popupService.showPopup($localize`:@@errorSelectMeterType:Please select a meter type`);
       return;
     }
 
     if (this.meterValue === null) {
-      this.popupService.showPopup('Please enter a meter value');
+      this.popupService.showPopup($localize`:@@errorAddMeterValue:Please enter a meter value!`);
+
       return;
     }
 
     // Check if the meter value is an integer
     if (this.meterValue % 1 !== 0) {
-      this.popupService.showPopup('Please enter a whole number (integer) value');
+      this.popupService.showPopup($localize`:@@errorAddWholeNumber:Please enter a whole number (integer) value!`);
       return;
     }
 
     // Check if the new meter value is less than the previous value
     if (this.actualValue && this.meterValue < parseFloat(this.actualValue)) {
-      this.popupService.showPopup('Error: The new meter value cannot be less than the previous value. Please enter a value greater than ' + this.actualValue);
+      this.popupService.showPopup($localize`:@@errorSmallerMeterValue:The new meter value cannot be less than the previous value!`);
       return;
     }
 
     // Check if the new meter value is equal to the previous value
     if (this.actualValue && this.meterValue === parseFloat(this.actualValue)) {
-      this.popupService.showPopup('The new meter value is the same as the previous value. No new value will be stored.');
+      this.popupService.showPopup($localize`:@@errorEqualMeterValue:The new meter value is the same as the previous value. No new value will be stored.`);
       this.router.navigate(['/me']);
       return;
     }
@@ -120,14 +130,14 @@ export class SubmitDataComponent implements OnInit {
     // Get the token from sessionStorage
     const token = sessionStorage.getItem('token');
     if (!token) {
-      this.popupService.showPopup('Authentication token not found. Please log in again.');
+      this.popupService.showPopup($localize`:@@errorTokenNotFound:Authentication token not found. Please log in again.`);
       return;
     }
 
     // Get the apartment ID from the auth service
     const apartmentId = this.authService.apartmentData?.id;
     if (!apartmentId) {
-      this.popupService.showPopup('Apartment data not found. Please log in again.');
+      this.popupService.showPopup($localize`:@@errorApartmentNotFound:Apartment data not found. Please log in again.`);
       return;
     }
 
@@ -160,8 +170,8 @@ export class SubmitDataComponent implements OnInit {
       next: (response) => {
         console.log('Submission successful:', response);
 
-        // Show success message with submitted values
-        this.popupService.showPopup(`Submission successful!\n\nMeter Type: ${this.selectedMeterType}\nMeter Value: ${this.meterValue}\nImage: ${this.selectedFile ? this.selectedFile.name : 'No image'}`);
+        // Show success message
+        this.popupService.showPopup($localize`:@@successSubmit:Submission successful! Thank you!`);
 
         // Reset the form
         this.resetForm();
@@ -173,11 +183,11 @@ export class SubmitDataComponent implements OnInit {
       },
       error: (error) => {
         if (error.status === 401) {
-          this.popupService.showPopup('Session expired, please, log in again');
+          this.popupService.showPopup($localize`:@@errorSessionExpired:Session expired, please, log in again!`);
           this.authService.logout();
         } else {
           console.error('Submission error:', error);
-          this.popupService.showPopup('An error occurred while submitting the data. Please try again.');
+          this.popupService.showPopup($localize`:@@errorUnknownError:An error occurred while submitting the data. Please try again later.`);
         }
       }
     });

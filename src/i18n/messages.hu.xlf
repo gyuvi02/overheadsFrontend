@@ -158,6 +158,26 @@
         <source>HU</source>
         <target>EN</target>
       </trans-unit>
+      <trans-unit id="failedToConnect" datatype="html">
+        <source>Failed to connect to the server. Please check your internet connection or try again later.</source>
+        <target>Nem sikerült kapcsolódni a szerverhez. Kérem, próbálja meg később újra.</target>
+      </trans-unit>
+      <trans-unit id="serverNotResponding" datatype="html">
+        <source>The server is not responding. Please try again later.</source>
+        <target>A szerver nem válaszol. Kérem, próbálja meg később újra.</target>
+      </trans-unit>
+      <trans-unit id="unknownError" datatype="html">
+        <source>An unknown error occurred. Please try again later.</source>
+        <target>Ismeretlen hiba történt. Kérem, próbálja meg később újra.</target>
+      </trans-unit>
+      <trans-unit id="userNotFound" datatype="html">
+        <source>This username is not found in the database.</source>
+        <target>Nem találtam felhasználót ezzel a névvel.</target>
+      </trans-unit>
+      <trans-unit id="invalidCredentials" datatype="html">
+        <source>Invalid credentials.</source>
+        <target>Érvénytelen bejelentkezési adatok.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
