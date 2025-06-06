@@ -67,7 +67,9 @@ export class AddApartmentComponent implements OnInit {
     gasMeterID: '',
     electricityMeterID: '',
     waterMeterID: '',
-    deadline: null as number | null // Added deadline field
+    deadline: null as number | null,
+    language: '',
+    rent: null as number | null
   };
 
   // Validation errors
@@ -78,7 +80,9 @@ export class AddApartmentComponent implements OnInit {
     gasMeterID: '',
     electricityMeterID: '',
     waterMeterID: '',
-    deadline: '' // Added deadline error field
+    deadline: '',
+    language: '',
+    rent: ''
   };
 
   // Validate the form
@@ -137,6 +141,23 @@ export class AddApartmentComponent implements OnInit {
       isValid = false;
     }
 
+    // Validate language (required)
+    if (!this.apartment.language) {
+      this.errors.language = 'Language is required';
+      isValid = false;
+    } else if (this.apartment.language !== 'e' && this.apartment.language !== 'h') {
+      this.errors.language = 'The language value must be "e" or "h"';
+      isValid = false;
+    }
+
+    // Validate rent
+    if (this.apartment.rent === null) {
+      this.errors.rent = 'Rent is required';
+      isValid = false;
+    } else if (this.apartment.rent < 0 || this.apartment.rent > 2000000 || !Number.isInteger(this.apartment.rent)) {
+      this.errors.rent = 'Rent must be a whole number between 0 and 2000000';
+      isValid = false;
+    }
 
     return isValid;
   }
@@ -149,7 +170,9 @@ export class AddApartmentComponent implements OnInit {
       gasMeterID: '',
       electricityMeterID: '',
       waterMeterID: '',
-      deadline: '' // Reset deadline error
+      deadline: '',
+      language: '',
+      rent: ''
     };
   }
 
@@ -161,7 +184,9 @@ export class AddApartmentComponent implements OnInit {
       gasMeterID: '',
       electricityMeterID: '',
       waterMeterID: '',
-      deadline: null // Reset deadline field
+      deadline: null,
+      language: '',
+      rent: null
     };
     this.resetErrors();
   }

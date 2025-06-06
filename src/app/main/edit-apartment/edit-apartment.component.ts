@@ -18,6 +18,8 @@ export interface Apartment {
   electricityMeterID: string;
   waterMeterID: string;
   deadline: number; // Added deadline property
+  language: string;
+  rent: number | null;
 }
 
 @Component({
@@ -107,6 +109,11 @@ export class EditApartmentComponent implements OnInit {
   }
 
   onSaveChanges() {
+
+    if (!this.validateForm(this.selectedApartment)) {
+      return;
+    }
+
     if (!this.selectedApartment || !this.originalApartment) {
       this.popupService.showPopup('No apartment selected');
       return;
@@ -122,7 +129,9 @@ export class EditApartmentComponent implements OnInit {
       this.selectedApartment.gasMeterID !== this.originalApartment.gasMeterID ||
       this.selectedApartment.electricityMeterID !== this.originalApartment.electricityMeterID ||
       this.selectedApartment.waterMeterID !== this.originalApartment.waterMeterID ||
-      this.selectedApartment.deadline !== this.originalApartment.deadline; // Added deadline check
+      this.selectedApartment.deadline !== this.originalApartment.deadline ||
+      this.selectedApartment.language !== this.originalApartment.language ||
+      this.selectedApartment.rent !== this.originalApartment.rent;
 
     if (!isModified) {
       this.popupService.showPopup('No data was modified, nothing to save');
@@ -152,9 +161,12 @@ export class EditApartmentComponent implements OnInit {
         // Show success message
         this.popupService.showPopup('Apartment updated successfully');
 
+        // Reset the form
+        this.resetForm();
+
         // Reset the component state and reload
         this.selectedApartmentId = null;
-        this.selectedApartment = null;
+        // this.selectedApartment = null;
         this.originalApartment = null;
         this.componentDisplayService.setActiveComponent(DisplayComponent.EDIT_APARTMENT);
       },
@@ -173,5 +185,145 @@ export class EditApartmentComponent implements OnInit {
   // Helper method to get apartment display name
   getApartmentDisplayName(apartment: Apartment): string {
     return `${apartment.city}, ${apartment.street}`;
+  }
+
+  resetErrors(): void {
+    this.errors = {
+      city: '',
+      zip: '',
+      street: '',
+      gasMeterID: '',
+      electricityMeterID: '',
+      waterMeterID: '',
+      deadline: '',
+      language: '',
+      rent: ''
+    };
+  }
+
+  // Validation errors
+  errors = {
+    city: '',
+    zip: '',
+    street: '',
+    gasMeterID: '',
+    electricityMeterID: '',
+    waterMeterID: '',
+    deadline: '',
+    language: '',
+    rent: ''
+  };
+
+  // Validate the form
+  validateForm(selectedApartment: Apartment | null): boolean {
+    console.log('Validating form for apartment:', selectedApartment?.street);
+    let isValid = true;
+    this.resetErrors();
+
+    // Validate City (required, max 15 chars)
+    // @ts-ignore
+    if (!selectedApartment.city) {
+      this.errors.city = 'City is required';
+      isValid = false;
+    } else { // @ts-ignore
+      if (selectedApartment.city.length > 15) {
+            this.errors.city = 'City cannot exceed 15 characters';
+            isValid = false;
+          }
+    }
+
+    // Validate ZIP (required, 4 numeric chars)
+    // @ts-ignore
+    if (!selectedApartment.zip) {
+      this.errors.zip = 'ZIP is required';
+      isValid = false;
+    } else { // @ts-ignore
+      if (!/^\d{4}$/.test(selectedApartment.zip)) {
+            this.errors.zip = 'ZIP must be exactly 4 numeric characters';
+            isValid = false;
+          }
+    }
+
+    // Validate Street (required)
+    // @ts-ignore
+    if (!selectedApartment.street) {
+      this.errors.street = 'Street is required';
+      isValid = false;
+    }
+
+    // Validate Gas Meter ID (required)
+    // @ts-ignore
+    if (!selectedApartment.gasMeterID) {
+      this.errors.gasMeterID = 'Gas Meter ID is required';
+      isValid = false;
+    }
+
+    // Validate Electricity Meter ID (required)
+    // @ts-ignore
+    if (!selectedApartment.electricityMeterID) {
+      this.errors.electricityMeterID = 'Electricity Meter ID is required';
+      isValid = false;
+    }
+
+    // Validate Water Meter ID (required)
+    // @ts-ignore
+    if (!selectedApartment.waterMeterID) {
+      this.errors.waterMeterID = 'Water Meter ID is required';
+      isValid = false;
+    }
+
+    // Validate Deadline (required, integer between 1 and 31)
+    // @ts-ignore
+    if (selectedApartment.deadline === null || this.selectedApartment.deadline === undefined) {
+      this.errors.deadline = 'Deadline is required';
+      isValid = false;
+    } else { // @ts-ignore
+      if (!Number.isInteger(selectedApartment.deadline) || this.selectedApartment.deadline < 1 || this.selectedApartment.deadline > 31) {
+            this.errors.deadline = 'Deadline must be an integer between 1 and 31';
+            isValid = false;
+          }
+    }
+
+    // Validate language (required)
+    // @ts-ignore
+    if (!selectedApartment.language) {
+      this.errors.language = 'Language is required';
+      isValid = false;
+    } else { // @ts-ignore
+      if (selectedApartment.language !== 'e' && this.selectedApartment.language !== 'h') {
+            this.errors.language = 'The language value must be "e" or "h"';
+            isValid = false;
+          }
+    }
+
+    // Validate rent
+    // @ts-ignore
+    if (selectedApartment.rent === null) {
+      this.errors.rent = 'Rent is required';
+      isValid = false;
+    } else { // @ts-ignore
+      if (selectedApartment.rent < 0 || selectedApartment.rent > 2000000 || !Number.isInteger(selectedApartment.rent)) {
+            this.errors.rent = 'Rent must be a whole number between 0 and 2000000';
+            isValid = false;
+          }
+    }
+
+    return isValid;
+  }
+
+  resetForm(): void {
+    this.selectedApartment = {
+      id: 0,
+      city: '',
+      zip: '',
+      street: '',
+      gasMeterID: '',
+      electricityMeterID: '',
+      waterMeterID: '',
+      deadline: 0,
+      language: '',
+      rent: null
+    };
+    this.resetErrors();
   }
 }

@@ -44,6 +44,26 @@ a<div class="add-apartment-container" *ngIf="isLoggedIn$ | async">
         <div *ngIf="errors.deadline" class="error-message">{{ errors.deadline }}</div>
       </div>
 
+      <div class="form-field" style="flex-direction: row; align-items: center;">
+        <label>Language:</label>
+        <div class="radio-group">
+          <label class="radio-label">
+            <input type="radio" name="language" [(ngModel)]="apartment.language" value="e">
+            English
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="language" [(ngModel)]="apartment.language" value="h">
+            Hungarian
+          </label>
+        </div>
+        <div *ngIf="errors.language" class="error-message">{{ errors.language }}</div>
+      </div>
+
+      <div class="form-field" style="flex-direction: row; align-items: center;">
+        <label for="rent">Rent:</label>
+        <input type="number" id="rent" name="rent" [(ngModel)]="apartment.rent" class="form-control" min="0" max="2000000" required>
+        <div *ngIf="errors.rent" class="error-message">{{ errors.rent }}</div>
+      </div>
 
       <div class="submit-button-container">
         <button appButton (click)="onSubmit()">Submit</button>

@@ -26,36 +26,64 @@
     <div class="form-field">
       <label for="city">City</label>
       <input type="text" id="city" [(ngModel)]="selectedApartment.city">
+      <div class="error-message" *ngIf="errors.city">{{ errors.city }}</div>
     </div>
 
     <div class="form-field">
       <label for="zip">ZIP</label>
       <input type="text" id="zip" [(ngModel)]="selectedApartment.zip">
+      <div class="error-message" *ngIf="errors.zip">{{ errors.zip }}</div>
     </div>
 
     <div class="form-field">
       <label for="street">Address</label>
       <input type="text" id="street" [(ngModel)]="selectedApartment.street">
+      <div class="error-message" *ngIf="errors.street">{{ errors.street }}</div>
     </div>
 
     <div class="form-field">
       <label for="gasMeterID">Gas Meter ID</label>
       <input type="text" id="gasMeterID" [(ngModel)]="selectedApartment.gasMeterID">
+      <div class="error-message" *ngIf="errors.gasMeterID">{{ errors.gasMeterID }}</div>
     </div>
 
     <div class="form-field">
       <label for="electricityMeterID">Electricity Meter ID</label>
       <input type="text" id="electricityMeterID" [(ngModel)]="selectedApartment.electricityMeterID">
+      <div class="error-message" *ngIf="errors.electricityMeterID">{{ errors.electricityMeterID }}</div>
     </div>
 
     <div class="form-field">
       <label for="waterMeterID">Water Meter ID</label>
       <input type="text" id="waterMeterID" [(ngModel)]="selectedApartment.waterMeterID">
+      <div class="error-message" *ngIf="errors.waterMeterID">{{ errors.waterMeterID }}</div>
     </div>
 
     <div class="form-field" style="flex-direction: row; align-items: center;">
       <label for="deadline">Deadline (day):</label>
       <input type="number" id="deadline" [(ngModel)]="selectedApartment.deadline" name="deadline" min="1" max="31" required>
+      <div *ngIf="errors.deadline" class="error-message">{{ errors.deadline }}</div>
+    </div>
+
+    <div class="form-field" style="flex-direction: row; align-items: center;">
+      <label>Language:</label>
+      <div class="radio-group">
+        <label class="radio-label">
+          <input type="radio" name="language" [(ngModel)]="selectedApartment.language" value="e">
+          English
+        </label>
+        <label class="radio-label">
+          <input type="radio" name="language" [(ngModel)]="selectedApartment.language" value="h">
+          Hungarian
+        </label>
+      </div>
+      <div *ngIf="errors.language" class="error-message">{{ errors.language }}</div>
+    </div>
+
+    <div class="form-field" style="flex-direction: row; align-items: center;">
+      <label for="rent">Rent:</label>
+      <input type="number" id="rent" [(ngModel)]="selectedApartment.rent" name="rent" min="0" max="2000000" required>
+      <div *ngIf="errors.rent" class="error-message">{{ errors.rent }}</div>
     </div>
 
     <div class="save-button-container" *ngIf="selectedApartment">
