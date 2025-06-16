@@ -69,7 +69,11 @@ export class AddApartmentComponent implements OnInit {
     waterMeterID: '',
     deadline: null as number | null,
     language: '',
-    rent: null as number | null
+    rent: null as number | null,
+    maintenanceFee: null as number | null,
+    gasUnitPrice: 0,
+    electricityUnitPrice: 0,
+    waterUnitPrice: 0
   };
 
   // Validation errors
@@ -82,7 +86,11 @@ export class AddApartmentComponent implements OnInit {
     waterMeterID: '',
     deadline: '',
     language: '',
-    rent: ''
+    rent: '',
+    maintenanceFee: '',
+    gasUnitPrice: '',
+    electricityUnitPrice: '',
+    waterUnitPrice: ''
   };
 
   // Validate the form
@@ -159,6 +167,14 @@ export class AddApartmentComponent implements OnInit {
       isValid = false;
     }
 
+    // Validate maintenanceFee
+    if (this.apartment.maintenanceFee !== null) {
+      if (!Number.isInteger(this.apartment.maintenanceFee) || this.apartment.maintenanceFee < 0 || this.apartment.maintenanceFee > 300000) {
+        this.errors.maintenanceFee = 'Maintenance Fee must be a whole number between 0 and 300000';
+        isValid = false;
+      }
+    }
+
     return isValid;
   }
 
@@ -172,7 +188,11 @@ export class AddApartmentComponent implements OnInit {
       waterMeterID: '',
       deadline: '',
       language: '',
-      rent: ''
+      rent: '',
+      maintenanceFee: '',
+      gasUnitPrice: '',
+      electricityUnitPrice: '',
+      waterUnitPrice: ''
     };
   }
 
@@ -186,7 +206,11 @@ export class AddApartmentComponent implements OnInit {
       waterMeterID: '',
       deadline: null,
       language: '',
-      rent: null
+      rent: null,
+      maintenanceFee: null,
+      gasUnitPrice: 0,
+      electricityUnitPrice: 0,
+      waterUnitPrice: 0
     };
     this.resetErrors();
   }
@@ -204,7 +228,15 @@ export class AddApartmentComponent implements OnInit {
     }
 
     // Make the HTTP POST request to add the apartment
-    this.httpClient.post(`${environment.apiBaseUrl}/admin/addApartment`, this.apartment, {
+    // Convert unit prices from decimal to integer (multiply by 100)
+    const apartmentToSend = {
+      ...this.apartment,
+      gasUnitPrice: Math.round(this.apartment.gasUnitPrice * 100),
+      electricityUnitPrice: Math.round(this.apartment.electricityUnitPrice * 100),
+      waterUnitPrice: Math.round(this.apartment.waterUnitPrice * 100)
+    };
+
+    this.httpClient.post(`${environment.apiBaseUrl}/admin/addApartment`, apartmentToSend, {
       headers: {
         'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`
@@ -236,4 +268,32 @@ export class AddApartmentComponent implements OnInit {
       }
     });
   }
+
+  // Getter and setter for gasUnitPrice display (in decimal form)
+  get gasUnitPriceDisplay(): number {
+    return this.apartment.gasUnitPrice / 100;
+  }
+
+  set gasUnitPriceDisplay(value: number) {
+    this.apartment.gasUnitPrice = Math.round(value * 100);
+  }
+
+  // Getter and setter for electricityUnitPrice display (in decimal form)
+  get electricityUnitPriceDisplay(): number {
+    return this.apartment.electricityUnitPrice / 100;
+  }
+
+  set electricityUnitPriceDisplay(value: number) {
+    this.apartment.electricityUnitPrice = Math.round(value * 100);
+  }
+
+  // Getter and setter for waterUnitPrice display (in decimal form)
+  get waterUnitPriceDisplay(): number {
+    return this.apartment.waterUnitPrice / 100;
+  }
+
+  set waterUnitPriceDisplay(value: number) {
+    this.apartment.waterUnitPrice = Math.round(value * 100);
+  }
+
 }

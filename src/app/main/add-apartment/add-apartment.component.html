@@ -1,4 +1,4 @@
-a<div class="add-apartment-container" *ngIf="isLoggedIn$ | async">
+<div class="add-apartment-container" *ngIf="isLoggedIn$ | async">
   <div class="form-container">
     <h2>Add New Apartment</h2>
     <div class="apartment-details">
@@ -63,6 +63,30 @@ a<div class="add-apartment-container" *ngIf="isLoggedIn$ | async">
         <label for="rent">Rent:</label>
         <input type="number" id="rent" name="rent" [(ngModel)]="apartment.rent" class="form-control" min="0" max="2000000" required>
         <div *ngIf="errors.rent" class="error-message">{{ errors.rent }}</div>
+      </div>
+
+      <div class="form-field" style="flex-direction: row; align-items: center;">
+        <label for="maintenanceFee">Maintenance Fee:</label>
+        <input type="number" id="maintenanceFee" name="maintenanceFee" [(ngModel)]="apartment.maintenanceFee" class="form-control" min="0" max="300000">
+        <div *ngIf="errors.maintenanceFee" class="error-message">{{ errors.maintenanceFee }}</div>
+      </div>
+
+      <div class="form-field" style="flex-direction: row; align-items: center;">
+        <label for="gasUnitPrice">Gas unit price:</label>
+        <input type="number" id="gasUnitPrice" name="gasUnitPrice" [(ngModel)]="gasUnitPriceDisplay" class="form-control" min="0" step="0.01">
+        <div *ngIf="errors.gasUnitPrice" class="error-message">{{ errors.gasUnitPrice }}</div>
+      </div>
+
+      <div class="form-field" style="flex-direction: row; align-items: center;">
+        <label for="electricityUnitPrice">Electricity unit price:</label>
+        <input type="number" id="electricityUnitPrice" name="electricityUnitPrice" [(ngModel)]="electricityUnitPriceDisplay" class="form-control" min="0" step="0.01">
+        <div *ngIf="errors.electricityUnitPrice" class="error-message">{{ errors.electricityUnitPrice }}</div>
+      </div>
+
+      <div class="form-field" style="flex-direction: row; align-items: center;">
+        <label for="waterUnitPrice">Water unit price:</label>
+        <input type="number" id="waterUnitPrice" name="waterUnitPrice" [(ngModel)]="waterUnitPriceDisplay" class="form-control" min="0" step="0.01">
+        <div *ngIf="errors.waterUnitPrice" class="error-message">{{ errors.waterUnitPrice }}</div>
       </div>
 
       <div class="submit-button-container">
