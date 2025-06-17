@@ -12,4 +12,7 @@
     <app-send-email *ngIf="(activeComponent$ | async) === DisplayComponent.SEND_EMAIL"></app-send-email>
     <app-edit-user *ngIf="(activeComponent$ | async) === DisplayComponent.EDIT_USER"></app-edit-user>
     <app-admin-submit-data *ngIf="(activeComponent$ | async) === DisplayComponent.ADMIN_SUBMIT_DATA"></app-admin-submit-data>
+    <app-new-meter *ngIf="(activeComponent$ | async) === DisplayComponent.NEW_METER"></app-new-meter>
+    <app-create-pdf *ngIf="(activeComponent$ | async) === DisplayComponent.CREATE_PDF"></app-create-pdf>
+    <app-display-pdf *ngIf="(activeComponent$ | async) === DisplayComponent.DISPLAY_PDF"></app-display-pdf>
 </div>

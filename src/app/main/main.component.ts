@@ -13,15 +13,18 @@ import { DeleteApartmentComponent } from './delete-apartment/delete-apartment.co
 import { SendEmailComponent } from './send-email/send-email.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { AdminSubmitDataComponent } from './admin-submit-data/admin-submit-data.component';
+import { CreatePdfComponent } from './create-pdf/create-pdf.component';
+import { DisplayPdfComponent } from './display-pdf/display-pdf.component';
 import { AuthService } from '../core/auth.service';
 import { ComponentDisplayService, DisplayComponent } from '../core/component-display.service';
+import {NewMeterComponent} from './new-meter/new-meter.component';
 
 @Component({
   selector: 'app-main',
   standalone: true,
   imports: [
     CommonModule,
-    LoginComponent,
+    // LoginComponent,
     UserMenuComponent,
     SubmitDataComponent,
     LatestValuesComponent,
@@ -33,7 +36,10 @@ import { ComponentDisplayService, DisplayComponent } from '../core/component-dis
     DeleteApartmentComponent,
     SendEmailComponent,
     EditUserComponent,
-    AdminSubmitDataComponent
+    AdminSubmitDataComponent,
+    CreatePdfComponent,
+    DisplayPdfComponent,
+    NewMeterComponent
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.css'

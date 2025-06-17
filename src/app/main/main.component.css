@@ -20,6 +20,8 @@
 .main-content > app-send-email,
 .main-content > app-edit-user,
 .main-content > app-admin-submit-data,
+.main-content > app-create-pdf,
+.main-content > app-new-meter,
 .main-content > app-add-apartment {
   width: 80%;
   display: flex;

@@ -97,9 +97,20 @@ export class UserMenuComponent {
     this.componentDisplayService.setActiveComponent(DisplayComponent.EDIT_USER);
   }
 
+  onCreatePdf() {
+    console.log('Create PDF clicked');
+    this.authService.fetchAllApartments();
+    this.componentDisplayService.setActiveComponent(DisplayComponent.CREATE_PDF);
+  }
+
   onAdminSubmitData() {
     console.log('Admin Submit meter value clicked');
     this.authService.fetchAllApartments();
     this.componentDisplayService.setActiveComponent(DisplayComponent.ADMIN_SUBMIT_DATA);
+  }
+  onNewMeter() {
+    console.log('New meter clicked');
+    this.authService.fetchAllApartments();
+    this.componentDisplayService.setActiveComponent(DisplayComponent.NEW_METER);
   }
 }
