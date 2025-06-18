@@ -1,0 +1,185 @@
+.create-pdf-container {
+  width: 90%;
+  height: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+  margin: 0 auto; /* Center horizontally */
+}
+
+.form-container {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+h2 {
+  text-align: left;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+h3 {
+  color: #555;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 5px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+label {
+  display: inline-block;
+  width: 95px;
+  margin-right: 10px;
+  font-weight: bold;
+  color: #555;
+}
+
+select {
+  width: 40%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.submit-button-container {
+  margin: 20px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+button[disabled] {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+button[disabled]:hover {
+  background-color: #cccccc;
+}
+
+.loading-container {
+  text-align: center;
+  margin: 20px 0;
+  font-weight: bold;
+  color: #555;
+}
+
+/* Invoice form styles */
+.invoice-form {
+  width: 100%;
+  margin: 10px auto 0;
+  background-color: #FFFFEF;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  padding: 20px 20px 50px;
+}
+
+.form-field {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.form-field label {
+  display: inline-block;
+  width: 200px;
+  margin-right: 10px;
+  font-weight: bold;
+  color: #555;
+}
+
+.form-field input {
+  width: 30%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.form-field input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+  margin-left: 10px;
+}
+
+.meter-section, .additional-costs {
+  margin-bottom: 30px;
+  padding: 15px;
+  background-color: #f9f9f0;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.meter-section h3, .additional-costs h3 {
+  margin-top: 0;
+}
+
+.total-sum {
+  margin-top: 30px;
+  padding: 15px;
+  background-color: #f0f8ff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.total-sum label {
+  font-size: 18px;
+  color: #333;
+}
+
+.total-sum input {
+  font-size: 18px;
+  font-weight: bold;
+  background-color: #e6f2ff;
+}
+
+/* Styles for the other costs row */
+.other-costs-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+}
+
+.other-cost-name, .other-cost-value {
+  flex: 1;
+}
+
+.other-cost-name input, .other-cost-value input {
+  width: 90%;
+}
+
+/* Styles for meter rows */
+.meter-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.meter-row .form-field {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.meter-row .form-field input {
+  width: 90%;
+}
