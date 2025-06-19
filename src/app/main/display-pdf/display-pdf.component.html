@@ -1,0 +1,21 @@
+<div class="display-pdf-container" *ngIf="isLoggedIn$ | async">
+  <div class="pdf-container">
+    <h2>Summary PDF</h2>
+
+    <!-- PDF Viewer -->
+    <div class="pdf-viewer" *ngIf="safePdfUrl">
+      <iframe [src]="safePdfUrl" width="100%" height=1200px></iframe>
+    </div>
+
+    <!-- Email Information -->
+    <div class="email-info" *ngIf="email">
+      <p><strong>Email:</strong> {{ email }}</p>
+    </div>
+
+    <!-- Buttons -->
+    <div class="button-container">
+      <button appButton (click)="onSend()">Send</button>
+      <button appButton class="cancel-button" (click)="onCancel()">Cancel</button>
+    </div>
+  </div>
+</div>
