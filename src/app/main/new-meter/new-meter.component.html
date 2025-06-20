@@ -1,0 +1,45 @@
+<div class="submit-data-container" *ngIf="isLoggedIn$ | async">
+  <div class="form-container">
+    <h2>Register New Meter Device</h2>
+
+    <!-- Apartment selection section - always visible -->
+    <div class="form-group">
+      <label for="apartmentSelect">Select Apartment</label>
+      <div class="apartment-selection-container">
+        <select id="apartmentSelect" [(ngModel)]="selectedApartmentId" (ngModelChange)="onSubmitApartment()">
+          <option value="" disabled selected>Select apartment</option>
+          <option *ngFor="let apartment of apartments" [value]="apartment.id">
+            {{ getApartmentDisplayName(apartment) }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Meter data section - only visible after apartment is submitted -->
+    <div *ngIf="apartmentSubmitted && selectedApartment">
+      <div class="meter-type-container">
+        <label for="meterType">Meter type</label>
+        <select
+          id="meterType"
+          [(ngModel)]="selectedMeterType"
+          (change)="onMeterTypeChange()"
+        >
+          <option value="" disabled selected>Select meter type</option>
+          <option *ngFor="let type of meterTypes" [value]="type">{{ type }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div *ngIf="meterTypeSubmitted && apartmentSubmitted && selectedApartment">
+      <div class="form-field">
+        <label for="meterID">Meter ID</label>
+        <input type="text" id="meterID" [(ngModel)]="currentMeterID" placeholder="Enter meter ID">
+      </div>
+    </div>
+
+    <div class="submit-button-container">
+      <button appButton (click)="onSaveChanges()">Submit</button>
+    </div>
+
+  </div>
+</div>
