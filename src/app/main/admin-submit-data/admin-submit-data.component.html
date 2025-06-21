@@ -2,56 +2,62 @@
   <div class="form-container">
     <h2>Admin Submit Meter Data</h2>
 
+    <!-- Apartment selection section - always visible -->
     <div class="form-group">
       <label for="apartmentSelect">Select Apartment</label>
-      <select id="apartmentSelect" [(ngModel)]="selectedApartmentId">
-        <option value="" disabled selected>Select apartment</option>
-        <option *ngFor="let apartment of apartments" [value]="apartment.id">
-          {{ getApartmentDisplayName(apartment) }}
-        </option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="meterType">Meter type</label>
-      <select id="meterType" [(ngModel)]="selectedMeterType">
-        <option value="" disabled selected>Select meter type</option>
-        <option *ngFor="let type of meterTypes" [value]="type">{{ type }}</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="meterValue">Meter value</label>
-      <div class="meter-value-container">
-        <input
-          type="number"
-          id="meterValue"
-          [(ngModel)]="meterValue"
-          placeholder="Whole numbers only!"
-          step="1"
-          (keyup.enter)="onSubmitData()"
-        >
-        <span *ngIf="actualValue" class="actual-value">Latest value: {{ actualValue }}</span>
+      <div class="apartment-selection-container">
+        <select id="apartmentSelect" [(ngModel)]="selectedApartmentId" (ngModelChange)="onSubmitApartment()">
+          <option value="" disabled selected>Select apartment</option>
+          <option *ngFor="let apartment of apartments" [value]="apartment.id">
+            {{ getApartmentDisplayName(apartment) }}
+          </option>
+        </select>
       </div>
     </div>
 
-    <div class="form-group">
-      <div class="file-upload-container">
-        <input
-          type="file"
-          id="imageUpload"
-          (change)="onFileSelected($event)"
-          accept=".png,.tiff,.jpg,.jpeg"
-        >
-        <label for="imageUpload" style="width: 200px;">Upload image</label>
-        <span class="file-name" *ngIf="selectedFile" style="width: 220px">{{ selectedFile.name }}</span>
-        <span class="file-name empty-file" *ngIf="!selectedFile" style="width: 220px">No file selected</span>
-        <small>Max size: 10MB. Allowed formats: PNG, TIFF, JPG, JPEG</small>
+    <!-- Meter data section - only visible after apartment is submitted -->
+    <div *ngIf="apartmentSubmitted">
+      <div class="meter-type-container">
+        <label for="meterType">Meter type</label>
+        <select id="meterType" [(ngModel)]="selectedMeterType">
+          <option value="" disabled selected>Select meter type</option>
+          <option *ngFor="let type of meterTypes" [value]="type">{{ type }}</option>
+        </select>
       </div>
-    </div>
 
-    <div class="submit-button-container">
-      <button appButton (click)="onSubmitData()">Submit</button>
+      <div class="form-group">
+        <label for="meterValue">Meter value</label>
+        <div class="meter-value-container">
+          <input
+            type="number"
+            id="meterValue"
+            [(ngModel)]="meterValue"
+            placeholder="Whole numbers only!"
+            step="1"
+            (keyup.enter)="onSubmitData()"
+          >
+          <span *ngIf="actualValue" class="actual-value">Latest value: {{ actualValue }}</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="file-upload-container">
+          <input
+            type="file"
+            id="imageUpload"
+            (change)="onFileSelected($event)"
+            accept=".png,.tiff,.jpg,.jpeg"
+          >
+          <label for="imageUpload" style="width: 200px;">Upload image</label>
+          <span class="file-name" *ngIf="selectedFile" style="width: 220px">{{ selectedFile.name }}</span>
+          <span class="file-name empty-file" *ngIf="!selectedFile" style="width: 220px">No file selected</span>
+          <small>Max size: 10MB. Allowed formats: PNG, TIFF, JPG, JPEG</small>
+        </div>
+      </div>
+
+      <div class="submit-button-container">
+        <button appButton (click)="onSubmitData()">Submit</button>
+      </div>
     </div>
   </div>
 </div>

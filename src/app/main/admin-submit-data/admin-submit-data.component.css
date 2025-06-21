@@ -29,7 +29,7 @@ h2 {
 
 label {
   display: inline-block;
-  width: 120px;
+  min-width : 150px;
   margin-right: 10px;
   font-weight: bold;
   color: #555;
@@ -43,11 +43,27 @@ select, input[type="number"] {
   font-size: 16px;
 }
 
+.meter-type-container {
+  display: flex;
+  margin-bottom: 15px;
+  align-items: center;
+  position: relative;
+  width: 85%;
+}
+
 .meter-value-container {
   display: flex;
   align-items: center;
   position: relative;
   width: 60%;
+}
+
+.apartment-selection-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  gap: 10px;
 }
 
 .actual-value {

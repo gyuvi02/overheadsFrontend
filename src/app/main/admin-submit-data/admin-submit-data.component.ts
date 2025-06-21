@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { PopupService } from '../../shared/popup/popup.service';
 import { environment } from '../../../environments/environment';
 import { Apartment } from '../edit-apartment/edit-apartment.component';
+import { Observable, from } from 'rxjs';
 
 @Component({
   selector: 'app-admin-submit-data',
@@ -23,6 +24,9 @@ export class AdminSubmitDataComponent implements OnInit {
   private router = inject(Router);
   private popupService = inject(PopupService);
   isLoggedIn$ = this.authService.isLoggedIn$;
+
+  // Flag to control when to show the meter fields
+  apartmentSubmitted = false;
 
   // Apartment selection
   apartments: Apartment[] = [];
@@ -50,9 +54,81 @@ export class AdminSubmitDataComponent implements OnInit {
     // Subscribe to meter values from auth service
     this.authService.meterValues$.subscribe(values => {
       this.actualMeterValues = values;
-      // Update meter types based on available values
-      this.meterTypes = Object.keys(values);
     });
+  }
+
+  // Method to handle apartment selection submission
+  onSubmitApartment() {
+    if (!this.selectedApartmentId) {
+      this.popupService.showPopup('Please select an apartment');
+      return;
+    }
+
+    // Get the token from sessionStorage
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+      this.popupService.showPopup('Authentication token not found. Please log in again.');
+      return;
+    }
+
+    // Reset meter fields before fetching new meter types
+    this.selectedMeterType = '';
+    this.meterValue = null;
+    this.selectedFile = null;
+
+    // Fetch meter types for the selected apartment
+    this.fetchMeterTypesForApartment(this.selectedApartmentId, token);
+  }
+
+  // Fetch meter types for a specific apartment
+  fetchMeterTypesForApartment(apartmentId: number, token: string) {
+    // Find the selected apartment in the apartments array
+    const selectedApartment = this.apartments.find((apartment) => apartment.id === Number(apartmentId));
+
+    if (!selectedApartment) {
+      this.popupService.showPopup('Selected apartment not found');
+      return;
+    }
+
+    // Call the getAllLastMeterValues endpoint with the apartment ID
+    this.httpClient.post(`${environment.apiBaseUrl}/admin/getAllLastMeterValues`,
+      {
+        apartmentId: apartmentId.toString(),
+        withImage: "0"  // We don't need images for this purpose
+      },
+      {
+        headers: {
+          'API-KEY': environment.apiKeyValid,
+          'Authorization': `Bearer ${token}`
+        }
+      }).subscribe({
+        next: (response: any) => {
+          console.log('Last meter values fetched successfully:', response);
+
+          // Store the meter data
+          this.actualMeterValues = response as { [key: string]: string };
+
+          // Extract meter types (keys that don't end with '_image')
+          this.meterTypes = Object.keys(this.actualMeterValues).filter(key => !key.endsWith('_image'));
+
+          // Set apartmentSubmitted to true to show the other fields
+          this.apartmentSubmitted = true;
+
+          // Reset other form fields
+          this.selectedMeterType = '';
+          this.meterValue = null;
+          this.selectedFile = null;
+        },
+        error: (error) => {
+          if (error.status === 401) {
+            this.popupService.showPopup('Session expired, please, log in again');
+            this.authService.logout();
+          } else {
+            console.error('Error fetching meter types:', error);
+            this.popupService.showPopup('An error occurred while fetching meter types. Please try again.');
+          }
+        }
+      });
   }
 
   fetchAllApartments() {
@@ -71,7 +147,7 @@ export class AdminSubmitDataComponent implements OnInit {
       }
     }).subscribe({
       next: (response: any) => {
-        console.log('Apartments fetched successfully:', response);
+        // console.log('Apartments fetched successfully:', response);
         this.apartments = response as Apartment[];
 
         // Store apartments in sessionStorage
@@ -125,14 +201,73 @@ export class AdminSubmitDataComponent implements OnInit {
     }
   }
 
-  onSubmitImage() {
-    if (this.selectedFile) {
-      console.log('Uploading image:', this.selectedFile.name);
-      // Add logic to upload the image
-    } else {
-      this.popupService.showPopup('Please select an image first');
-    }
+  // Compress image to reduce file size
+  private compressImage(file: File): Observable<File> {
+    return new Observable(observer => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const img = new Image();
+        img.src = reader.result as string;
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d')!;
+
+          // Calculate new dimensions while maintaining aspect ratio
+          let width = img.width;
+          let height = img.height;
+          const maxDimension = 1200; // Limit max dimension to 1200px
+
+          if (width > height && width > maxDimension) {
+            height = Math.round(height * (maxDimension / width));
+            width = maxDimension;
+          } else if (height > maxDimension) {
+            width = Math.round(width * (maxDimension / height));
+            height = maxDimension;
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+
+          // Draw image on canvas with new dimensions
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Convert to blob with reduced quality
+          canvas.toBlob(
+            blob => {
+              if (blob) {
+                // Create new file from blob
+                const compressedFile = new File([blob], file.name, {
+                  type: 'image/jpeg',
+                  lastModified: Date.now()
+                });
+                observer.next(compressedFile);
+                observer.complete();
+              } else {
+                // If compression fails, return original file
+                observer.next(file);
+                observer.complete();
+              }
+            },
+            'image/jpeg',
+            0.7 // Quality parameter (0.7 = 70% quality)
+          );
+        };
+      };
+      reader.onerror = error => {
+        observer.error(error);
+      };
+    });
   }
+
+  // onSubmitImage() {
+  //   if (this.selectedFile) {
+  //     console.log('Uploading image:', this.selectedFile.name);
+  //     // Add logic to upload the image
+  //   } else {
+  //     this.popupService.showPopup('Please select an image first');
+  //   }
+  // }
 
   onSubmitData() {
     if (!this.selectedApartmentId) {
@@ -191,17 +326,35 @@ export class AdminSubmitDataComponent implements OnInit {
 
     // Add values parameter as a map
     const values = {
-      apartmentId: this.selectedApartmentId.toString(),
+      // apartmentId: this.selectedApartmentId.toString(),
+      apartmentId: this.selectedApartmentId,
       meterValue: this.meterValue.toString()
     };
     formData.append('values', JSON.stringify(values));
 
-    // Append the file if selected
+    // Compress and append the file if selected
     if (this.selectedFile) {
-      formData.append('file', this.selectedFile);
-    }
+      // Show loading message
+      // this.popupService.showPopup('Processing image, please wait...');
 
-    // Make the HTTP POST request
+      // Compress the image before uploading
+      this.compressImage(this.selectedFile).subscribe(compressedFile => {
+        console.log('Original size:', this.selectedFile!.size / 1024 / 1024, 'MB');
+        console.log('Compressed size:', compressedFile.size / 1024 / 1024, 'MB');
+
+        formData.append('file', compressedFile);
+
+        // Make the HTTP POST request after compression
+        this.makeHttpRequest(formData, token);
+      });
+    } else {
+      // Make the HTTP POST request without file
+      this.makeHttpRequest(formData, token);
+    }
+  }
+
+  private makeHttpRequest(formData: FormData, token: string) {
+    // Use environment variable instead of hardcoded URL
     this.httpClient.post(`${environment.apiBaseUrl}/user/submitMeterValue`, formData, {
       headers: {
         'API-KEY': environment.apiKeyValid,
@@ -213,7 +366,7 @@ export class AdminSubmitDataComponent implements OnInit {
         console.log('Submission successful:', response);
 
         // Show success message with submitted values
-        this.popupService.showPopup(`Submission successful!\n\nApartment: ${this.getApartmentDisplayName(this.apartments.find(a => a.id === this.selectedApartmentId)!)}\nMeter Type: ${this.selectedMeterType}\nMeter Value: ${this.meterValue}\nImage: ${this.selectedFile ? this.selectedFile.name : 'No image'}`);
+        this.popupService.showPopup(`Submission successful! \nMeter Type: ${this.selectedMeterType}\nMeter Value: ${this.meterValue}`);
 
         // Reset the form
         this.resetForm();
@@ -240,6 +393,7 @@ export class AdminSubmitDataComponent implements OnInit {
     this.selectedMeterType = '';
     this.meterValue = null;
     this.selectedFile = null;
+    this.apartmentSubmitted = false;  // Reset the apartmentSubmitted flag
 
     // Reset the file input element if it exists
     const fileInput = document.getElementById('imageUpload') as HTMLInputElement;
