@@ -12,7 +12,10 @@ export enum DisplayComponent {
   DELETE_APARTMENT = 'delete-apartment',
   SEND_EMAIL = 'send-email',
   EDIT_USER = 'edit-user',
-  ADMIN_SUBMIT_DATA = 'admin-submit-data'
+  ADMIN_SUBMIT_DATA = 'admin-submit-data',
+  CREATE_PDF = 'create-pdf',
+  DISPLAY_PDF = 'display-pdf',
+  NEW_METER = 'new-meter'
 }
 
 @Injectable({

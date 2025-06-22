@@ -45,8 +45,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1500kB",
+                  "maximumError": "2MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -67,10 +67,19 @@
                 "hu"
               ]
             },
-            "fr": {
-              "localize": [
-                "hu"
-              ]
+            "en": {
+              "aot": true,
+              "outputPath": "dist/overheads-frontend/browser/en/",
+              "i18nFile": "src/i18n/messages.xlf",
+              "i18nFormat": "xlf",
+              "i18nLocale": "en"
+            },
+            "hu": {
+              "aot": true,
+              "outputPath": "dist/overheads-frontend/browser/hu",
+              "i18nFile": "src/i18n/messages.hu.xlf",
+              "i18nFormat": "xlf",
+              "i18nLocale": "hu"
             }
           },
           "defaultConfiguration": "production"
@@ -84,8 +93,8 @@
             "development": {
               "buildTarget": "overheadsFrontend:build:development"
             },
-            "fr": {
-              "buildTarget": "angular-i18n-demo:build:fr"
+            "hu": {
+              "buildTarget": "angular-i18n-demo:build:hu"
             }
           },
           "defaultConfiguration": "development"

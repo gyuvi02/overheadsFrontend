@@ -20,6 +20,10 @@ export interface Apartment {
   deadline: number; // Added deadline property
   language: string;
   rent: number | null;
+  maintenanceFee: number | null;
+  gasUnitPrice: number;
+  electricityUnitPrice: number;
+  waterUnitPrice: number;
 }
 
 @Component({
@@ -131,7 +135,11 @@ export class EditApartmentComponent implements OnInit {
       this.selectedApartment.waterMeterID !== this.originalApartment.waterMeterID ||
       this.selectedApartment.deadline !== this.originalApartment.deadline ||
       this.selectedApartment.language !== this.originalApartment.language ||
-      this.selectedApartment.rent !== this.originalApartment.rent;
+      this.selectedApartment.rent !== this.originalApartment.rent ||
+      this.selectedApartment.maintenanceFee !== this.originalApartment.maintenanceFee ||
+      this.selectedApartment.gasUnitPrice !== this.originalApartment.gasUnitPrice ||
+      this.selectedApartment.electricityUnitPrice !== this.originalApartment.electricityUnitPrice ||
+      this.selectedApartment.waterUnitPrice !== this.originalApartment.waterUnitPrice;
 
     if (!isModified) {
       this.popupService.showPopup('No data was modified, nothing to save');
@@ -145,8 +153,16 @@ export class EditApartmentComponent implements OnInit {
       return;
     }
 
+    // Convert unit prices from decimal to integer (multiply by 100)
+    const apartmentToSend = {
+      ...this.selectedApartment,
+      gasUnitPrice: Math.round(this.selectedApartment.gasUnitPrice),
+      electricityUnitPrice: Math.round(this.selectedApartment.electricityUnitPrice),
+      waterUnitPrice: Math.round(this.selectedApartment.waterUnitPrice)
+    };
+
     // Make the HTTP POST request to save the apartment changes
-    this.httpClient.post(`${environment.apiBaseUrl}/admin/editApartment`, this.selectedApartment, {
+    this.httpClient.post(`${environment.apiBaseUrl}/admin/editApartment?meterType=null`, apartmentToSend, {
       headers: {
         'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`
@@ -197,7 +213,11 @@ export class EditApartmentComponent implements OnInit {
       waterMeterID: '',
       deadline: '',
       language: '',
-      rent: ''
+      rent: '',
+      gasUnitPrice: '',
+      electricityUnitPrice: '',
+      waterUnitPrice: '',
+      maintenanceFee: ''
     };
   }
 
@@ -211,7 +231,11 @@ export class EditApartmentComponent implements OnInit {
     waterMeterID: '',
     deadline: '',
     language: '',
-    rent: ''
+    rent: '',
+    maintenanceFee: '',
+    gasUnitPrice: '',
+    electricityUnitPrice: '',
+    waterUnitPrice: ''
   };
 
   // Validate the form
@@ -227,7 +251,7 @@ export class EditApartmentComponent implements OnInit {
       isValid = false;
     } else { // @ts-ignore
       if (selectedApartment.city.length > 15) {
-            this.errors.city = 'City cannot exceed 15 characters';
+            this.errors.city = 'City name cannot exceed 15 characters';
             isValid = false;
           }
     }
@@ -308,6 +332,16 @@ export class EditApartmentComponent implements OnInit {
           }
     }
 
+    // Validate maintenanceFee
+    // @ts-ignore
+    if (selectedApartment.maintenanceFee !== null) {
+      // @ts-ignore
+      if (selectedApartment.maintenanceFee < 0 || selectedApartment.maintenanceFee > 300000 || !Number.isInteger(selectedApartment.maintenanceFee)) {
+        this.errors.maintenanceFee = 'Maintenance Fee must be a whole number between 0 and 300000';
+        isValid = false;
+      }
+    }
+
     return isValid;
   }
 
@@ -322,8 +356,43 @@ export class EditApartmentComponent implements OnInit {
       waterMeterID: '',
       deadline: 0,
       language: '',
-      rent: null
+      rent: null,
+      maintenanceFee: null,
+      gasUnitPrice: 0,
+      electricityUnitPrice: 0,
+      waterUnitPrice: 0
     };
     this.resetErrors();
   }
+
+  get gasUnitPriceDisplay(): number {
+    return this.selectedApartment ? this.selectedApartment.gasUnitPrice / 100 : 0;
+  }
+
+  set gasUnitPriceDisplay(value: number) {
+    if (this.selectedApartment) {
+      this.selectedApartment.gasUnitPrice = value * 100;
+    }
+  }
+
+  get electricityUnitPriceDisplay(): number {
+    return this.selectedApartment ? this.selectedApartment.electricityUnitPrice / 100 : 0;
+  }
+
+  set electricityUnitPriceDisplay(value: number) {
+    if (this.selectedApartment) {
+      this.selectedApartment.electricityUnitPrice = value * 100;
+    }
+  }
+
+  get waterUnitPriceDisplay(): number {
+    return this.selectedApartment ? this.selectedApartment.waterUnitPrice / 100 : 0;
+  }
+
+  set waterUnitPriceDisplay(value: number) {
+    if (this.selectedApartment) {
+      this.selectedApartment.waterUnitPrice = value * 100;
+    }
+  }
+
 }
