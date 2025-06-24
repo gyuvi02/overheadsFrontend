@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { PopupService } from '../../shared/popup/popup.service';
 import {environment} from '../../../environments/environment';
+import { Observable, from } from 'rxjs';
 
 @Component({
   selector: 'app-submit-data',
@@ -82,6 +83,65 @@ export class SubmitDataComponent implements OnInit {
     }
   }
 
+  // Compress image to reduce file size
+  private compressImage(file: File): Observable<File> {
+    return new Observable(observer => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const img = new Image();
+        img.src = reader.result as string;
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d')!;
+
+          // Calculate new dimensions while maintaining aspect ratio
+          let width = img.width;
+          let height = img.height;
+          const maxDimension = 1200; // Limit max dimension to 1200px
+
+          if (width > height && width > maxDimension) {
+            height = Math.round(height * (maxDimension / width));
+            width = maxDimension;
+          } else if (height > maxDimension) {
+            width = Math.round(width * (maxDimension / height));
+            height = maxDimension;
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+
+          // Draw image on canvas with new dimensions
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Convert to blob with reduced quality
+          canvas.toBlob(
+            blob => {
+              if (blob) {
+                // Create new file from blob
+                const compressedFile = new File([blob], file.name, {
+                  type: 'image/jpeg',
+                  lastModified: Date.now()
+                });
+                observer.next(compressedFile);
+                observer.complete();
+              } else {
+                // If compression fails, return original file
+                observer.next(file);
+                observer.complete();
+              }
+            },
+            'image/jpeg',
+            0.7 // Quality parameter (0.7 = 70% quality)
+          );
+        };
+      };
+      reader.onerror = error => {
+        observer.error(error);
+      };
+    });
+  }
+
   // onSubmitImage() {
   //   if (this.selectedFile) {
   //     console.log('Uploading image:', this.selectedFile.name);
@@ -154,12 +214,28 @@ export class SubmitDataComponent implements OnInit {
     };
     formData.append('values', JSON.stringify(values));
 
-    // Append the file if selected
+    // Compress and append the file if selected
     if (this.selectedFile) {
-      formData.append('file', this.selectedFile);
-    }
+      // Show loading message
+      // this.popupService.showPopup($localize`:@@processingImage:Processing image, please wait...`);
 
-    // Make the HTTP POST request
+      // Compress the image before uploading
+      this.compressImage(this.selectedFile).subscribe(compressedFile => {
+        console.log('Original size:', this.selectedFile!.size / 1024 / 1024, 'MB');
+        console.log('Compressed size:', compressedFile.size / 1024 / 1024, 'MB');
+
+        formData.append('file', compressedFile);
+
+        // Make the HTTP POST request after compression
+        this.makeHttpRequest(formData, token);
+      });
+    } else {
+      // Make the HTTP POST request without file
+      this.makeHttpRequest(formData, token);
+    }
+  }
+
+  private makeHttpRequest(formData: FormData, token: string) {
     this.httpClient.post(`${environment.apiBaseUrl}/user/submitMeterValue`, formData, {
       headers: {
         'API-KEY': environment.apiKeyValid,

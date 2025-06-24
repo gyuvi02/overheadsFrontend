@@ -155,10 +155,9 @@ export class RegisterMeComponent implements OnInit {
           this.apiErrorHandler.handleError(error);
         } else if (error.status === 409) {
           // Handle conflict (username already taken)
-          this.popupService.showPopup('The username is already taken, please choose another one.');
+          this.popupService.showPopup('The username or email is already taken, please choose another one.');
         } else if (error.error && typeof error.error === 'object' && error.error.hasOwnProperty('error') && typeof error.error.error === 'string') {
           // Handles JSON responses like { "error": "message" }
-          // This is the likely case given your Java backend.
           const errorMessage = error.error.error;
           if (errorMessage === "Invalid or already used token.") {
             console.log('error message: ', errorMessage);
@@ -178,7 +177,6 @@ export class RegisterMeComponent implements OnInit {
           }
         } else {
           // Fallback for other error structures or unexpected errors
-          // this.popupService.showPopup('An error occurred during registration. Please try again.');
           this.popupService.showPopup(error.error);
         }
       }
