@@ -178,6 +178,14 @@
         <source>Invalid credentials.</source>
         <target>Érvénytelen bejelentkezési adatok.</target>
       </trans-unit>
+      <trans-unit id="registerTitle" datatype="html">
+        <source>Register</source>
+        <target>Regisztráció</target>
+      </trans-unit>
+      <trans-unit id="confirmPassword" datatype="html">
+        <source>Confirm Password</source>
+        <target>Jelszó megint</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

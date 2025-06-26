@@ -146,6 +146,12 @@
       <trans-unit id="invalidCredentials" datatype="html">
         <source>Invalid credentials.</source>
       </trans-unit>
+      <trans-unit id="registerTitle">
+        <source>Register</source>
+      </trans-unit>
+      <trans-unit id="confirmPassword">
+        <source>Confirm Password</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

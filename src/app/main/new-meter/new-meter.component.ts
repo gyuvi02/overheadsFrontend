@@ -287,6 +287,38 @@ export class NewMeterComponent {
     }
   }
 
+  // get lastMeterValue(): string {
+  //   if (!this.selectedApartment) return '';
+  //
+  //   // switch (this.selectedMeterType) {
+  //   //   case 'gas':
+  //   //     return this.selectedApartment.gasMeterID;
+  //   //   case 'electricity':
+  //   //     return this.selectedApartment.electricityMeterID;
+  //   //   case 'water':
+  //   //     return this.selectedApartment.waterMeterID;
+  //   //   default:
+  //   //     return '';
+  //   // }
+  //   return '';
+  // }
+
+  set lastMeterValue(value: string) {
+    if (!this.selectedApartment) return;
+
+    switch (this.selectedMeterType) {
+      case 'gas':
+        this.selectedApartment.gasMeterID = value;
+        break;
+      case 'electricity':
+        this.selectedApartment.electricityMeterID = value;
+        break;
+      case 'water':
+        this.selectedApartment.waterMeterID = value;
+        break;
+    }
+  }
+
 }
 
 
