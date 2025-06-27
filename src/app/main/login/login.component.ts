@@ -34,9 +34,7 @@ export class LoginComponent {
       {
         next: (data) => {
           console.log(data);
-          // Parse the response as LoginResponse
           const loginResponse = data as LoginResponse;
-          // Pass the response to the auth service
           this.authService.login(loginResponse);
         },
         error: (err: HttpErrorResponse) => {

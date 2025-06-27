@@ -45,7 +45,17 @@ export class HeaderComponent {
   }
 
   redirectToLanguage(lang: 'en' | 'hu'): void {
-    window.location.href = `https://omegahouses.org/${lang}`;
+    if (this.currentRoute.startsWith('/registerMe')) {
+      // For registerMe routes, preserve the path and query parameters
+      const currentUrl = new URL(window.location.href);
+      const pathWithoutLang = currentUrl.pathname.replace(/^\/(en|hu)/, '');
+      const queryString = currentUrl.search;
+
+      window.location.href = `https://omegahouses.org/${lang}${pathWithoutLang}${queryString}`;
+    } else {
+      // For other routes, redirect to the language root
+      window.location.href = `https://omegahouses.org/${lang}`;
+    }
   }
 
   private detectLangFromUrl(): void {
@@ -61,6 +71,6 @@ export class HeaderComponent {
   }
 
   showLangButton(lang: 'en' | 'hu'): boolean {
-    return this.isLoginRoute() && this.currentLang !== lang;
+    return (this.isLoginRoute() || this.currentRoute.startsWith('/registerMe')) && this.currentLang !== lang;
   }
 }

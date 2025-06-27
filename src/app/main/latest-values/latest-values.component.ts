@@ -34,12 +34,24 @@ export class LatestValuesComponent implements OnInit {
   meterValues: MeterValue[] = [];
   showTable = false;
 
+  // Translation mapping
+  meterTypeLabels: { [key: string]: string } = {
+    'Gas meter': $localize`:@@gasMeter:Gas meter`,
+    'Electricity meter': $localize`:@@electricityMeter:Electricity meter`,
+    'Water meter': $localize`:@@waterMeter:Water meter`
+  };
+
+
   ngOnInit() {
     // Subscribe to meter values from auth service
     this.authService.meterValues$.subscribe(values => {
       // Update meter types based on available values
       this.meterTypes = Object.keys(values);
     });
+  }
+
+  getTranslatedMeterType(type: string): string {
+    return this.meterTypeLabels[type] || type;
   }
 
   onSubmit() {

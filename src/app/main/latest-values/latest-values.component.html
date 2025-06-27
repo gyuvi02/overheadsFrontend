@@ -6,7 +6,8 @@
       <label for="meterType" i18n="@@submitDataMeterType">Meter type</label>
       <select id="meterType" [(ngModel)]="selectedMeterType">
         <option value="" disabled selected i18n="@@selectMeterTypePlaceholder">Select meter type</option>
-        <option *ngFor="let type of meterTypes" [value]="type">{{ type }}</option>
+        <option *ngFor="let type of meterTypes" [value]="type">
+          {{ getTranslatedMeterType(type) }}
       </select>
       <div class="submit-button-container">
         <button appButton [disabled]="!selectedMeterType" (click)="onSubmit()" i18n="@@submitDataSubmit">Submit</button>
@@ -15,7 +16,7 @@
 
     <!-- Meter Values Table -->
     <div class="table-container">
-      <h3 *ngIf="showTable && meterValues.length > 0" i18n="@@LatestValuesTable">Latest Meter Values for {{ selectedMeterType }}</h3>
+      <h3 *ngIf="showTable && meterValues.length > 0" i18n="@@LatestValuesTable">Latest Meter Values for  {{ getTranslatedMeterType(selectedMeterType) }} </h3>
       <table class="meter-values-table" *ngIf="showTable && meterValues.length > 0">
         <thead>
           <tr>
