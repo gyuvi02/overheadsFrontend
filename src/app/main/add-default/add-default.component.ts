@@ -31,11 +31,13 @@ export class AddDefaultComponent implements OnInit {
   gasChecked = false;
   electricityChecked = false;
   waterChecked = false;
+  heatingChecked = false;
 
   // Meter status (read-only if already exists)
   gasReadOnly = false;
   electricityReadOnly = false;
   waterReadOnly = false;
+  heatingReadOnly = false;
 
   ngOnInit() {
     // Check if apartments are already in sessionStorage
@@ -129,11 +131,13 @@ export class AddDefaultComponent implements OnInit {
           this.gasReadOnly = meterValues['gas'] !== undefined;
           this.electricityReadOnly = meterValues['electricity'] !== undefined;
           this.waterReadOnly = meterValues['water'] !== undefined;
+          this.heatingReadOnly = meterValues['heating'] !== undefined;
 
           // Set checkbox values based on existing meters
           this.gasChecked = this.gasReadOnly;
           this.electricityChecked = this.electricityReadOnly;
           this.waterChecked = this.waterReadOnly;
+          this.heatingChecked = this.heatingReadOnly;
         },
         error: (error) => {
           if (error.status === 401) {
@@ -169,6 +173,9 @@ export class AddDefaultComponent implements OnInit {
       selectedMeters.push('electricity');
     }
     if (this.waterChecked && !this.waterReadOnly) {
+      selectedMeters.push('water');
+    }
+    if (this.heatingChecked && !this.heatingReadOnly) {
       selectedMeters.push('water');
     }
 
@@ -250,9 +257,11 @@ export class AddDefaultComponent implements OnInit {
     this.gasChecked = false;
     this.electricityChecked = false;
     this.waterChecked = false;
+    this.heatingChecked = false;
     this.gasReadOnly = false;
     this.electricityReadOnly = false;
     this.waterReadOnly = false;
+    this.heatingReadOnly = false;
   }
 
   // Helper method to get apartment display name

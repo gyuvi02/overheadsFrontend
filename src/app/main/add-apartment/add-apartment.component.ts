@@ -67,13 +67,15 @@ export class AddApartmentComponent implements OnInit {
     gasMeterID: '',
     electricityMeterID: '',
     waterMeterID: '',
+    heatingMeterID: '',
     deadline: null as number | null,
     language: '',
     rent: null as number | null,
     maintenanceFee: null as number | null,
     gasUnitPrice: 0,
     electricityUnitPrice: 0,
-    waterUnitPrice: 0
+    waterUnitPrice: 0,
+    heatingUnitPrice: 0
   };
 
   // Validation errors
@@ -84,13 +86,15 @@ export class AddApartmentComponent implements OnInit {
     gasMeterID: '',
     electricityMeterID: '',
     waterMeterID: '',
+    heatingMeterID: '',
     deadline: '',
     language: '',
     rent: '',
     maintenanceFee: '',
     gasUnitPrice: '',
     electricityUnitPrice: '',
-    waterUnitPrice: ''
+    waterUnitPrice: '',
+    heatingUnitPrice: ''
   };
 
   // Validate the form
@@ -140,6 +144,12 @@ export class AddApartmentComponent implements OnInit {
       isValid = false;
     }
 
+    // Validate Heating Meter ID (required)
+    if (!this.apartment.heatingMeterID) {
+      this.errors.heatingMeterID = 'Heating Meter ID is required';
+      isValid = false;
+    }
+
     // Validate Deadline (required, integer between 1 and 31)
     if (this.apartment.deadline === null || this.apartment.deadline === undefined) {
       this.errors.deadline = 'Deadline is required';
@@ -186,13 +196,15 @@ export class AddApartmentComponent implements OnInit {
       gasMeterID: '',
       electricityMeterID: '',
       waterMeterID: '',
+      heatingMeterID: '',
       deadline: '',
       language: '',
       rent: '',
       maintenanceFee: '',
       gasUnitPrice: '',
       electricityUnitPrice: '',
-      waterUnitPrice: ''
+      waterUnitPrice: '',
+      heatingUnitPrice: ''
     };
   }
 
@@ -204,13 +216,15 @@ export class AddApartmentComponent implements OnInit {
       gasMeterID: '',
       electricityMeterID: '',
       waterMeterID: '',
+      heatingMeterID: '',
       deadline: null,
       language: '',
       rent: null,
       maintenanceFee: null,
       gasUnitPrice: 0,
       electricityUnitPrice: 0,
-      waterUnitPrice: 0
+      waterUnitPrice: 0,
+      heatingUnitPrice: 0
     };
     this.resetErrors();
   }
@@ -233,7 +247,8 @@ export class AddApartmentComponent implements OnInit {
       ...this.apartment,
       gasUnitPrice: Math.round(this.apartment.gasUnitPrice * 100),
       electricityUnitPrice: Math.round(this.apartment.electricityUnitPrice * 100),
-      waterUnitPrice: Math.round(this.apartment.waterUnitPrice * 100)
+      waterUnitPrice: Math.round(this.apartment.waterUnitPrice * 100),
+      heatingUnitPrice: Math.round(this.apartment.heatingUnitPrice * 100)
     };
 
     this.httpClient.post(`${environment.apiBaseUrl}/admin/addApartment`, apartmentToSend, {
@@ -294,6 +309,15 @@ export class AddApartmentComponent implements OnInit {
 
   set waterUnitPriceDisplay(value: number) {
     this.apartment.waterUnitPrice = Math.round(value * 100);
+  }
+
+  // Getter and setter for heatingUnitPrice display (in decimal form)
+  get heatingUnitPriceDisplay(): number {
+    return this.apartment.heatingUnitPrice / 100;
+  }
+
+  set heatingUnitPriceDisplay(value: number) {
+    this.apartment.heatingUnitPrice = Math.round(value * 100);
   }
 
 }

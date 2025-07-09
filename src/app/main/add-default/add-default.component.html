@@ -40,6 +40,12 @@
         <label for="waterMeter" [class.readonly]="waterReadOnly">Water Meter</label>
         <span *ngIf="waterReadOnly" class="readonly-indicator">(Already exists)</span>
       </div>
+
+      <div class="checkbox-item">
+        <input type="checkbox" id="heatingMeter" [(ngModel)]="heatingChecked" [disabled]="heatingReadOnly">
+        <label for="heatingMeter" [class.readonly]="heatingReadOnly">Heating Meter</label>
+        <span *ngIf="heatingReadOnly" class="readonly-indicator">(Already exists)</span>
+      </div>
     </div>
 
     <div class="submit-button-container">
