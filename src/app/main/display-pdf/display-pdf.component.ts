@@ -29,6 +29,7 @@ export class DisplayPdfComponent implements OnInit {
   email: string = '';
   apartmentAddress: string = '';
   language: string = '';
+  isSending: boolean = false;
 
   ngOnInit() {
     // Get the PDF data from sessionStorage
@@ -90,6 +91,9 @@ export class DisplayPdfComponent implements OnInit {
       return;
     }
 
+    // Set isSending to true to disable the button and show loading indicator
+    this.isSending = true;
+
     // Create the request data
     const emailData = {
       apartmentAddress: this.apartmentAddress,
@@ -107,10 +111,12 @@ export class DisplayPdfComponent implements OnInit {
     }).subscribe({
       next: (response: any) => {
         console.log('Email sent successfully:', response);
+        this.isSending = false; // Reset isSending when request completes successfully
         this.popupService.showPopup('Email sent successfully');
         this.onCancel();
       },
       error: (error) => {
+        this.isSending = false; // Reset isSending when request fails
         if (error.status === 401) {
           this.popupService.showPopup('Session expired, please, log in again');
           this.authService.logout();

@@ -13,6 +13,7 @@ export interface ApartmentData {
   street: string;
   gasMeterID: string;
   waterMeterID: string;
+  heatingMeterID: string;
   id: string;
 }
 
@@ -23,6 +24,7 @@ export interface LoginResponse {
   token: string;
   actualElectricity?: string;
   actualWater?: string;
+  actualHeating?: string;
   isAdmin?: boolean;
 }
 
@@ -64,6 +66,9 @@ export class AuthService {
     }
     if (loginResponse.actualWater) {
       meterValues['Water meter'] = loginResponse.actualWater;
+    }
+    if (loginResponse.actualHeating) {
+      meterValues['Heating meter'] = loginResponse.actualHeating;
     }
     this.meterValuesSubject.next(meterValues);
 

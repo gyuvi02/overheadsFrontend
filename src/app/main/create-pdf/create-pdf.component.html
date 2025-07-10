@@ -151,6 +151,42 @@
         </div>
       </div>
 
+      <!-- Heating section -->
+      <div class="meter-section" *ngIf="actualHeating && actualHeating !== '0'">
+        <h3>Heating</h3>
+        <div class="meter-row">
+          <div class="form-field">
+            <label for="previousHeating">Previous Heating</label>
+            <input type="text" id="previousHeating" [value]="previousHeating" disabled>
+          </div>
+          <div class="form-field">
+            <label for="previousHeatingDate">Previous Heating Date</label>
+            <input type="text" id="previousHeatingDate" [value]="previousHeatingDate" disabled>
+          </div>
+        </div>
+        <div class="meter-row">
+          <div class="form-field">
+            <label for="actualWater">Actual Heating</label>
+            <input type="text" id="actualHeating" [value]="actualHeating" disabled>
+          </div>
+          <div class="form-field">
+            <label for="actualHeatingDate">Actual Heating Date</label>
+            <input type="text" id="actualHeatingDate" [value]="actualHeatingDate" disabled>
+          </div>
+        </div>
+        <!-- Heating Cost field positioned below Actual Heating field -->
+        <div class="meter-row">
+          <div class="form-field" style="margin-right: auto;">
+            <label for="heatingCost">Heating Cost</label>
+            <input type="number" id="heatingCost" [(ngModel)]="heatingCost" (input)="calculateTotalSum()" min="0" step="1">
+            <div class="error-message" *ngIf="errors['heatingCost']">{{ errors['heatingCost'] }}</div>
+          </div>
+          <div class="form-field" style="visibility: hidden;">
+            <!-- This is an invisible placeholder to maintain the layout -->
+          </div>
+        </div>
+      </div>
+
       <!-- Additional costs -->
       <div class="additional-costs">
         <h3>Additional Costs</h3>
@@ -170,7 +206,8 @@
         <div class="meter-row">
           <div class="form-field" style="margin-right: auto;">
             <label for="maintenanceFee">Maintenance fee</label>
-            <input type="number" id="maintenanceFee" [(ngModel)]="maintenanceFee" (input)="calculateTotalSum()" min="0" step="1">
+            <input type="number" id="maintenanceFee" [(ngModel)]="maintenanceFee" (input)="calculateTotalSum()" min="0"
+                   step="1" disabled>
             <div class="error-message" *ngIf="errors['maintenanceFee']">{{ errors['maintenanceFee'] }}</div>
           </div>
           <div class="form-field" style="visibility: hidden;">

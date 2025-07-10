@@ -14,8 +14,11 @@
 
     <!-- Buttons -->
     <div class="button-container">
-      <button appButton (click)="onSend()">Send</button>
-      <button appButton class="cancel-button" (click)="onCancel()">Cancel</button>
+      <button appButton (click)="onSend()" [disabled]="isSending" [class.disabled]="isSending">
+        <span *ngIf="!isSending">Send</span>
+        <span *ngIf="isSending">Sending...</span>
+      </button>
+      <button appButton class="cancel-button" (click)="onCancel()" [disabled]="isSending">Cancel</button>
     </div>
   </div>
 </div>

@@ -23,6 +23,7 @@ interface Apartment {
 }
 
 interface ConsumptionData {
+  heating: Record<string, string>;
   electricity: Record<string, string>;
   water: Record<string, string>;
   gas: Record<string, string>;
@@ -63,16 +64,26 @@ export class CreatePdfComponent implements OnInit {
   actualWater: string = '0';
   actualWaterDate: string = '';
 
+  previousHeating: string = '0';
+  previousHeatingDate: string = '';
+  actualHeating: string = '0';
+  actualHeatingDate: string = '';
+
   // Form fields
   gasCost: string = '0';
   electricityCost: string = '0';
   waterCost: string = '0';
+  heatingCost: string = '0';
   cleaning: string = '0';
   maintenanceFee: string = '0';
   otherText: string = '';
   otherSum: string = '0';
   totalSum: string = '0';
   language: string = 'e';
+  gasNewMeterConsumption: string = '0';
+  electricityNewMeterConsumption: string = '0';
+  waterNewMeterConsumption: string = '0';
+  heatingNewMeterConsumption: string = '0';
 
   // Loading state
   loading: boolean = false;
@@ -104,6 +115,10 @@ export class CreatePdfComponent implements OnInit {
 
     if (!this.actualWater || this.actualWater === '0') {
       this.waterCost = '0';
+    }
+
+    if (!this.actualHeating || this.actualHeating === '0') {
+      this.heatingCost = '0';
     }
 
     this.calculateTotalSum();
@@ -249,6 +264,8 @@ export class CreatePdfComponent implements OnInit {
             const gasEntries = Object.entries(results.gas);
             const [meterType, gasUnitPrice] = gasEntries[2];
             this.gasCost = gasUnitPrice;
+            const [newMeterType, gasNewMeterConsumption] = gasEntries[3];
+            this.gasNewMeterConsumption = gasNewMeterConsumption;
             if (gasEntries.length > 0) {
               const [latestGasDate, latestGasValue] = gasEntries[0];
               this.actualGas = latestGasValue;
@@ -267,6 +284,8 @@ export class CreatePdfComponent implements OnInit {
             const electricityEntries = Object.entries(results.electricity);
             const [meterType, electricityUnitPrice] = electricityEntries[2];
             this.electricityCost = electricityUnitPrice;
+            const [newMeterType, electricityNewMeterConsumption] = electricityEntries[3];
+            this.electricityNewMeterConsumption = electricityNewMeterConsumption;
             if (electricityEntries.length > 0) {
               const [latestElectricityDate, latestElectricityValue] = electricityEntries[0];
               this.actualElectricity = latestElectricityValue;
@@ -285,6 +304,8 @@ export class CreatePdfComponent implements OnInit {
             const waterEntries = Object.entries(results.water);
             const [meterType, waterUnitPrice] = waterEntries[2];
             this.waterCost = waterUnitPrice;
+            const [newMeterType, waterNewMeterConsumption] = waterEntries[3];
+            this.waterNewMeterConsumption = waterNewMeterConsumption;
             if (waterEntries.length > 0) {
               const [latestWaterDate, latestWaterValue] = waterEntries[0];
               this.actualWater = latestWaterValue;
@@ -297,7 +318,29 @@ export class CreatePdfComponent implements OnInit {
               }
             }
           }
+
+          // Process heating data
+          if (results.heating) {
+            const heatingEntries = Object.entries(results.heating);
+            const [meterType, heatingUnitPrice] = heatingEntries[2];
+            this.heatingCost = heatingUnitPrice;
+            const [newMeterType, heatingNewMeterConsumption] = heatingEntries[3];
+            this.heatingNewMeterConsumption = heatingNewMeterConsumption;
+            if (heatingEntries.length > 0) {
+              const [latestHeatingDate, latestHeatingValue] = heatingEntries[0];
+              this.actualHeating = latestHeatingValue;
+              this.actualHeatingDate = this.formatDate(latestHeatingDate);
+
+              if (heatingEntries.length > 1) {
+                const [previousHeatingDate, previousHeatingValue] = heatingEntries[1];
+                this.previousHeating = previousHeatingValue;
+                this.previousHeatingDate = this.formatDate(previousHeatingDate);
+              }
+            }
+          }
         }
+
+
 
         this.loading = false;
         this.showForm = true;
@@ -335,11 +378,12 @@ export class CreatePdfComponent implements OnInit {
     const gasCost = parseInt(this.gasCost) || 0;
     const electricityCost = parseInt(this.electricityCost) || 0;
     const waterCost = parseInt(this.waterCost) || 0;
+    const heatingCost = parseInt(this.heatingCost) || 0;
     const cleaning = parseInt(this.cleaning) || 0;
     const maintenanceFee = parseInt(this.maintenanceFee) || 0;
     const otherSum = parseInt(this.otherSum) || 0;
 
-    this.totalSum = (rent + gasCost + electricityCost + waterCost + cleaning + maintenanceFee + otherSum).toString();
+    this.totalSum = (rent + gasCost + electricityCost + waterCost + heatingCost + cleaning + maintenanceFee + otherSum).toString();
   }
 
   onCreateInvoice() {
@@ -369,16 +413,25 @@ export class CreatePdfComponent implements OnInit {
       actualGas: this.actualGas,
       actualGasDate: this.actualGasDate,
       gasCost: this.gasCost,
+      gasNewMeterConsumption: this.gasNewMeterConsumption,
       previousElectricity: this.previousElectricity,
       previousElectricityDate: this.previousElectricityDate,
       actualElectricity: this.actualElectricity,
       actualElectricityDate: this.actualElectricityDate,
       electricityCost: this.electricityCost,
+      electricityNewMeterConsumption: this.electricityNewMeterConsumption,
       previousWater: this.previousWater,
       previousWaterDate: this.previousWaterDate,
       actualWater: this.actualWater,
       actualWaterDate: this.actualWaterDate,
       waterCost: this.waterCost,
+      waterNewMeterConsumption: this.waterNewMeterConsumption,
+      previousHeating: this.previousHeating,
+      previousHeatingDate: this.previousHeatingDate,
+      actualHeating: this.actualHeating,
+      actualHeatingDate: this.actualHeatingDate,
+      heatingCost: this.heatingCost,
+      heatingNewMeterConsumption: this.heatingNewMeterConsumption,
       cleaning: this.cleaning,
       commonCost: this.maintenanceFee,
       totalSum: this.totalSum,
@@ -449,6 +502,12 @@ export class CreatePdfComponent implements OnInit {
       isValid = false;
     }
 
+    // Validate heatingCost
+    if (isNaN(parseInt(this.heatingCost))) {
+      this.errors['heatingCost'] = 'Heating cost must be a number';
+      isValid = false;
+    }
+
     // Validate cleaning
     if (isNaN(parseInt(this.cleaning))) {
       this.errors['cleaning'] = 'Cleaning cost must be a number';
@@ -491,6 +550,13 @@ export class CreatePdfComponent implements OnInit {
     this.actualWater = '0';
     this.actualWaterDate = '';
     this.gasCost = '0';
+    this.electricityCost = '0';
+    this.waterCost = '0';
+    this.previousHeating = '0';
+    this.previousHeatingDate = '';
+    this.actualHeating = '0';
+    this.actualHeatingDate = '';
+    this.heatingCost = '0';
     this.electricityCost = '0';
     this.waterCost = '0';
     this.cleaning = '0';
