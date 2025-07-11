@@ -17,6 +17,7 @@ export interface Apartment {
   gasMeterID: string;
   electricityMeterID: string;
   waterMeterID: string;
+  heatingMeterID: string;
   deadline: number; // Added deadline property
   language: string;
   rent: number | null;
@@ -24,6 +25,7 @@ export interface Apartment {
   gasUnitPrice: number;
   electricityUnitPrice: number;
   waterUnitPrice: number;
+  heatingUnitPrice: number;
 }
 
 @Component({
@@ -133,6 +135,7 @@ export class EditApartmentComponent implements OnInit {
       this.selectedApartment.gasMeterID !== this.originalApartment.gasMeterID ||
       this.selectedApartment.electricityMeterID !== this.originalApartment.electricityMeterID ||
       this.selectedApartment.waterMeterID !== this.originalApartment.waterMeterID ||
+      this.selectedApartment.heatingMeterID !== this.originalApartment.heatingMeterID ||
       this.selectedApartment.deadline !== this.originalApartment.deadline ||
       this.selectedApartment.language !== this.originalApartment.language ||
       this.selectedApartment.rent !== this.originalApartment.rent ||
@@ -140,6 +143,7 @@ export class EditApartmentComponent implements OnInit {
       this.selectedApartment.gasUnitPrice !== this.originalApartment.gasUnitPrice ||
       this.selectedApartment.electricityUnitPrice !== this.originalApartment.electricityUnitPrice ||
       this.selectedApartment.waterUnitPrice !== this.originalApartment.waterUnitPrice;
+      this.selectedApartment.heatingUnitPrice !== this.originalApartment.heatingUnitPrice;
 
     if (!isModified) {
       this.popupService.showPopup('No data was modified, nothing to save');
@@ -158,11 +162,12 @@ export class EditApartmentComponent implements OnInit {
       ...this.selectedApartment,
       gasUnitPrice: Math.round(this.selectedApartment.gasUnitPrice),
       electricityUnitPrice: Math.round(this.selectedApartment.electricityUnitPrice),
-      waterUnitPrice: Math.round(this.selectedApartment.waterUnitPrice)
+      waterUnitPrice: Math.round(this.selectedApartment.waterUnitPrice),
+      heatingUnitPrice: Math.round(this.selectedApartment.heatingUnitPrice)
     };
 
     // Make the HTTP POST request to save the apartment changes
-    this.httpClient.post(`${environment.apiBaseUrl}/admin/editApartment?meterType=null`, apartmentToSend, {
+    this.httpClient.post(`${environment.apiBaseUrl}/admin/editApartment?meterType=null&lastMeterValue=null`, apartmentToSend, { //meter type and consumption is not used here only for new meter registration
       headers: {
         'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`
@@ -211,12 +216,14 @@ export class EditApartmentComponent implements OnInit {
       gasMeterID: '',
       electricityMeterID: '',
       waterMeterID: '',
+      heatingMeterID: '',
       deadline: '',
       language: '',
       rent: '',
       gasUnitPrice: '',
       electricityUnitPrice: '',
       waterUnitPrice: '',
+      heatingUnitPrice: '',
       maintenanceFee: ''
     };
   }
@@ -229,13 +236,15 @@ export class EditApartmentComponent implements OnInit {
     gasMeterID: '',
     electricityMeterID: '',
     waterMeterID: '',
+    heatingMeterID: '',
     deadline: '',
     language: '',
     rent: '',
     maintenanceFee: '',
     gasUnitPrice: '',
     electricityUnitPrice: '',
-    waterUnitPrice: ''
+    waterUnitPrice: '',
+    heatingUnitPrice: ''
   };
 
   // Validate the form
@@ -275,26 +284,33 @@ export class EditApartmentComponent implements OnInit {
       isValid = false;
     }
 
-    // Validate Gas Meter ID (required)
-    // @ts-ignore
-    if (!selectedApartment.gasMeterID) {
-      this.errors.gasMeterID = 'Gas Meter ID is required';
-      isValid = false;
-    }
+    // // Validate Gas Meter ID (required)
+    // // @ts-ignore
+    // if (!selectedApartment.gasMeterID) {
+    //   this.errors.gasMeterID = 'Gas Meter ID is required';
+    //   isValid = false;
+    // }
 
-    // Validate Electricity Meter ID (required)
-    // @ts-ignore
-    if (!selectedApartment.electricityMeterID) {
-      this.errors.electricityMeterID = 'Electricity Meter ID is required';
-      isValid = false;
-    }
+    // // Validate Electricity Meter ID (required)
+    // // @ts-ignore
+    // if (!selectedApartment.electricityMeterID) {
+    //   this.errors.electricityMeterID = 'Electricity Meter ID is required';
+    //   isValid = false;
+    // }
 
-    // Validate Water Meter ID (required)
-    // @ts-ignore
-    if (!selectedApartment.waterMeterID) {
-      this.errors.waterMeterID = 'Water Meter ID is required';
-      isValid = false;
-    }
+    // // Validate Water Meter ID (required)
+    // // @ts-ignore
+    // if (!selectedApartment.waterMeterID) {
+    //   this.errors.waterMeterID = 'Water Meter ID is required';
+    //   isValid = false;
+    // }
+
+    // // Validate Heating Meter ID (required)
+    // // @ts-ignore
+    // if (!selectedApartment.heatingMeterID) {
+    //   this.errors.heatingMeterID = 'Heating Meter ID is required';
+    //   isValid = false;
+    // }
 
     // Validate Deadline (required, integer between 1 and 31)
     // @ts-ignore
@@ -354,13 +370,15 @@ export class EditApartmentComponent implements OnInit {
       gasMeterID: '',
       electricityMeterID: '',
       waterMeterID: '',
+      heatingMeterID: '',
       deadline: 0,
       language: '',
       rent: null,
       maintenanceFee: null,
       gasUnitPrice: 0,
       electricityUnitPrice: 0,
-      waterUnitPrice: 0
+      waterUnitPrice: 0,
+      heatingUnitPrice: 0
     };
     this.resetErrors();
   }
@@ -392,6 +410,16 @@ export class EditApartmentComponent implements OnInit {
   set waterUnitPriceDisplay(value: number) {
     if (this.selectedApartment) {
       this.selectedApartment.waterUnitPrice = value * 100;
+    }
+  }
+
+  get heatingUnitPriceDisplay(): number {
+    return this.selectedApartment ? this.selectedApartment.heatingUnitPrice / 100 : 0;
+  }
+
+  set heatingUnitPriceDisplay(value: number) {
+    if (this.selectedApartment) {
+      this.selectedApartment.heatingUnitPrice = value * 100;
     }
   }
 

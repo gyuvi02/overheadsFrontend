@@ -44,19 +44,25 @@
     <div class="form-field">
       <label for="gasMeterID">Gas Meter ID</label>
       <input type="text" id="gasMeterID" [(ngModel)]="selectedApartment.gasMeterID">
-      <div class="error-message" *ngIf="errors.gasMeterID">{{ errors.gasMeterID }}</div>
+<!--      <div class="error-message" *ngIf="errors.gasMeterID">{{ errors.gasMeterID }}</div>-->
     </div>
 
     <div class="form-field">
       <label for="electricityMeterID">Electricity Meter ID</label>
       <input type="text" id="electricityMeterID" [(ngModel)]="selectedApartment.electricityMeterID">
-      <div class="error-message" *ngIf="errors.electricityMeterID">{{ errors.electricityMeterID }}</div>
+<!--      <div class="error-message" *ngIf="errors.electricityMeterID">{{ errors.electricityMeterID }}</div>-->
     </div>
 
     <div class="form-field">
       <label for="waterMeterID">Water Meter ID</label>
       <input type="text" id="waterMeterID" [(ngModel)]="selectedApartment.waterMeterID">
-      <div class="error-message" *ngIf="errors.waterMeterID">{{ errors.waterMeterID }}</div>
+<!--      <div class="error-message" *ngIf="errors.waterMeterID">{{ errors.waterMeterID }}</div>-->
+    </div>
+
+    <div class="form-field">
+      <label for="heatingMeterID">Heating Meter ID</label>
+      <input type="text" id="heatingMeterID" [(ngModel)]="selectedApartment.heatingMeterID">
+<!--      <div class="error-message" *ngIf="errors.heatingMeterID">{{ errors.heatingMeterID }}</div>-->
     </div>
 
     <div class="form-field" style="flex-direction: row; align-items: center;">
@@ -108,6 +114,12 @@
       <label for="waterUnitPrice">Water unit price:</label>
       <input type="number" id="waterUnitPrice" [(ngModel)]="waterUnitPriceDisplay" name="waterUnitPrice" min="0" step="0.01">
       <div *ngIf="errors.waterUnitPrice" class="error-message">{{ errors.waterUnitPrice }}</div>
+    </div>
+
+    <div class="form-field" style="flex-direction: row; align-items: center;">
+      <label for="heatingUnitPrice">Heating unit price:</label>
+      <input type="number" id="heatingUnitPrice" [(ngModel)]="heatingUnitPriceDisplay" name="heatingUnitPrice" min="0" step="0.01">
+      <div *ngIf="errors.heatingUnitPrice" class="error-message">{{ errors.heatingUnitPrice }}</div>
     </div>
 
     <div class="save-button-container" *ngIf="selectedApartment">
