@@ -2,14 +2,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 10vh;
-  padding: 0.9rem 10%;
+  margin-top: 5vh;
+  padding: 0.9rem 5%;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .login-form {
-  width: 50%;
-  padding: 2rem;
+  width: 100%;
+  max-width: 500px;
+  padding: 1.5rem;
   border-radius: 8px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.35);
 }
@@ -17,18 +19,19 @@
 .form-group {
   margin-bottom: 1.5rem;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .form-group label {
-  min-width: 100px;
-  margin-right: 1rem;
+  margin-bottom: 0.5rem;
   font-weight: 500;
   text-align: left;
+  width: 100%;
 }
 
 .input-container {
-  flex: 1;
+  width: 100%;
 }
 
 .form-group input {
@@ -37,12 +40,23 @@
   border: 1px solid #ced4da;
   border-radius: 4px;
   font-size: 1rem;
+  box-sizing: border-box;
+  -webkit-appearance: none; /* Removes iOS default styling */
 }
 
 .button-container {
   display: flex;
   justify-content: center;
   margin-top: 2rem;
+  width: 100%;
+}
+
+.button-container button {
+  min-height: 44px; /* Minimum touch target size */
+  min-width: 120px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 4px;
 }
 
 /* Focus styles for better accessibility */
@@ -52,3 +66,22 @@
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
+/* Media query for larger screens */
+@media (min-width: 768px) {
+  .login-container {
+    padding: 0.9rem 10%;
+    margin-top: 10vh;
+  }
+
+  .form-group {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .form-group label {
+    min-width: 100px;
+    margin-right: 1rem;
+    margin-bottom: 0;
+    width: auto;
+  }
+}

@@ -38,7 +38,8 @@ export class LatestValuesComponent implements OnInit {
   meterTypeLabels: { [key: string]: string } = {
     'Gas meter': $localize`:@@gasMeter:Gas meter`,
     'Electricity meter': $localize`:@@electricityMeter:Electricity meter`,
-    'Water meter': $localize`:@@waterMeter:Water meter`
+    'Water meter': $localize`:@@waterMeter:Water meter`,
+    'Heating meter': $localize`:@@heatingMeter:Water meter`
   };
 
 

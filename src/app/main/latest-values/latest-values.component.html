@@ -8,9 +8,10 @@
         <option value="" disabled selected i18n="@@selectMeterTypePlaceholder">Select meter type</option>
         <option *ngFor="let type of meterTypes" [value]="type">
           {{ getTranslatedMeterType(type) }}
+        </option>
       </select>
       <div class="submit-button-container">
-        <button appButton [disabled]="!selectedMeterType" (click)="onSubmit()" i18n="@@submitDataSubmit">Submit</button>
+        <button appButton [disabled]="!selectedMeterType" (click)="onSubmit()" i18n="@@select">Select</button>
       </div>
     </div>
 

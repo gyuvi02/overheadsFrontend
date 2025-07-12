@@ -27,7 +27,7 @@ export class GetAdminListsComponent implements OnInit {
   selectedApartmentId: number | null = null;
 
   // Meter types
-  meterTypes: string[] = ['Gas', 'Electricity', 'Water'];
+  meterTypes: string[] = ['Gas', 'Electricity', 'Water', 'Heating'];
   selectedMeterType: string = '';
 
   // Response data
