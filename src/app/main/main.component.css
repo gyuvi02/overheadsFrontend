@@ -5,6 +5,33 @@
   height: auto;
 }
 
+@media (max-width: 767px) {
+  .main-content {
+    padding-bottom: 80px; /* Add padding to accommodate the fixed menu at the bottom */
+    flex-direction: column;
+  }
+
+  .main-content > app-user-menu {
+    width: 100%;
+  }
+
+  .main-content > app-submit-data,
+  .main-content > app-latest-values,
+  .main-content > app-edit-apartment,
+  .main-content > app-add-default,
+  .main-content > app-get-admin-data,
+  .main-content > app-get-admin-lists,
+  .main-content > app-delete-apartment,
+  .main-content > app-send-email,
+  .main-content > app-edit-user,
+  .main-content > app-admin-submit-data,
+  .main-content > app-create-pdf,
+  .main-content > app-new-meter,
+  .main-content > app-add-apartment {
+    width: 100%;
+  }
+}
+
 .main-content > app-user-menu {
   width: 20%;
   flex-shrink: 0;

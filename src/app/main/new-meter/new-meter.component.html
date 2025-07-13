@@ -33,7 +33,7 @@
     <div *ngIf="meterTypeSubmitted && apartmentSubmitted && selectedApartment">
       <div>
         <label for="lastValue">Last value</label>
-        <input type="text" id="lastValue" [(ngModel)]="lastMeterValue" placeholder="Last meter value before replacement">
+        <input type="number" id="lastValue" [(ngModel)]="lastMeterValue" placeholder="Last meter value before replacement">
       </div>
     </div>
 
@@ -41,7 +41,7 @@
 
     <div *ngIf="meterTypeSubmitted && apartmentSubmitted && selectedApartment">
       <div>
-        <label for="meterID">Meter ID</label>
+        <label for="meterID">New Meter ID</label>
         <input type="text" id="meterID" [(ngModel)]="currentMeterID" placeholder="Enter meter ID">
       </div>
     </div>

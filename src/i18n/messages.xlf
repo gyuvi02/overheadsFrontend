@@ -92,6 +92,9 @@
       <trans-unit id="waterMeter" datatype="html">
         <source>Water meter</source>
       </trans-unit>
+      <trans-unit id="heatingMeter" datatype="html">
+      <source>Heating meter</source>
+    </trans-unit>
       <trans-unit id="errorSelectMeterType" datatype="html">
         <source>Please select a meter type!</source>
       </trans-unit>
@@ -151,6 +154,9 @@
       </trans-unit>
       <trans-unit id="confirmPassword">
         <source>Confirm Password</source>
+      </trans-unit>
+      <trans-unit id="select">
+        <source>Select</source>
       </trans-unit>
     </body>
   </file>

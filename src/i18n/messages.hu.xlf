@@ -106,6 +106,10 @@
         <source>Water meter</source>
         <target>Vízóra</target>
       </trans-unit>
+      <trans-unit id="heatingMeter" datatype="html">
+        <source>Heating meter</source>
+        <target>Fűtés mérő</target>
+      </trans-unit>
       <trans-unit id="errorSelectMeterType" datatype="html">
         <source>Please select a meter type!</source>
         <target>Válasszon mérőóra típust!</target>
@@ -120,7 +124,7 @@
       </trans-unit>
       <trans-unit id="errorSmallerMeterValue" datatype="html">
         <source>The new meter value cannot be less than the previous value!</source>
-        <target>A megadott érték nem lehet kisebb, mint a korábban rögzített!</target>
+        <target>A megadott érték nem lehet kisebb, mint a legutóbb rögzített!</target>
       </trans-unit>
       <trans-unit id="errorEqualMeterValue" datatype="html">
         <source>The new meter value is the same as the previous value. No new value will be stored.</source>
@@ -185,6 +189,10 @@
       <trans-unit id="confirmPassword" datatype="html">
         <source>Confirm Password</source>
         <target>Jelszó megint</target>
+      </trans-unit>
+      <trans-unit id="select" datatype="html">
+        <source>Select</source>
+        <target>Kiválaszt</target>
       </trans-unit>
     </body>
   </file>
