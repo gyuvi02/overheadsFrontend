@@ -36,9 +36,9 @@
           (change)="onFileSelected($event)"
           accept=".png,.tiff,.jpg,.jpeg"
         >
-        <label for="imageUpload" style="width: 200px;" i18n="@@submitDataUploadImage">Upload image</label>
-        <span class="file-name" *ngIf="selectedFile" style="width: 220px">{{ selectedFile.name }}</span>
-        <span class="file-name empty-file" *ngIf="!selectedFile" style="width: 220px" i18n="@@submitDataNoFile">No file selected</span>
+        <label for="imageUpload" i18n="@@submitDataUploadImage">Upload image</label>
+        <span class="file-name" *ngIf="selectedFile">{{ selectedFile.name }}</span>
+        <span class="file-name empty-file" *ngIf="!selectedFile" i18n="@@submitDataNoFile">No file selected</span>
 <!--        <button appButton (click)="onSubmitImage()">Upload</button>-->
         <small i18n="@@submitDataInformation">Max size: 10MB. Allowed formats: PNG, TIFF, JPG, JPEG</small>
 
@@ -46,7 +46,10 @@
     </div>
 
     <div class="submit-button-container">
-      <button appButton (click)="onSubmitData()" i18n="@@submitDataSubmit">Submit</button>
+      <button appButton (click)="onSubmitData()" [disabled]="isSubmitting" [class.disabled]="isSubmitting">
+        <span *ngIf="!isSubmitting" i18n="@@submitDataSubmit">Submit</span>
+        <span *ngIf="isSubmitting" i18n="@@submitDataSubmitting">Submitting...</span>
+      </button>
     </div>
   </div>
 </div>

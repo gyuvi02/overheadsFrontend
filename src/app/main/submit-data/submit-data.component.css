@@ -1,16 +1,17 @@
 .submit-data-container {
-  width: 90%;
+  width: 125%;
   height: 100%;
-  padding: 5px;
+  padding: 0.9rem 5%;
   box-sizing: border-box;
   margin: 0 auto; /* Center horizontally */
 }
 
 .form-container {
-  width: 90%;
+  width: 125%;
+  max-width: 850px;
   margin: 0 auto;
   background-color: #FFFFEF;
-  padding: 5px;
+  padding: 1.5rem;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -22,61 +23,67 @@ h2 {
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 label {
   display: inline-block;
-  width: 120px;
-  margin-right: 10px;
+  width: 100%;
+  margin-bottom: 0.5rem;
   font-weight: bold;
   color: #555;
 }
 
 select, input[type="number"] {
-  width: 40%;
-  padding: 10px;
+  width: 100%;
+  padding: 0.75rem;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 16px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  -webkit-appearance: none; /* Removes iOS default styling */
 }
 
 .meter-value-container {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   position: relative;
-  width: 60%;
+  width: 100%;
 }
 
 .actual-value {
-  margin-left: 10px;
+  margin-left: 0;
+  margin-top: 0.5rem;
   color: #999;
   font-style: italic;
 }
 
 .file-upload-container {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   gap: 10px;
-  flex-wrap: wrap;
   width: 100%;
 }
 
 .file-name {
-  margin-left: 10px;
   font-size: 14px;
   color: #555;
   word-break: break-all;
-  min-width: 150px;
-  padding: 5px 10px;
+  width: 100%;
+  max-width: 300px;
+  padding: 8px 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
   background-color: #f9f9f9;
-  height: 32px;
-  display: inline-flex;
+  min-height: 44px; /* Minimum touch target size */
+  display: flex;
   align-items: center;
+  box-sizing: border-box;
 }
 
 .empty-file {
@@ -95,21 +102,24 @@ select, input[type="number"] {
 
 .file-upload-container label {
   display: inline-block;
-  height: 36px;
+  min-height: 44px; /* Minimum touch target size */
+  min-width: 120px;
   padding: 10px 20px;
   background-color: #4CAF50;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 1rem;
   text-align: center;
   box-sizing: border-box;
   line-height: 1.5;
+  margin-right: 0;
+  margin-bottom: 0;
 }
 
 .file-upload-container button {
-  height: 42px;
+  min-height: 44px; /* Minimum touch target size */
   box-sizing: border-box;
 }
 
@@ -130,18 +140,76 @@ small {
 .submit-button-container {
   margin-top: 30px;
   text-align: center;
+  width: 100%;
 }
 
 button {
-  padding: 10px 20px;
+  min-height: 44px; /* Minimum touch target size */
+  min-width: 120px;
+  padding: 0.75rem 1.5rem;
   background-color: #4CAF50;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 1rem;
 }
 
 button:hover {
   background-color: #45a049;
+}
+
+/* Styles for disabled buttons */
+button[disabled], button.disabled {
+  background-color: #cccccc !important;
+  color: #666666 !important;
+  cursor: not-allowed !important;
+  opacity: 0.7;
+}
+
+button[disabled]:hover, button.disabled:hover {
+  background-color: #cccccc !important;
+}
+
+/* Media query for larger screens */
+@media (min-width: 768px) {
+  .submit-data-container {
+    padding: 0.9rem 10%;
+  }
+
+  .form-group {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  label {
+    width: 120px;
+    margin-right: 1rem;
+    margin-bottom: 0;
+  }
+
+  select, input[type="number"] {
+    width: 40%;
+  }
+
+  .meter-value-container {
+    flex-direction: row;
+    align-items: center;
+    width: 60%;
+  }
+
+  .actual-value {
+    margin-left: 10px;
+    margin-top: 0;
+  }
+
+  .file-upload-container {
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .file-name {
+    margin-left: 10px;
+  }
 }

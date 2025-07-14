@@ -22,6 +22,7 @@ export class SubmitDataComponent implements OnInit {
   private httpClient = inject(HttpClient);
   private router = inject(Router);
   isLoggedIn$ = this.authService.isLoggedIn$;
+  isSubmitting: boolean = false;
 
   constructor(private popupService: PopupService) {}
 
@@ -38,7 +39,8 @@ export class SubmitDataComponent implements OnInit {
   meterTypeLabels: { [key: string]: string } = {
     'Gas meter': $localize`:@@gasMeter:Gas meter`,
     'Electricity meter': $localize`:@@electricityMeter:Electricity meter`,
-    'Water meter': $localize`:@@waterMeter:Water meter`
+    'Water meter': $localize`:@@waterMeter:Water meter`,
+    'Heating  meter': $localize`:@@heatingMeter:Heating meter`
   };
 
   ngOnInit() {
@@ -151,6 +153,11 @@ export class SubmitDataComponent implements OnInit {
   // }
 
   onSubmitData() {
+    // Don't proceed if already submitting
+    if (this.isSubmitting) {
+      return;
+    }
+
     if (!this.selectedMeterType) {
       this.popupService.showPopup($localize`:@@errorSelectMeterType:Please select a meter type`);
       return;
@@ -214,6 +221,9 @@ export class SubmitDataComponent implements OnInit {
     };
     formData.append('values', JSON.stringify(values));
 
+    // Set isSubmitting to true to disable the button and show loading indicator
+    this.isSubmitting = true;
+
     // Compress and append the file if selected
     if (this.selectedFile) {
       // Show loading message
@@ -246,6 +256,9 @@ export class SubmitDataComponent implements OnInit {
       next: (response) => {
         console.log('Submission successful:', response);
 
+        // Reset isSubmitting when request completes successfully
+        this.isSubmitting = false;
+
         // Show success message
         this.popupService.showPopup($localize`:@@successSubmit:Submission successful! Thank you!`);
 
@@ -258,6 +271,9 @@ export class SubmitDataComponent implements OnInit {
         });
       },
       error: (error) => {
+        // Reset isSubmitting when request fails
+        this.isSubmitting = false;
+
         if (error.status === 401) {
           this.popupService.showPopup($localize`:@@errorSessionExpired:Session expired, please, log in again!`);
           this.authService.logout();
