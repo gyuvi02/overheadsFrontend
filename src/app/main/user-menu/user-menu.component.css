@@ -17,6 +17,55 @@
   gap: 10px;
 }
 
+/* Regular user menu (non-admin) */
+.menu-buttons > div:not(.admin-buttons) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  .user-menu {
+    padding: 10px 5%;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    min-height: auto;
+    z-index: 100;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .menu-buttons > div:not(.admin-buttons) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 5px 0;
+  }
+
+  .menu-buttons > div:not(.admin-buttons) button {
+    width: calc(50% - 20px);
+    min-width: 120px;
+    min-height: 44px; /* Minimum touch target size */
+    margin: 5px;
+    padding: 12px 15px;
+    font-size: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* For very small screens, stack buttons vertically */
+@media (max-width: 359px) {
+  .menu-buttons > div:not(.admin-buttons) button {
+    width: 100%;
+    max-width: 280px;
+  }
+}
+
 button {
   margin-top: 8px;
   width: 90%;

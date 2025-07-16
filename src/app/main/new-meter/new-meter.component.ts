@@ -17,6 +17,7 @@ export interface Apartment {
   gasMeterID: string;
   electricityMeterID: string;
   waterMeterID: string;
+  heatingMeterID: string;
   deadline: number; // Added deadline property
   language: string;
   rent: number | null;
@@ -43,7 +44,7 @@ export class NewMeterComponent {
   // Flag to control when to show the meter type field
   apartmentSubmitted = false;
   meterTypeSubmitted = false;
-  selecterMeterType = ""
+  // selectedMeterType = ""
 
   // Apartment selection
   apartments: Apartment[] = [];
@@ -55,6 +56,9 @@ export class NewMeterComponent {
   selectedMeterType = '';
   // Store actual meter values from login response
   actualMeterValues: {[key: string]: string} = {};
+
+  // Private property to store the last meter value
+  private _lastMeterValue: string = '';
 
    ngOnInit() {
     // Load apartments from sessionStorage
@@ -121,13 +125,14 @@ export class NewMeterComponent {
     };
 
     // Make the HTTP POST request to save the apartment changes
-    this.httpClient.post(`${environment.apiBaseUrl}/admin/editApartment?meterType=${this.selectedMeterType.split(' ')[0].toLowerCase()}`, apartmentToSend, {
+    this.httpClient.post(`${environment.apiBaseUrl}/admin/editApartment?meterType=${this.selectedMeterType.split(' ')[0].toLowerCase()}&lastMeterValue=${this._lastMeterValue}`, apartmentToSend, {
       headers: {
         'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`
       }
     }).subscribe({
       next: (response: any) => {
+        console.log('Last meter value submitted: ', this.selectedApartment);
         console.log('New meter device registered successfully:', response);
 
         // Delete the apartment list from sessionStorage
@@ -205,7 +210,7 @@ export class NewMeterComponent {
     this.httpClient.post(`${environment.apiBaseUrl}/admin/getAllLastMeterValues`,
       {
         apartmentId: apartmentId.toString(),
-        withImage: "0"  // We don't need images for this purpose
+        withImage: "0"  // We don't need images for this
       },
       {
         headers: {
@@ -266,6 +271,8 @@ export class NewMeterComponent {
         return this.selectedApartment.electricityMeterID;
       case 'water':
         return this.selectedApartment.waterMeterID;
+      case 'heating':
+        return this.selectedApartment.heatingMeterID;
       default:
         return '';
     }
@@ -284,43 +291,18 @@ export class NewMeterComponent {
       case 'water':
         this.selectedApartment.waterMeterID = value;
         break;
+      case 'heating':
+        this.selectedApartment.heatingMeterID = value;
+        break;
     }
   }
 
-  // get lastMeterValue(): string {
-  //   if (!this.selectedApartment) return '';
-  //
-  //   // switch (this.selectedMeterType) {
-  //   //   case 'gas':
-  //   //     return this.selectedApartment.gasMeterID;
-  //   //   case 'electricity':
-  //   //     return this.selectedApartment.electricityMeterID;
-  //   //   case 'water':
-  //   //     return this.selectedApartment.waterMeterID;
-  //   //   default:
-  //   //     return '';
-  //   // }
-  //   return '';
-  // }
+  get lastMeterValue(): string {
+    return this._lastMeterValue;
+  }
 
   set lastMeterValue(value: string) {
-    if (!this.selectedApartment) return;
-
-    switch (this.selectedMeterType) {
-      case 'gas':
-        this.selectedApartment.gasMeterID = value;
-        break;
-      case 'electricity':
-        this.selectedApartment.electricityMeterID = value;
-        break;
-      case 'water':
-        this.selectedApartment.waterMeterID = value;
-        break;
-    }
+    this._lastMeterValue = value;
   }
 
 }
-
-
-
-
