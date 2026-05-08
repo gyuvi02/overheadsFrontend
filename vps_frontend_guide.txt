@@ -1,0 +1,44 @@
+# VPS Frontend Frissítési Útmutató (omegahouses.org)
+Ez az útmutató a valódi Nginx konfigurációd (omegahouses.org) alapján készült.
+
+## 1. Miért működik most is a weboldal?
+Az omegahouses.org konfigurációd nem a default mappát használja. A lényeges részek:
+- A magyar oldal helye: /var/www/overheadsFrontend/browser/hu/
+- Az angol oldal helye: /var/www/overheadsFrontend/browser/en/
+- A statikus fájlok (js, css, képek): /var/www/overheadsFrontend/browser/
+
+## 2. Biztonságos Frissítés (Lépésről lépésre)
+Mivel félsz, hogy elromlik, kövesd pontosan ezt a menetet:
+
+### 1. lépés: Build a saját gépeden
+Futtasd a VS Code termináljában:
+npm run build -- --configuration=production
+
+### 2. lépés: Biztonsági mentés a VPS-en
+Lépj be SSH-val a VPS-re, és készíts egy másolatot a mappáról:
+sudo cp -r /var/www/overheadsFrontend /var/www/overheadsFrontend_backup
+
+### 3. lépés: Új fájlok feltöltése
+A magyar verzió frissítése (PowerShell-ből):
+scp -r dist/overheads-frontend/browser/hu/* root@VPS_IP_CIME:/var/www/overheadsFrontend/browser/hu/
+
+## 3. Mi van, ha mégis gond van?
+Ha bármi elromlana, csak állítsd vissza a mentést:
+sudo rm -rf /var/www/overheadsFrontend
+sudo mv /var/www/overheadsFrontend_backup /var/www/overheadsFrontend
+
+## 4. Miért volt korábban káosz?
+1. Az Nginx konfigurációd (amit most küldtél) nagyon precíz, de nem a default fájlban van.
+2. Az Angular 17+ verziója óta a fájlok a 'browser' mappába kerülnek, te pedig valószínűleg régebben még máshová másoltad.
+3. A build hibák (environment hiánya) miatt nem is tudtál volna új verziót gyártani eddig.
+
+Most már minden javítva van, a build lefut, és az útvonalaid is megvannak! (Utolsó frissítés: 2026. 05. 09.)
+
+## 5. Automata Deploy (GitHub Actions)
+Létrehoztam a `.github/workflows/deploy.yml` fájlt. Ahhoz, hogy működjön, a GitHub repository-dban (Settings -> Secrets and variables -> Actions) fel kell venned az alábbi "Repository secrets"-eket:
+
+1. `VPS_HOST`: A szervered IP címe.
+2. `VPS_USER`: A felhasználónév (valószínűleg `root`).
+3. `SSH_PRIVATE_KEY`: A privát SSH kulcsod tartalma, amivel be tudsz lépni a szerverre.
+
+Ezután minden alkalommal, amikor a `master` ágra pusholsz, a GitHub automatikusan lefordítja és feltölti a projektet.
