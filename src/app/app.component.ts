@@ -8,7 +8,7 @@ import { PopupComponent } from './shared/popup/popup.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, FooterComponent, MainComponent, PopupComponent],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent, PopupComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

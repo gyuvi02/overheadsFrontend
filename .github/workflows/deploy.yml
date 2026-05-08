@@ -1,0 +1,44 @@
+name: Deploy Frontend
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build -- --configuration=production
+
+      - name: Deploy HU to VPS
+        uses: Burnett01/rsync-deployments@6.0.0
+        with:
+          switches: -avzr --delete
+          path: dist/overheads-frontend/browser/hu/
+          remote_path: /var/www/overheadsFrontend/browser/hu/
+          remote_host: ${{ secrets.VPS_HOST }}
+          remote_user: ${{ secrets.VPS_USER }}
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy EN to VPS
+        uses: Burnett01/rsync-deployments@6.0.0
+        with:
+          switches: -avzr --delete
+          path: dist/overheads-frontend/browser/en/
+          remote_path: /var/www/overheadsFrontend/browser/en/
+          remote_host: ${{ secrets.VPS_HOST }}
+          remote_user: ${{ secrets.VPS_USER }}
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
