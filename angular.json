@@ -60,7 +60,8 @@
               ],
               "outputHashing": "all",
               "localize": [
-                "hu"
+                "hu",
+                "en"
               ]
             },
             "development": {
