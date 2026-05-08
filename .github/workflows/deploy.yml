@@ -22,14 +22,20 @@ jobs:
 
       - name: Inject API Key
         shell: bash
+        env:
+          VALODI_KULCS: ${{ secrets.API_KEY }}
         run: |
-          API_KEY=$(cat << 'EOF'
-          ${{ secrets.API_KEY }}
-          EOF
-          )
-          # Meneküljünk meg a speciális karakterektől a sed számára
-          ESCAPED_API_KEY=$(printf '%s\n' "$API_KEY" | sed 's/[&/\]/\\&/g')
-          sed -i "s/API_KEY_PLACEHOLDER/$ESCAPED_API_KEY/g" src/environments/environment.ts
+          # Használjunk egy Python scriptet a biztonságos cseréhez,
+          # mert az minden speciális karaktert ($, !, /, \, &) helyesen kezel
+          python3 -c "
+          import os
+          path = 'src/environments/environment.ts'
+          with open(path, 'r') as f:
+              content = f.read()
+          content = content.replace('API_KEY_PLACEHOLDER', os.environ['VALODI_KULCS'])
+          with open(path, 'w') as f:
+              f.write(content)
+          "
 
       - name: Build project
         run: npm run build -- --configuration=production
