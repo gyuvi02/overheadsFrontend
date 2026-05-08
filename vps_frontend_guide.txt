@@ -32,7 +32,7 @@ sudo mv /var/www/overheadsFrontend_backup /var/www/overheadsFrontend
 2. Az Angular 17+ verziója óta a fájlok a 'browser' mappába kerülnek, te pedig valószínűleg régebben még máshová másoltad.
 3. A build hibák (environment hiánya) miatt nem is tudtál volna új verziót gyártani eddig.
 
-Most már minden javítva van, a build lefut, és az útvonalaid is megvannak! (Utolsó frissítés: 2026. 05. 10. - Biztonságos API kulcs kezelés beállítva)
+Most már minden javítva van, a build lefut, és az útvonalaid is megvannak! (Utolsó frissítés: 2026. 05. 10. - 00:54 - API kulcs frissítve)
 
 ## 5. Automata Deploy (GitHub Actions)
 Létrehoztam a `.github/workflows/deploy.yml` fájlt. Ahhoz, hogy működjön, a GitHub repository-dban (Settings -> Secrets and variables -> Actions) fel kell venned az alábbi "Repository secrets"-eket:
