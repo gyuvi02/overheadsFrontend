@@ -125,9 +125,14 @@ export class GetAdminListsComponent implements OnInit {
         this.tableData = [];
 
         // Convert the Map<String, Map<String, Object>> to an array of objects for the table
+        // The backend returns a map where the value is the meter object
         for (const key in this.meterValues) {
           if (this.meterValues.hasOwnProperty(key)) {
             const item = this.meterValues[key];
+            // Ensure ID is captured. If it's missing in the response, we need to know.
+            if (item.id === undefined || item.id === null) {
+              console.warn('Meter record is missing ID:', key, item);
+            }
             this.tableData.push({
               id: item.id,
               date: item.date,
@@ -136,6 +141,9 @@ export class GetAdminListsComponent implements OnInit {
             });
           }
         }
+
+        // Sort tableData by date (newest first) to match visual expectations
+        this.tableData.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
         // Store the meter type that was used for this data load
         this.lastLoadedMeterType = this.selectedMeterType;
@@ -223,6 +231,12 @@ export class GetAdminListsComponent implements OnInit {
     }
 
     const item = this.tableData[index];
+    console.log('Attempting to update meter value:', {
+      meterType: this.lastLoadedMeterType.toLowerCase(),
+      id: item.id,
+      newValue: this.newValue
+    });
+
     const token = sessionStorage.getItem('token');
     if (!token) {
       this.popupService.showPopup('Authentication token not found. Please log in again.');
@@ -235,8 +249,15 @@ export class GetAdminListsComponent implements OnInit {
       newValue: Number(this.newValue)
     };
 
+    if (isNaN(requestBody.id) || requestBody.id === 0) {
+      console.error('Invalid ID detected:', item.id);
+      this.popupService.showPopup('Error: Invalid record ID. Cannot update.');
+      return;
+    }
+
     this.httpClient.post(`${environment.apiBaseUrl}/v1/admin/updateMeterValue`, requestBody, {
       headers: {
+        'Content-Type': 'application/json',
         'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`
       }
@@ -249,7 +270,17 @@ export class GetAdminListsComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error updating meter value:', error);
-        const errorMessage = error.error?.error || 'An error occurred while updating the meter value.';
+        let errorMessage = 'An error occurred while updating the meter value.';
+        if (error.error instanceof ErrorEvent) {
+          // Client-side error
+          errorMessage = error.error.message;
+        } else if (typeof error.error === 'string' && error.error.includes('<html')) {
+          // HTML response (like Tomcat 403)
+          errorMessage = `Server Error (403): Access Denied. The request was blocked by the server security layer.`;
+        } else if (error.error?.error) {
+          // Backend JSON error
+          errorMessage = error.error.error;
+        }
         this.popupService.showPopup(errorMessage);
       }
     });
