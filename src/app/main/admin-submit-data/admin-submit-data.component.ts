@@ -355,7 +355,7 @@ export class AdminSubmitDataComponent implements OnInit {
 
   private makeHttpRequest(formData: FormData, token: string) {
     // Use environment variable instead of hardcoded URL
-    this.httpClient.post(`${environment.apiBaseUrl}/user/submitMeterValue`, formData, {
+    this.httpClient.post(`${environment.apiBaseUrl}/v1/user/submitMeterValue`, formData, {
       headers: {
         'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`

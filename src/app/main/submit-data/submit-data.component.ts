@@ -246,7 +246,7 @@ export class SubmitDataComponent implements OnInit {
   }
 
   private makeHttpRequest(formData: FormData, token: string) {
-    this.httpClient.post(`${environment.apiBaseUrl}/user/submitMeterValue`, formData, {
+    this.httpClient.post(`${environment.apiBaseUrl}/v1/user/submitMeterValue`, formData, {
       headers: {
         'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`

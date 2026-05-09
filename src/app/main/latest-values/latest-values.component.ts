@@ -76,7 +76,7 @@ export class LatestValuesComponent implements OnInit {
     }
 
     // Make the HTTP POST request with JSON body
-    this.httpClient.post(`${environment.apiBaseUrl}/user/getLastMeterValues`,
+    this.httpClient.post(`${environment.apiBaseUrl}/v1/user/getLastMeterValues`,
       {
         "apartmentId": apartmentId,
         "meterType": this.selectedMeterType.split(' ')[0].toLowerCase()
