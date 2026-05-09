@@ -105,9 +105,14 @@ export class LatestValuesComponent implements OnInit {
               const formattedDate = `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
 
               // Add to meterValues array
+              const rawValue = response[dateStr];
+              const displayValue = (rawValue && typeof rawValue === 'object' && rawValue.value !== undefined)
+                ? rawValue.value
+                : rawValue;
+
               this.meterValues.push({
                 date: formattedDate,
-                value: response[dateStr]
+                value: displayValue
               });
             } catch (e) {
               console.error('Error parsing date:', dateStr, e);
