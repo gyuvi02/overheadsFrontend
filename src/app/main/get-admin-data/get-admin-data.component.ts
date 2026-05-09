@@ -101,7 +101,7 @@ export class GetAdminDataComponent implements OnInit {
     }
 
     // Call the getAllLastMeterValues endpoint with the apartment ID and withImage=1
-    this.httpClient.post(`${environment.apiBaseUrl}/admin/getAllLastMeterValues`,
+    this.httpClient.post(`${environment.apiBaseUrl}/v1/admin/getAllLastMeterValues`,
       {
         apartmentId: this.selectedApartment.id.toString(),
         withImage: "1"
