@@ -31,10 +31,14 @@ export class GetAdminListsComponent implements OnInit {
   selectedMeterType: string = '';
 
   // Response data
-  meterValues: {[key: string]: {date: string, value: string, image: string | null}} = {};
-  tableData: {date: string, value: string, image: string | null}[] = [];
+  meterValues: {[key: string]: {id: number, date: string, value: string, image: string | null}} = {};
+  tableData: {id: number, date: string, value: string, image: string | null}[] = [];
   isDataLoaded: boolean = false;
   lastLoadedMeterType: string = '';
+
+  // Editing state
+  editingRowIndex: number | null = null;
+  newValue: number | null = null;
 
   ngOnInit() {
     // Check if apartments are already in sessionStorage
@@ -125,6 +129,7 @@ export class GetAdminListsComponent implements OnInit {
           if (this.meterValues.hasOwnProperty(key)) {
             const item = this.meterValues[key];
             this.tableData.push({
+              id: item.id,
               date: item.date,
               value: item.value,
               image: item.image
@@ -198,6 +203,56 @@ export class GetAdminListsComponent implements OnInit {
       console.error('Error downloading image:', error);
       this.popupService.showPopup('An error occurred while downloading the image. Please try again.');
     }
+  }
+
+  // Editing methods
+  startEdit(index: number, currentValue: string): void {
+    this.editingRowIndex = index;
+    this.newValue = parseInt(currentValue, 10);
+  }
+
+  cancelEdit(): void {
+    this.editingRowIndex = null;
+    this.newValue = null;
+  }
+
+  saveEdit(index: number): void {
+    if (this.newValue === null || isNaN(this.newValue)) {
+      this.popupService.showPopup('Please enter a valid meter value.');
+      return;
+    }
+
+    const item = this.tableData[index];
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+      this.popupService.showPopup('Authentication token not found. Please log in again.');
+      return;
+    }
+
+    const requestBody = {
+      meterType: this.lastLoadedMeterType.toLowerCase(),
+      id: item.id,
+      newValue: this.newValue
+    };
+
+    this.httpClient.post(`${environment.apiBaseUrl}/admin/updateMeterValue`, requestBody, {
+      headers: {
+        'API-KEY': environment.apiKeyValid,
+        'Authorization': `Bearer ${token}`
+      }
+    }).subscribe({
+      next: (response: any) => {
+        this.popupService.showPopup(response.message || 'Meter value updated successfully');
+        // Update local data
+        this.tableData[index].value = this.newValue!.toString();
+        this.cancelEdit();
+      },
+      error: (error) => {
+        console.error('Error updating meter value:', error);
+        const errorMessage = error.error?.error || 'An error occurred while updating the meter value.';
+        this.popupService.showPopup(errorMessage);
+      }
+    });
   }
 
 }
