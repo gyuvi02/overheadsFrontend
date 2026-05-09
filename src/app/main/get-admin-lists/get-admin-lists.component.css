@@ -106,43 +106,6 @@ button[disabled]:hover {
   background-color: #f9f9f9;
 }
 
-.action-buttons {
-  display: flex;
-  gap: 5px;
-}
-
-.action-button {
-  padding: 6px 12px;
-  font-size: 12px;
-}
-
-.edit-btn {
-  background-color: #2196F3;
-}
-
-.edit-btn:hover {
-  background-color: #1976D2;
-}
-
-.save-btn {
-  background-color: #4CAF50;
-}
-
-.cancel-btn {
-  background-color: #f44336;
-}
-
-.cancel-btn:hover {
-  background-color: #da190b;
-}
-
-.edit-input {
-  width: 80px;
-  padding: 5px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
 /* No data message styles */
 .no-data-message {
   width: 100%;
