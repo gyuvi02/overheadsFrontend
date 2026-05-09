@@ -126,7 +126,7 @@ export class RegisterMeComponent implements OnInit {
     };
 
     // Make the HTTP POST request to register the user
-    const registerRequest = this.httpClient.post(`${environment.apiBaseUrl}/register`, requestBody, {
+    const registerRequest = this.httpClient.post(`${environment.apiBaseUrl}/v1/register`, requestBody, {
       headers: {
         'API-KEY': environment.apiKeyValid,
         'Content-Type': 'application/json'

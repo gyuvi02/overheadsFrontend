@@ -125,7 +125,7 @@ export class NewMeterComponent {
     };
 
     // Make the HTTP POST request to save the apartment changes
-    this.httpClient.post(`${environment.apiBaseUrl}/admin/editApartment?meterType=${this.selectedMeterType.split(' ')[0].toLowerCase()}&lastMeterValue=${this._lastMeterValue}`, apartmentToSend, {
+    this.httpClient.post(`${environment.apiBaseUrl}/v1/admin/editApartment?meterType=${this.selectedMeterType.split(' ')[0].toLowerCase()}&lastMeterValue=${this._lastMeterValue}`, apartmentToSend, {
       headers: {
         'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`
@@ -171,7 +171,7 @@ export class NewMeterComponent {
     }
 
     // Make the HTTP GET request to fetch all apartments
-    this.httpClient.get(`${environment.apiBaseUrl}/admin/getAllApartments`, {
+    this.httpClient.get(`${environment.apiBaseUrl}/v1/admin/getAllApartments`, {
       headers: {
         'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`

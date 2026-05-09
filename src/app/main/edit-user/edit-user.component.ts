@@ -61,7 +61,7 @@ export class EditUserComponent implements OnInit {
     }
 
     // Make the HTTP GET request to fetch all users
-    this.httpClient.get(`${environment.apiBaseUrl}/admin/getAllUsers`, {
+    this.httpClient.get(`${environment.apiBaseUrl}/v1/admin/getAllUsers`, {
       headers: {
         'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`,
@@ -140,7 +140,7 @@ export class EditUserComponent implements OnInit {
     }
 
     // Make the HTTP POST request to save the user changes
-    this.httpClient.post(`${environment.apiBaseUrl}/admin/editUser`, this.selectedUser, {
+    this.httpClient.post(`${environment.apiBaseUrl}/v1/admin/editUser`, this.selectedUser, {
       headers: {
         'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`
@@ -194,7 +194,7 @@ export class EditUserComponent implements OnInit {
     }
 
     // Make the HTTP POST request to delete the user
-    this.httpClient.post(`${environment.apiBaseUrl}/admin/deleteUser`, this.selectedUser.id.toString(), {
+    this.httpClient.post(`${environment.apiBaseUrl}/v1/admin/deleteUser`, this.selectedUser.id.toString(), {
       headers: {
         'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`

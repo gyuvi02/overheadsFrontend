@@ -35,7 +35,7 @@ export class AddApartmentComponent implements OnInit {
     }
 
     // Make the HTTP GET request to fetch all apartments
-    this.httpClient.get(`${environment.apiBaseUrl}/admin/getAllApartments`, {
+    this.httpClient.get(`${environment.apiBaseUrl}/v1/admin/getAllApartments`, {
       headers: {
         'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`
@@ -251,7 +251,7 @@ export class AddApartmentComponent implements OnInit {
       heatingUnitPrice: Math.round(this.apartment.heatingUnitPrice * 100)
     };
 
-    this.httpClient.post(`${environment.apiBaseUrl}/admin/addApartment`, apartmentToSend, {
+    this.httpClient.post(`${environment.apiBaseUrl}/v1/admin/addApartment`, apartmentToSend, {
       headers: {
         'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`

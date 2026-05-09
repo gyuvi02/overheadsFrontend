@@ -48,7 +48,7 @@ export class DeleteApartmentComponent implements OnInit {
     }
 
     // Make the HTTP GET request to fetch all apartments
-    this.httpClient.get(`${environment.apiBaseUrl}/admin/getAllApartments`, {
+    this.httpClient.get(`${environment.apiBaseUrl}/v1/admin/getAllApartments`, {
       headers: {
         'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`
@@ -116,7 +116,7 @@ export class DeleteApartmentComponent implements OnInit {
     }
 
     // Make the HTTP POST request to delete the apartment
-    this.httpClient.post(`${environment.apiBaseUrl}/admin/deleteApartment`, this.selectedApartment.id.toString(), {
+    this.httpClient.post(`${environment.apiBaseUrl}/v1/admin/deleteApartment`, this.selectedApartment.id.toString(), {
       headers: {
         'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`,

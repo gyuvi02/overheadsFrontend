@@ -67,7 +67,7 @@ export class EditApartmentComponent implements OnInit {
     }
 
     // Make the HTTP GET request to fetch all apartments
-    this.httpClient.get(`${environment.apiBaseUrl}/admin/getAllApartments`, {
+    this.httpClient.get(`${environment.apiBaseUrl}/v1/admin/getAllApartments`, {
       headers: {
         'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`
@@ -167,7 +167,7 @@ export class EditApartmentComponent implements OnInit {
     };
 
     // Make the HTTP POST request to save the apartment changes
-    this.httpClient.post(`${environment.apiBaseUrl}/admin/editApartment?meterType=null&lastMeterValue=null`, apartmentToSend, { //meter type and consumption is not used here only for new meter registration
+    this.httpClient.post(`${environment.apiBaseUrl}/v1/admin/editApartment?meterType=null&lastMeterValue=null`, apartmentToSend, { //meter type and consumption is not used here only for new meter registration
       headers: {
         'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`

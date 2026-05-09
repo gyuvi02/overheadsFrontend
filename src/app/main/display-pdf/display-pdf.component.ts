@@ -103,7 +103,7 @@ export class DisplayPdfComponent implements OnInit {
     };
 
     // Make the HTTP POST request to send the email
-    this.httpClient.post(`${environment.apiBaseUrl}/admin/sendPdfEmail`, emailData, {
+    this.httpClient.post(`${environment.apiBaseUrl}/v1/admin/sendPdfEmail`, emailData, {
       headers: {
         'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`

@@ -48,7 +48,7 @@ export class SendEmailComponent implements OnInit {
     }
 
     // Make the HTTP GET request to fetch all apartments
-    this.httpClient.get(`${environment.apiBaseUrl}/admin/getAllApartments`, {
+    this.httpClient.get(`${environment.apiBaseUrl}/v1/admin/getAllApartments`, {
       headers: {
         'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`
@@ -117,7 +117,7 @@ export class SendEmailComponent implements OnInit {
     };
 
     // Make the HTTP POST request to send the email
-    this.httpClient.post(`${environment.apiBaseUrl}/admin/sendEmail`, requestBody, {
+    this.httpClient.post(`${environment.apiBaseUrl}/v1/admin/sendEmail`, requestBody, {
       headers: {
         'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`,

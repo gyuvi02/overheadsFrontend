@@ -135,7 +135,7 @@ export class CreatePdfComponent implements OnInit {
     this.loading = true;
 
     // Make the HTTP GET request to fetch all apartments
-    this.httpClient.get(`${environment.apiBaseUrl}/admin/getAllApartments`, {
+    this.httpClient.get(`${environment.apiBaseUrl}/v1/admin/getAllApartments`, {
       headers: {
         'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`
@@ -203,7 +203,7 @@ export class CreatePdfComponent implements OnInit {
     this.loading = true;
 
     // Make the HTTP POST request to get user email by apartment ID
-    this.httpClient.post(`${environment.apiBaseUrl}/admin/getUserByApartmentId`, { apartmentId: this.selectedApartmentId.toString() }, {
+    this.httpClient.post(`${environment.apiBaseUrl}/v1/admin/getUserByApartmentId`, { apartmentId: this.selectedApartmentId.toString() }, {
       headers: {
         'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`
@@ -246,7 +246,7 @@ export class CreatePdfComponent implements OnInit {
     }
 
     // Make the HTTP POST request to get last 2 consumption values
-    this.httpClient.post(`${environment.apiBaseUrl}/admin/getLast2values`, { apartmentId: this.selectedApartmentId.toString() }, {
+    this.httpClient.post(`${environment.apiBaseUrl}/v1/admin/getLast2values`, { apartmentId: this.selectedApartmentId.toString() }, {
       headers: {
         'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`
@@ -442,7 +442,7 @@ export class CreatePdfComponent implements OnInit {
     };
 
     // Make the HTTP POST request to create the invoice
-    this.httpClient.post(`${environment.apiBaseUrl}/admin/createInvoice`, invoiceData, {
+    this.httpClient.post(`${environment.apiBaseUrl}/v1/admin/createInvoice`, invoiceData, {
       headers: {
         'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`
