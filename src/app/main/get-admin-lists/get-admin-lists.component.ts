@@ -231,8 +231,8 @@ export class GetAdminListsComponent implements OnInit {
 
     const requestBody = {
       meterType: this.lastLoadedMeterType.toLowerCase(),
-      id: item.id,
-      newValue: this.newValue
+      id: Number(item.id),
+      newValue: Number(this.newValue)
     };
 
     this.httpClient.post(`${environment.apiBaseUrl}/v1/admin/updateMeterValue`, requestBody, {
