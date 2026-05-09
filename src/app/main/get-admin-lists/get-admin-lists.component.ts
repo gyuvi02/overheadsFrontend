@@ -124,25 +124,21 @@ export class GetAdminListsComponent implements OnInit {
         this.meterValues = response;
         this.tableData = [];
 
-        // Convert the Map<String, Map<String, Object>> to an array of objects for the table
-        // The backend returns a map where the value is the meter object
+        // Convert the Map<String, {value: string, id: number}> to an array of objects for the table
         for (const key in this.meterValues) {
           if (this.meterValues.hasOwnProperty(key)) {
             const item = this.meterValues[key];
-            // Ensure ID is captured. If it's missing in the response, we need to know.
-            if (item.id === undefined || item.id === null) {
-              console.warn('Meter record is missing ID:', key, item);
-            }
+
             this.tableData.push({
-              id: item.id,
-              date: item.date,
-              value: item.value,
-              image: item.image
+              id: item.id,      // The record ID from the backend object
+              date: key,        // The key is the date string from the backend
+              value: item.value, // The meter reading value
+              image: item.image || null
             });
           }
         }
 
-        // Sort tableData by date (newest first) to match visual expectations
+        // Sort tableData by date (newest first)
         this.tableData.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
         // Store the meter type that was used for this data load
@@ -231,12 +227,6 @@ export class GetAdminListsComponent implements OnInit {
     }
 
     const item = this.tableData[index];
-    console.log('Attempting to update meter value:', {
-      meterType: this.lastLoadedMeterType.toLowerCase(),
-      id: item.id,
-      newValue: this.newValue
-    });
-
     const token = sessionStorage.getItem('token');
     if (!token) {
       this.popupService.showPopup('Authentication token not found. Please log in again.');
@@ -250,7 +240,6 @@ export class GetAdminListsComponent implements OnInit {
     };
 
     if (isNaN(requestBody.id) || requestBody.id === 0) {
-      console.error('Invalid ID detected:', item.id);
       this.popupService.showPopup('Error: Invalid record ID. Cannot update.');
       return;
     }
@@ -276,7 +265,7 @@ export class GetAdminListsComponent implements OnInit {
           errorMessage = error.error.message;
         } else if (typeof error.error === 'string' && error.error.includes('<html')) {
           // HTML response (like Tomcat 403)
-          errorMessage = `Server Error (403): Access Denied. The request was blocked by the server security layer.`;
+          errorMessage = `Server Error: The request was blocked or failed on the server.`;
         } else if (error.error?.error) {
           // Backend JSON error
           errorMessage = error.error.error;
