@@ -124,14 +124,23 @@ export class GetAdminListsComponent implements OnInit {
         this.meterValues = response;
         this.tableData = [];
 
-        // Convert the Map<String, {value: string, id: number}> to an array of objects for the table
+        // Convert the Map<String, {value: string, id: number, date?: string, image?: string}> to an array of objects for the table
         for (const key in this.meterValues) {
           if (this.meterValues.hasOwnProperty(key)) {
             const item = this.meterValues[key];
 
+            // Extract date from key (handle possible "date_" prefix)
+            let displayDate = key;
+            if (key.startsWith('date_')) {
+              displayDate = key.substring(5);
+            } else if (item.date) {
+              // Fallback to date property if present in object
+              displayDate = item.date;
+            }
+
             this.tableData.push({
               id: item.id,      // The record ID from the backend object
-              date: key,        // The key is the date string from the backend
+              date: displayDate, // The cleaned up date string
               value: item.value, // The meter reading value
               image: item.image || null
             });
