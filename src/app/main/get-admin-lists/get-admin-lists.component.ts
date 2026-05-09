@@ -31,7 +31,7 @@ export class GetAdminListsComponent implements OnInit {
   selectedMeterType: string = '';
 
   // Response data
-  meterValues: {[key: string]: {id: number, date: string, value: string, image: string | null}} = {};
+  meterValues: any = {};
   tableData: {id: number, date: string, value: string, image: string | null}[] = [];
   isDataLoaded: boolean = false;
   lastLoadedMeterType: string = '';

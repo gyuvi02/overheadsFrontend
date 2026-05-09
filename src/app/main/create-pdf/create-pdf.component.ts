@@ -23,10 +23,10 @@ interface Apartment {
 }
 
 interface ConsumptionData {
-  heating: Record<string, string>;
-  electricity: Record<string, string>;
-  water: Record<string, string>;
-  gas: Record<string, string>;
+  heating: Record<string, any>;
+  electricity: Record<string, any>;
+  water: Record<string, any>;
+  gas: Record<string, any>;
 }
 
 @Component({
@@ -268,12 +268,12 @@ export class CreatePdfComponent implements OnInit {
             this.gasNewMeterConsumption = gasNewMeterConsumption;
             if (gasEntries.length > 0) {
               const [latestGasDate, latestGasValue] = gasEntries[0];
-              this.actualGas = latestGasValue;
+              this.actualGas = (latestGasValue as any)?.value !== undefined ? (latestGasValue as any).value : latestGasValue;
               this.actualGasDate = this.formatDate(latestGasDate);
 
               if (gasEntries.length > 1) {
                 const [previousGasDate, previousGasValue] = gasEntries[1];
-                this.previousGas = previousGasValue;
+                this.previousGas = (previousGasValue as any)?.value !== undefined ? (previousGasValue as any).value : previousGasValue;
                 this.previousGasDate = this.formatDate(previousGasDate);
               }
             }
@@ -288,12 +288,12 @@ export class CreatePdfComponent implements OnInit {
             this.electricityNewMeterConsumption = electricityNewMeterConsumption;
             if (electricityEntries.length > 0) {
               const [latestElectricityDate, latestElectricityValue] = electricityEntries[0];
-              this.actualElectricity = latestElectricityValue;
+              this.actualElectricity = (latestElectricityValue as any)?.value !== undefined ? (latestElectricityValue as any).value : latestElectricityValue;
               this.actualElectricityDate = this.formatDate(latestElectricityDate);
 
               if (electricityEntries.length > 1) {
                 const [previousElectricityDate, previousElectricityValue] = electricityEntries[1];
-                this.previousElectricity = previousElectricityValue;
+                this.previousElectricity = (previousElectricityValue as any)?.value !== undefined ? (previousElectricityValue as any).value : previousElectricityValue;
                 this.previousElectricityDate = this.formatDate(previousElectricityDate);
               }
             }
@@ -308,12 +308,12 @@ export class CreatePdfComponent implements OnInit {
             this.waterNewMeterConsumption = waterNewMeterConsumption;
             if (waterEntries.length > 0) {
               const [latestWaterDate, latestWaterValue] = waterEntries[0];
-              this.actualWater = latestWaterValue;
+              this.actualWater = (latestWaterValue as any)?.value !== undefined ? (latestWaterValue as any).value : latestWaterValue;
               this.actualWaterDate = this.formatDate(latestWaterDate);
 
               if (waterEntries.length > 1) {
                 const [previousWaterDate, previousWaterValue] = waterEntries[1];
-                this.previousWater = previousWaterValue;
+                this.previousWater = (previousWaterValue as any)?.value !== undefined ? (previousWaterValue as any).value : previousWaterValue;
                 this.previousWaterDate = this.formatDate(previousWaterDate);
               }
             }
@@ -328,12 +328,12 @@ export class CreatePdfComponent implements OnInit {
             this.heatingNewMeterConsumption = heatingNewMeterConsumption;
             if (heatingEntries.length > 0) {
               const [latestHeatingDate, latestHeatingValue] = heatingEntries[0];
-              this.actualHeating = latestHeatingValue;
+              this.actualHeating = (latestHeatingValue as any)?.value !== undefined ? (latestHeatingValue as any).value : latestHeatingValue;
               this.actualHeatingDate = this.formatDate(latestHeatingDate);
 
               if (heatingEntries.length > 1) {
                 const [previousHeatingDate, previousHeatingValue] = heatingEntries[1];
-                this.previousHeating = previousHeatingValue;
+                this.previousHeating = (previousHeatingValue as any)?.value !== undefined ? (previousHeatingValue as any).value : previousHeatingValue;
                 this.previousHeatingDate = this.formatDate(previousHeatingDate);
               }
             }
