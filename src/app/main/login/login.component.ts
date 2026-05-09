@@ -24,7 +24,7 @@ export class LoginComponent {
 
   onLogin() {
     console.log('Login attempt with:', this.username);
-    const loginData = this.httpClient.post(`${environment.apiBaseUrl}/login`, {
+    const loginData = this.httpClient.post(`${environment.apiBaseUrl}/v1/login`, {
       "username": this.username,
       "password": this.password
     }, {
