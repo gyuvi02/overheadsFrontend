@@ -1,5 +1,5 @@
 import {Component, inject} from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { take } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { ButtonComponent } from '../../shared/button/button.component';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
@@ -31,7 +31,7 @@ export class LoginComponent {
       headers: {'API-KEY': environment.apiKeyValid},
       responseType: 'json'
     })
-    .pipe(takeUntilDestroyed())
+    .pipe(take(1))
     .subscribe(
       {
         next: (data) => {
