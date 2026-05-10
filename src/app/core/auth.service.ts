@@ -36,8 +36,19 @@ export class AuthService {
   private componentDisplayService = inject(ComponentDisplayService);
   private httpClient = inject(HttpClient);
   private router = inject(Router);
-  private isLoggedInSubject = new BehaviorSubject<boolean>(false);
+  private isLoggedInSubject = new BehaviorSubject<boolean>(!!sessionStorage.getItem('token'));
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
+
+  constructor() {
+    // Ha van token az indításkor, próbáljuk meg beállítani az állapotot
+    const token = sessionStorage.getItem('token');
+    if (token) {
+      const isAdmin = sessionStorage.getItem('isAdmin') === 'true';
+      const apartmentData = sessionStorage.getItem('apartments');
+      // Itt lehetne egy validációs hívás a backend felé, de most csak az állapotot állítjuk vissza
+      this.isLoggedInSubject.next(true);
+    }
+  }
 
   private apartmentDataSubject = new BehaviorSubject<ApartmentData | null>(null);
   apartmentData$ = this.apartmentDataSubject.asObservable();
@@ -86,6 +97,7 @@ export class AuthService {
       const userLang = (loginResponse.apartment.language === 'angol' || loginResponse.apartment.language === 'e') ? 'en' : 'hu';
 
       if (userLang !== currentLang) {
+        this.isLoggedInSubject.next(true); // Set logged in state before redirecting
         window.location.href = `https://omegahouses.org/${userLang}/me`;
         return; // Stop execution as we are redirecting
       }
@@ -144,7 +156,10 @@ export class AuthService {
     this.isLoggedInSubject.next(false);
 
     // Navigate to /login after logout
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login']).then(() => {
+      // Force reload to ensure a clean state if navigation alone isn't enough
+      // window.location.reload();
+    });
   }
 
   get isLoggedIn(): boolean {
