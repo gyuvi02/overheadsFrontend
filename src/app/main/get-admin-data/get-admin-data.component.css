@@ -135,7 +135,7 @@ button[disabled]:hover {
 /* Media query for larger screens */
 @media (min-width: 768px) {
   .get-admin-data-container {
-    padding: 20px 10%;
+    padding: 20px 5%;
   }
 
   .form-group {

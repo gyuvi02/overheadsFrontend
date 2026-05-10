@@ -69,7 +69,7 @@
 /* Media query for larger screens */
 @media (min-width: 768px) {
   .login-container {
-    padding: 0.9rem 10%;
+    padding: 0.9rem 5%;
     margin-top: 10vh;
   }
 

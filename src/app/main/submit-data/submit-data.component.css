@@ -174,7 +174,7 @@ button[disabled]:hover, button.disabled:hover {
 /* Media query for larger screens */
 @media (min-width: 768px) {
   .submit-data-container {
-    padding: 0.9rem 10%;
+    padding: 0.9rem 5%;
   }
 
   .form-group {

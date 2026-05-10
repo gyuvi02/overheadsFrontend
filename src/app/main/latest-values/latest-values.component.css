@@ -121,7 +121,7 @@ button:hover {
 /* Media query for larger screens */
 @media (min-width: 768px) {
   .latest-values-container {
-    padding: 0.9rem 10%;
+    padding: 0.9rem 5%;
   }
 
   .form-group {

@@ -82,7 +82,7 @@ button[disabled]:hover, button.disabled:hover {
 /* Media query for larger screens */
 @media (min-width: 768px) {
   .display-pdf-container {
-    padding: 20px 10%;
+    padding: 20px 5%;
   }
 
   .pdf-viewer {

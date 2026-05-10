@@ -100,7 +100,7 @@ h2 {
 /* Media query for larger screens */
 @media (min-width: 768px) {
   .add-apartment-container {
-    padding: 0.9rem 10%;
+    padding: 0.9rem 5%;
   }
 
   .form-field {

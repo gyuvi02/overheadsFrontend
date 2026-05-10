@@ -62,7 +62,7 @@ button[disabled] {
 /* Media query for larger screens */
 @media (min-width: 768px) {
   .send-email-container {
-    padding: 20px 10%;
+    padding: 20px 5%;
   }
 
   .form-container {
