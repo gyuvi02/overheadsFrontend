@@ -93,19 +93,40 @@ export class AuthService {
       this.componentDisplayService.reset();
 
       // Automatic language redirection for users
-      const currentLang = window.location.pathname.startsWith('/en') ? 'en' : 'hu';
+      const pathname = window.location.pathname;
+      const isEnPage = pathname.includes('/en/') || pathname.endsWith('/en');
+      const isHuPage = pathname.includes('/hu/') || pathname.endsWith('/hu');
+
+      const currentLang = isEnPage ? 'en' : 'hu';
       const userLang = (loginResponse.apartment.language === 'angol' || loginResponse.apartment.language === 'e' || loginResponse.apartment.language === 'en') ? 'en' : 'hu';
+
+      console.log(`Current path: ${pathname}, Detected current lang: ${currentLang}, User lang preference: ${userLang}`);
 
       if (userLang !== currentLang) {
         this.isLoggedInSubject.next(true); // Set logged in state before redirecting
-        // Redirect to the same path but with different language prefix
-        const newPath = window.location.pathname.replace(`/${currentLang}`, `/${userLang}`);
-        // If currentPath doesn't have the prefix, prepend it (though in i18n build it should have)
-        if (newPath === window.location.pathname && !window.location.pathname.startsWith(`/${userLang}`)) {
-           window.location.href = `/${userLang}/me`;
+
+        let newUrl: string;
+        if (currentLang === 'hu' && userLang === 'en') {
+          // Váltás HU -> EN
+          if (pathname.includes('/hu/')) {
+            newUrl = pathname.replace('/hu/', '/en/');
+          } else {
+            // Ha nincs benne a /hu/, de a user angolt szeretne, próbáljuk meg az /en/me-t
+            newUrl = '/en/me';
+          }
+        } else if (currentLang === 'en' && userLang === 'hu') {
+          // Váltás EN -> HU
+          if (pathname.includes('/en/')) {
+            newUrl = pathname.replace('/en/', '/hu/');
+          } else {
+            newUrl = '/hu/me';
+          }
         } else {
-           window.location.href = newPath;
+          newUrl = `/${userLang}/me`;
         }
+
+        console.log(`Redirecting to: ${newUrl}`);
+        window.location.href = newUrl;
         return; // Stop execution as we are redirecting
       }
 
