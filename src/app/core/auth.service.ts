@@ -94,11 +94,18 @@ export class AuthService {
 
       // Automatic language redirection for users
       const currentLang = window.location.pathname.startsWith('/en') ? 'en' : 'hu';
-      const userLang = (loginResponse.apartment.language === 'angol' || loginResponse.apartment.language === 'e') ? 'en' : 'hu';
+      const userLang = (loginResponse.apartment.language === 'angol' || loginResponse.apartment.language === 'e' || loginResponse.apartment.language === 'en') ? 'en' : 'hu';
 
       if (userLang !== currentLang) {
         this.isLoggedInSubject.next(true); // Set logged in state before redirecting
-        window.location.href = `https://omegahouses.org/${userLang}/me`;
+        // Redirect to the same path but with different language prefix
+        const newPath = window.location.pathname.replace(`/${currentLang}`, `/${userLang}`);
+        // If currentPath doesn't have the prefix, prepend it (though in i18n build it should have)
+        if (newPath === window.location.pathname && !window.location.pathname.startsWith(`/${userLang}`)) {
+           window.location.href = `/${userLang}/me`;
+        } else {
+           window.location.href = newPath;
+        }
         return; // Stop execution as we are redirecting
       }
 
