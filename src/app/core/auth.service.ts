@@ -180,32 +180,63 @@ export class AuthService {
 
   checkLanguageConsistency() {
     const apartment = this.apartmentDataSubject.value;
-    if (!apartment || this.isAdmin) return;
+    if (!apartment || this.isAdmin) {
+      console.log('DEBUG: checkLanguageConsistency - No apartment or is admin, skipping.');
+      return;
+    }
 
     const pathname = window.location.pathname;
+    console.log('DEBUG: checkLanguageConsistency - Pathname:', pathname);
+
     const urlSegments = pathname.split('/');
     const isEnPage = urlSegments.includes('en');
     const isHuPage = urlSegments.includes('hu');
 
-    const currentLang = isEnPage ? 'en' : 'hu';
-    const userLang = (apartment.language === 'angol' || apartment.language === 'e' || apartment.language === 'en') ? 'en' : 'hu';
+    // Meghatározzuk az aktuális nyelvet az URL alapján
+    let currentLang: 'en' | 'hu' | 'unknown' = 'unknown';
+    if (isEnPage) currentLang = 'en';
+    else if (isHuPage) currentLang = 'hu';
+
+    // Ha nem tudjuk azonosítani az aktuális nyelvet (pl. nincs /hu/ vagy /en/ az URL-ben),
+    // akkor alapértelmezettnek vehetjük a HU-t a VPS környezet miatt, de óvatosan.
+    if (currentLang === 'unknown') {
+      console.log('DEBUG: checkLanguageConsistency - Unknown language in URL, defaulting check to HU');
+      currentLang = 'hu';
+    }
+
+    const userLang = (apartment.language === 'angol' || apartment.language === 'e' || apartment.language === 'en' || apartment.language === 'English') ? 'en' : 'hu';
+    console.log(`DEBUG: checkLanguageConsistency - currentLang: ${currentLang}, userLang: ${userLang}, apartment.language: ${apartment.language}`);
 
     if (userLang !== currentLang) {
       console.log(`DEBUG: Language inconsistency detected. Current: ${currentLang}, User: ${userLang}. Redirecting...`);
 
       let newUrl: string;
-      if (pathname.includes(`/${currentLang}/`)) {
-        newUrl = pathname.replace(`/${currentLang}/`, `/${userLang}/`);
-      } else if (pathname.includes('/hu/')) {
-        newUrl = pathname.replace('/hu/', `/${userLang}/`);
-      } else if (pathname.includes('/en/')) {
-        newUrl = pathname.replace('/en/', `/${userLang}/`);
+      if (currentLang === 'hu' && userLang === 'en') {
+        // HU -> EN váltás
+        if (pathname.includes('/hu/')) {
+          newUrl = pathname.replace('/hu/', '/en/');
+        } else {
+          // Ha nincs /hu/ az URL-ben, de HU-ként azonosítottuk (alapértelmezett),
+          // akkor megpróbáljuk okosan beszúrni vagy cserélni.
+          newUrl = '/en/me';
+        }
+      } else if (currentLang === 'en' && userLang === 'hu') {
+        // EN -> HU váltás
+        if (pathname.includes('/en/')) {
+          newUrl = pathname.replace('/en/', '/hu/');
+        } else {
+          newUrl = '/hu/me';
+        }
       } else {
         newUrl = `/${userLang}/me`;
       }
 
-      newUrl = '/' + newUrl.replace(/\/+/g, '/');
+      // Tisztítás: dupla perjelek eltávolítása
+      newUrl = '/' + newUrl.split('/').filter(s => s).join('/');
+      console.log('DEBUG: Redirecting to:', newUrl);
       window.location.href = newUrl;
+    } else {
+      console.log('DEBUG: checkLanguageConsistency - Language is consistent.');
     }
   }
 
