@@ -259,6 +259,11 @@ export class SubmitDataComponent implements OnInit {
         // Reset isSubmitting when request completes successfully
         this.isSubmitting = false;
 
+        // Update the meter value in the AuthService so it's reflected in the UI
+        if (this.meterValue !== null) {
+          this.authService.updateMeterValue(this.selectedMeterType, this.meterValue.toString());
+        }
+
         // Show success message
         this.popupService.showPopup($localize`:@@successSubmit:Submission successful! Thank you!`);
 

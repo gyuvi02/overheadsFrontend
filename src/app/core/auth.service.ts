@@ -149,6 +149,12 @@ export class AuthService {
     return this.meterValuesSubject.value;
   }
 
+  updateMeterValue(type: string, value: string) {
+    const currentValues = this.meterValuesSubject.value;
+    const updatedValues = { ...currentValues, [type]: value };
+    this.meterValuesSubject.next(updatedValues);
+  }
+
   get token(): string | null {
     return sessionStorage.getItem('token');
   }

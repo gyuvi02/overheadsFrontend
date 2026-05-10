@@ -365,6 +365,16 @@ export class AdminSubmitDataComponent implements OnInit {
       next: (response) => {
         console.log('Submission successful:', response);
 
+        // Update the meter value in the local state for the selected apartment
+        if (this.meterValue !== null) {
+          this.actualMeterValues[this.selectedMeterType] = this.meterValue.toString();
+
+          // If the selected apartment is the user's own apartment, update it in AuthService too
+          if (this.authService.apartmentData?.id === this.selectedApartmentId?.toString()) {
+            this.authService.updateMeterValue(this.selectedMeterType, this.meterValue.toString());
+          }
+        }
+
         // Show success message with submitted values
         this.popupService.showPopup(`Submission successful! \nMeter Type: ${this.selectedMeterType}\nMeter Value: ${this.meterValue}`);
 
@@ -389,11 +399,12 @@ export class AdminSubmitDataComponent implements OnInit {
   }
 
   private resetForm() {
-    this.selectedApartmentId = null;
     this.selectedMeterType = '';
     this.meterValue = null;
     this.selectedFile = null;
-    this.apartmentSubmitted = false;  // Reset the apartmentSubmitted flag
+    // We don't reset this.selectedApartmentId and this.apartmentSubmitted anymore
+    // so the admin can submit multiple meter types for the same apartment easily
+    // and see the updated latest values
 
     // Reset the file input element if it exists
     const fileInput = document.getElementById('imageUpload') as HTMLInputElement;

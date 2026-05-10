@@ -39,7 +39,7 @@ export class LatestValuesComponent implements OnInit {
     'Gas meter': $localize`:@@gasMeter:Gas meter`,
     'Electricity meter': $localize`:@@electricityMeter:Electricity meter`,
     'Water meter': $localize`:@@waterMeter:Water meter`,
-    'Heating meter': $localize`:@@heatingMeter:Water meter`
+    'Heating meter': $localize`:@@heatingMeter:Heating meter`
   };
 
 
