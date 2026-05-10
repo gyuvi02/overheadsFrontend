@@ -1,7 +1,7 @@
 .submit-data-container {
-  width: 90%;
+  width: 100%;
   height: 100%;
-  padding: 5px;
+  padding: 0.9rem 5%;
   box-sizing: border-box;
   margin: 0 auto; /* Center horizontally */
 }
@@ -10,7 +10,7 @@
   width: 100%;
   margin: 0 auto;
   background-color: #FFFFEF;
-  padding: 5px;
+  padding: 1.5rem;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -24,75 +24,82 @@ h2 {
 .form-group {
   margin-bottom: 20px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 label {
   display: inline-block;
-  min-width : 150px;
-  margin-right: 10px;
+  width: 100%;
+  margin-bottom: 0.5rem;
   font-weight: bold;
   color: #555;
 }
 
 select, input[type="number"] {
-  width: 40%;
+  width: 100%;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 16px;
+  box-sizing: border-box;
 }
 
 .meter-type-container {
   display: flex;
+  flex-direction: column;
   margin-bottom: 15px;
-  align-items: center;
+  align-items: flex-start;
   position: relative;
-  width: 85%;
+  width: 100%;
 }
 
 .meter-value-container {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   position: relative;
-  width: 60%;
+  width: 100%;
 }
 
 .apartment-selection-container {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   position: relative;
   width: 100%;
   gap: 10px;
 }
 
 .actual-value {
-  margin-left: 10px;
+  margin-top: 5px;
+  margin-left: 0;
   color: #999;
   font-style: italic;
 }
 
 .file-upload-container {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   gap: 10px;
-  flex-wrap: wrap;
   width: 100%;
 }
 
 .file-name {
-  margin-left: 10px;
+  margin-left: 0;
   font-size: 14px;
   color: #555;
   word-break: break-all;
-  min-width: 150px;
-  padding: 5px 10px;
+  width: 100%;
+  padding: 8px 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
   background-color: #f9f9f9;
-  height: 32px;
-  display: inline-flex;
+  min-height: 44px;
+  display: flex;
   align-items: center;
+  box-sizing: border-box;
 }
 
 .empty-file {
@@ -111,21 +118,23 @@ select, input[type="number"] {
 
 .file-upload-container label {
   display: inline-block;
-  height: 36px;
+  min-height: 44px;
   padding: 10px 20px;
   background-color: #4CAF50;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px;
   text-align: center;
   box-sizing: border-box;
   line-height: 1.5;
+  width: 100%;
 }
 
 .file-upload-container button {
-  height: 42px;
+  min-height: 44px;
+  width: 100%;
   box-sizing: border-box;
 }
 
@@ -149,15 +158,76 @@ small {
 }
 
 button {
+  min-height: 44px;
   padding: 10px 20px;
   background-color: #4CAF50;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 button:hover {
   background-color: #45a049;
+}
+
+/* Media query for larger screens */
+@media (min-width: 768px) {
+  .submit-data-container {
+    padding: 20px 10%;
+  }
+
+  .form-group {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  label {
+    min-width: 150px;
+    width: auto;
+    margin-right: 1rem;
+    margin-bottom: 0;
+  }
+
+  select, input[type="number"] {
+    width: 40%;
+  }
+
+  .meter-type-container {
+    flex-direction: row;
+    align-items: center;
+    width: 85%;
+  }
+
+  .meter-value-container {
+    flex-direction: row;
+    align-items: center;
+    width: 60%;
+  }
+
+  .apartment-selection-container {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .actual-value {
+    margin-top: 0;
+    margin-left: 10px;
+  }
+
+  .file-upload-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .file-upload-container label {
+    width: auto;
+  }
+
+  .file-name {
+    margin-left: 10px;
+    width: auto;
+    min-width: 150px;
+  }
 }

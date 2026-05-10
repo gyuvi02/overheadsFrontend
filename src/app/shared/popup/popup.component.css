@@ -8,16 +8,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 2000; /* Higher than fixed menu */
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
 .popup-container {
   background-color: white;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   max-width: 500px;
-  width: 90%;
-  padding: 20px;
+  width: 100%;
+  padding: 1.5rem;
+  box-sizing: border-box;
 }
 
 .popup-content {
@@ -27,13 +30,25 @@
 }
 
 .popup-message {
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.5;
   margin: 0;
   white-space: pre-line;
+  word-break: break-word;
 }
 
 .popup-actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center; /* Center buttons on mobile */
+}
+
+.popup-actions button {
+  min-height: 44px;
+  min-width: 100px;
+}
+
+@media (min-width: 768px) {
+  .popup-actions {
+    justify-content: flex-end;
+  }
 }

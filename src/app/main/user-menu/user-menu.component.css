@@ -35,8 +35,11 @@
     left: 0;
     right: 0;
     min-height: auto;
+    max-height: 80vh; /* Don't cover more than 80% of the screen */
     z-index: 100;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    background-color: #FFFFEF;
   }
 
   .menu-buttons > div:not(.admin-buttons) {
@@ -49,12 +52,38 @@
 
   .menu-buttons > div:not(.admin-buttons) button {
     width: calc(50% - 20px);
-    min-width: 120px;
-    min-height: 44px; /* Minimum touch target size */
+    min-width: 140px; /* Slightly wider for text */
+    min-height: 48px; /* Better touch target */
     margin: 5px;
-    padding: 12px 15px;
-    font-size: 1rem;
+    padding: 10px;
+    font-size: 0.9rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .admin-buttons {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .admin-buttons button {
+    width: calc(50% - 20px);
+    min-width: 140px;
+    min-height: 48px;
+  }
+
+  .child-menu-buttons {
+    margin-left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .child-menu-buttons button {
+    width: calc(50% - 20px);
+    min-width: 140px;
   }
 }
 

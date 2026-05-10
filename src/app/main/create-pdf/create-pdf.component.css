@@ -1,7 +1,7 @@
 .create-pdf-container {
-  width: 90%;
+  width: 100%;
   height: 100%;
-  padding: 5px;
+  padding: 0.9rem 5%;
   box-sizing: border-box;
   margin: 0 auto; /* Center horizontally */
 }
@@ -28,32 +28,39 @@ h3 {
 .form-group {
   margin-bottom: 20px;
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 label {
   display: inline-block;
-  width: 95px;
-  margin-right: 10px;
+  width: 100%;
+  margin-bottom: 0.5rem;
   font-weight: bold;
   color: #555;
 }
 
 select {
-  width: 40%;
+  width: 100%;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 16px;
+  box-sizing: border-box;
 }
 
 .submit-button-container {
-  margin: 20px;
+  margin: 20px 0;
   text-align: center;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  gap: 40px;
+  gap: 15px;
+}
+
+button {
+  min-height: 44px;
+  width: 100%;
 }
 
 button[disabled] {
@@ -79,30 +86,30 @@ button[disabled]:hover {
   background-color: #FFFFEF;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  height: 100%;
-  padding: 20px 20px 50px;
+  height: auto;
+  padding: 1.5rem;
+  box-sizing: border-box;
 }
 
 .form-field {
   margin-bottom: 20px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .form-field label {
-  display: inline-block;
-  width: 200px;
-  margin-right: 10px;
-  font-weight: bold;
-  color: #555;
+  width: 100%;
+  margin-bottom: 0.5rem;
 }
 
 .form-field input {
-  width: 30%;
+  width: 100%;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 16px;
+  box-sizing: border-box;
 }
 
 .form-field input:disabled {
@@ -114,12 +121,11 @@ button[disabled]:hover {
   color: red;
   font-size: 14px;
   margin-top: 5px;
-  margin-left: 10px;
 }
 
 .meter-section, .additional-costs {
   margin-bottom: 30px;
-  padding: 15px;
+  padding: 1rem;
   background-color: #f9f9f0;
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -131,7 +137,7 @@ button[disabled]:hover {
 
 .total-sum {
   margin-top: 30px;
-  padding: 15px;
+  padding: 1rem;
   background-color: #f0f8ff;
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -151,35 +157,100 @@ button[disabled]:hover {
 /* Styles for the other costs row */
 .other-costs-row {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 20px;
+  flex-direction: column;
+  gap: 15px;
   width: 100%;
+  margin-bottom: 1rem;
 }
 
 .other-cost-name, .other-cost-value {
-  flex: 1;
+  width: 100%;
 }
 
 .other-cost-name input, .other-cost-value input {
-  width: 90%;
+  width: 100%;
 }
 
 /* Styles for meter rows */
 .meter-row {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 20px;
+  flex-direction: column;
+  gap: 15px;
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed #ccc;
+}
+
+.meter-row:last-child {
+  border-bottom: none;
 }
 
 .meter-row .form-field {
-  flex: 1;
   margin-bottom: 0;
 }
 
 .meter-row .form-field input {
-  width: 90%;
+  width: 100%;
+}
+
+/* Media query for larger screens */
+@media (min-width: 768px) {
+  .create-pdf-container {
+    padding: 0.9rem 10%;
+  }
+
+  .form-group {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  label {
+    width: 120px;
+    margin-right: 1rem;
+    margin-bottom: 0;
+  }
+
+  select {
+    width: 40%;
+  }
+
+  .submit-button-container {
+    flex-direction: row;
+    gap: 40px;
+  }
+
+  button {
+    width: auto;
+  }
+
+  .form-field {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .form-field label {
+    width: 200px;
+    margin-right: 1rem;
+    margin-bottom: 0;
+  }
+
+  .form-field input {
+    width: 30%;
+  }
+
+  .other-costs-row, .meter-row {
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  .other-costs-row {
+    margin-bottom: 0;
+  }
+
+  .meter-row {
+    margin-bottom: 20px;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
 }

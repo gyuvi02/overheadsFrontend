@@ -14,8 +14,15 @@ body {
 }
 
 main {
-  width: 80%;
-  margin: 3rem 10%;
+  width: 95%;
+  margin: 1.5rem 2.5%;
+}
+
+@media (min-width: 768px) {
+  main {
+    width: 80%;
+    margin: 3rem 10%;
+  }
 }
 
 #dashboard {
