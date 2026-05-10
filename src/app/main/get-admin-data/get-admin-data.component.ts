@@ -113,7 +113,7 @@ export class GetAdminDataComponent implements OnInit {
         }
       }).subscribe({
         next: (response: any) => {
-          console.log('Last meter values fetched successfully:', response);
+          console.log('[DEBUG_LOG] Admin Last meter values response:', response);
           this.meterData = response as { [key: string]: any };
         },
         error: (error) => {

@@ -117,7 +117,7 @@ export class LatestValuesComponent implements OnInit {
       }
     ).subscribe({
       next: (response: any) => {
-        console.log('Request successful:', response);
+        console.log('[DEBUG_LOG] Full backend response:', response);
 
         // Check if response contains data
         if (response && typeof response === 'object') {
@@ -125,18 +125,19 @@ export class LatestValuesComponent implements OnInit {
           this.meterValues = [];
 
           // Process the response object
-          // The response keys are dates (ISO string), and values can be objects with meterValue and optional image
           Object.keys(response).forEach(dateStr => {
             try {
               const date = new Date(dateStr);
               const formattedDate = `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
 
               const rawData = response[dateStr];
+              console.log(`[DEBUG_LOG] Processing entry for ${dateStr}:`, rawData);
+
               let displayValue = '';
               let imageData = undefined;
 
               if (rawData && typeof rawData === 'object') {
-                // If the backend returns objects like { meterValue: "123", image: "base64..." }
+                // Handle the new object structure { meterValue: "...", image: "..." }
                 displayValue = rawData.meterValue !== undefined ? rawData.meterValue : (rawData.value !== undefined ? rawData.value : JSON.stringify(rawData));
                 imageData = rawData.image;
               } else {
@@ -151,7 +152,7 @@ export class LatestValuesComponent implements OnInit {
                 rawDate: dateStr
               });
             } catch (e) {
-              console.error('Error parsing response entry:', dateStr, e);
+              console.error('[DEBUG_LOG] Error parsing response entry:', dateStr, e);
             }
           });
 

@@ -120,11 +120,11 @@ export class GetAdminListsComponent implements OnInit {
       }
     }).subscribe({
       next: (response: any) => {
-        console.log('Meter values fetched successfully:', response);
+        console.log('[DEBUG_LOG] Admin GetLastMeterValues response:', response);
         this.meterValues = response;
         this.tableData = [];
 
-        // Convert the Map<String, {value: string, id: number, date?: string, image?: string}> to an array of objects for the table
+        // Convert the Map<String, {value: string, id: number, date?: string, image?: string, meterValue?: string}> to an array of objects
         for (const key in this.meterValues) {
           if (this.meterValues.hasOwnProperty(key)) {
             const item = this.meterValues[key];
@@ -134,14 +134,13 @@ export class GetAdminListsComponent implements OnInit {
             if (key.startsWith('date_')) {
               displayDate = key.substring(5);
             } else if (item.date) {
-              // Fallback to date property if present in object
               displayDate = item.date;
             }
 
             this.tableData.push({
-              id: item.id,      // The record ID from the backend object
-              date: displayDate, // The cleaned up date string
-              value: item.meterValue || item.value, // The meter reading value
+              id: item.id,
+              date: displayDate,
+              value: item.meterValue || item.value || (typeof item === 'string' ? item : ''),
               image: item.image || null
             });
           }
