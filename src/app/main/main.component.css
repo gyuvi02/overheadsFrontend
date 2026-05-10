@@ -51,6 +51,4 @@
 .main-content > app-new-meter,
 .main-content > app-add-apartment {
   width: 80%;
-  display: flex;
-  justify-content: center;
 }

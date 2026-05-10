@@ -14,14 +14,14 @@ body {
 }
 
 main {
-  width: 95%;
-  margin: 1.5rem 2.5%;
+  width: 98%;
+  margin: 1rem 1%;
 }
 
 @media (min-width: 768px) {
   main {
-    width: 80%;
-    margin: 3rem 10%;
+    width: 90%;
+    margin: 2rem 5%;
   }
 }
 

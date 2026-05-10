@@ -6,8 +6,8 @@
 
 .content-container {
   flex: 1;
-  padding: 1rem;
-  margin-bottom: 10vh; /* Add margin to prevent content from being hidden behind the fixed footer */
+  padding: 0.5rem;
+  margin-bottom: 5vh; /* Add margin to prevent content from being hidden behind the fixed footer */
 }
 
 table {
