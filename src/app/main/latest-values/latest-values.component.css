@@ -104,7 +104,7 @@ button:hover {
 .meter-values-table th,
 .meter-values-table td {
   padding: 0.75rem;
-  text-align: left;
+  text-align: center;
   border-bottom: 1px solid #ddd;
 }
 

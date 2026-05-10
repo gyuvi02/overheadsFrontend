@@ -34,13 +34,14 @@
           <td>{{ meterData[meterType] }}</td>
           <td>
             <button
+              *ngIf="hasImage(meterType)"
               appButton
-              [disabled]="!hasImage(meterType)"
               (click)="downloadImage(meterType)"
               class="download-button"
             >
               Download
             </button>
+            <span *ngIf="!hasImage(meterType)">-</span>
           </td>
         </tr>
       </tbody>

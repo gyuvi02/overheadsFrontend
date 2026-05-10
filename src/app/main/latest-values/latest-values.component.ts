@@ -58,7 +58,7 @@ export class LatestValuesComponent implements OnInit {
   }
 
   hasImage(value: MeterValue): boolean {
-    return !!value.image;
+    return !!value.image && value.image.length > 0;
   }
 
   downloadImage(value: MeterValue): void {

@@ -140,7 +140,8 @@ export class GetAdminDataComponent implements OnInit {
 
   // Helper method to check if a meter type has an image
   hasImage(meterType: string): boolean {
-    return this.meterData[`${meterType}_image`] !== undefined;
+    const imageData = this.meterData[`${meterType}_image`];
+    return imageData !== undefined && imageData !== null && imageData !== '';
   }
 
   // Helper method to download an image

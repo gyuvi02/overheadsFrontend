@@ -32,14 +32,15 @@
             <td>{{ value.value }}</td>
             <td>
               <button
+                *ngIf="hasImage(value)"
                 appButton
-                [disabled]="!hasImage(value)"
                 (click)="downloadImage(value)"
                 class="download-button"
                 i18n="@@download"
               >
                 Download
               </button>
+              <span *ngIf="!hasImage(value)" i18n="@@noImage">-</span>
             </td>
           </tr>
         </tbody>

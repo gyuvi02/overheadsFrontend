@@ -82,7 +82,7 @@ button[disabled]:hover {
 .meter-data-table th,
 .meter-data-table td {
   padding: 12px;
-  text-align: left;
+  text-align: center;
   border-bottom: 1px solid #ddd;
 }
 
