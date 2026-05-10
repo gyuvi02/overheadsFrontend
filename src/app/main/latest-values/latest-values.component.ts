@@ -106,7 +106,10 @@ export class LatestValuesComponent implements OnInit {
 
               // Add to meterValues array
               const rawValue = response[dateStr];
-              let displayValue = rawValue;
+              let displayValue: any = rawValue;
+
+              // Log for debugging
+              console.log(`Raw value for ${dateStr}:`, rawValue);
 
               // If it's an object, try to extract the 'meterValue' or 'value' property
               if (rawValue && typeof rawValue === 'object') {
@@ -114,6 +117,13 @@ export class LatestValuesComponent implements OnInit {
                   displayValue = rawValue.meterValue;
                 } else if (rawValue.value !== undefined) {
                   displayValue = rawValue.value;
+                } else {
+                  // If it's still an object but doesn't have the expected properties,
+                  // try to find any property that might be the value
+                  const keys = Object.keys(rawValue);
+                  if (keys.length > 0) {
+                    displayValue = rawValue[keys[0]];
+                  }
                 }
               }
 

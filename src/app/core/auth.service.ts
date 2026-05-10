@@ -94,13 +94,15 @@ export class AuthService {
 
       // Automatic language redirection for users
       const pathname = window.location.pathname;
-      const isEnPage = pathname.includes('/en/') || pathname.endsWith('/en');
-      const isHuPage = pathname.includes('/hu/') || pathname.endsWith('/hu');
+      // We check if the URL contains 'en' or 'hu' as a path segment
+      const urlSegments = pathname.split('/');
+      const isEnPage = urlSegments.includes('en');
+      const isHuPage = urlSegments.includes('hu');
 
       const currentLang = isEnPage ? 'en' : 'hu';
       const userLang = (loginResponse.apartment.language === 'angol' || loginResponse.apartment.language === 'e' || loginResponse.apartment.language === 'en') ? 'en' : 'hu';
 
-      console.log(`Current path: ${pathname}, Detected current lang: ${currentLang}, User lang preference: ${userLang}`);
+      console.log(`Pathname: ${pathname}, Segments: ${urlSegments}, Current: ${currentLang}, User: ${userLang}`);
 
       if (userLang !== currentLang) {
         this.isLoggedInSubject.next(true); // Set logged in state before redirecting
@@ -110,14 +112,17 @@ export class AuthService {
           // Váltás HU -> EN
           if (pathname.includes('/hu/')) {
             newUrl = pathname.replace('/hu/', '/en/');
+          } else if (pathname.endsWith('/hu')) {
+            newUrl = pathname.substring(0, pathname.length - 2) + 'en/me';
           } else {
-            // Ha nincs benne a /hu/, de a user angolt szeretne, próbáljuk meg az /en/me-t
             newUrl = '/en/me';
           }
         } else if (currentLang === 'en' && userLang === 'hu') {
           // Váltás EN -> HU
           if (pathname.includes('/en/')) {
             newUrl = pathname.replace('/en/', '/hu/');
+          } else if (pathname.endsWith('/en')) {
+            newUrl = pathname.substring(0, pathname.length - 2) + 'hu/me';
           } else {
             newUrl = '/hu/me';
           }
