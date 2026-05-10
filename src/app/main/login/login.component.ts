@@ -24,8 +24,9 @@ export class LoginComponent {
 
   onLogin() {
     console.log('Login attempt with:', this.username);
-    // Töröljük a korábbi esetleges maradványokat, mielőtt újat indítunk
-    sessionStorage.clear();
+    // Csak a tokent töröljük, ha van, hogy tiszta lappal induljunk, de ne ürítsük a teljes tárat,
+    // mert az zavart okozhat az aszinkron folyamatokban
+    sessionStorage.removeItem('token');
 
     this.httpClient.post(`${environment.apiBaseUrl}/v1/login`, {
       "username": this.username,

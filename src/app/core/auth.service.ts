@@ -43,10 +43,28 @@ export class AuthService {
     // Ha van token az indításkor, próbáljuk meg beállítani az állapotot
     const token = sessionStorage.getItem('token');
     if (token) {
-      const isAdmin = sessionStorage.getItem('isAdmin') === 'true';
-      const apartmentData = sessionStorage.getItem('apartments');
-      // Itt lehetne egy validációs hívás a backend felé, de most csak az állapotot állítjuk vissza
+      // Bejelentkezett állapot visszaállítása
       this.isLoggedInSubject.next(true);
+
+      // Apartman adatok visszaállítása
+      const storedApartment = sessionStorage.getItem('apartmentData');
+      if (storedApartment) {
+        try {
+          this.apartmentDataSubject.next(JSON.parse(storedApartment));
+        } catch (e) {
+          console.error('Error parsing stored apartment data', e);
+        }
+      }
+
+      // Mérőállások visszaállítása
+      const storedMeterValues = sessionStorage.getItem('meterValues');
+      if (storedMeterValues) {
+        try {
+          this.meterValuesSubject.next(JSON.parse(storedMeterValues));
+        } catch (e) {
+          console.error('Error parsing stored meter values', e);
+        }
+      }
     }
   }
 
@@ -67,6 +85,7 @@ export class AuthService {
 
     // Store apartment data
     this.apartmentDataSubject.next(loginResponse.apartment);
+    sessionStorage.setItem('apartmentData', JSON.stringify(loginResponse.apartment));
 
     // Store meter values
     const meterValues: {[key: string]: string} = {};
@@ -83,6 +102,7 @@ export class AuthService {
       meterValues['Heating meter'] = loginResponse.actualHeating;
     }
     this.meterValuesSubject.next(meterValues);
+    sessionStorage.setItem('meterValues', JSON.stringify(meterValues));
 
     // If user is admin, fetch all apartments and set active component to GET_ADMIN_DATA
     if (loginResponse.isAdmin) {
@@ -105,7 +125,8 @@ export class AuthService {
       console.log(`DEBUG: Pathname: ${pathname}, Current: ${currentLang}, User: ${userLang}`);
 
       if (userLang !== currentLang) {
-        this.isLoggedInSubject.next(true); // Set logged in state before redirecting
+        // Fontos: mielőtt átirányítunk, beállítjuk az állapotot, hogy az újratöltéskor már bejelentkezve legyen
+        this.isLoggedInSubject.next(true);
 
         // Kiszámítjuk a cél URL-t robusztusabban
         let newUrl: string;
@@ -115,6 +136,11 @@ export class AuthService {
           newUrl = pathname.replace(`/${currentLang}/`, `/${userLang}/`);
         } else if (pathname.endsWith(`/${currentLang}`)) {
           newUrl = pathname.substring(0, pathname.lastIndexOf(`/${currentLang}`)) + `/${userLang}/me`;
+        } else if (pathname.includes('/hu/')) {
+          // Ha véletlenül hu van az URL-ben de nem az a currentLang (biztonsági játék)
+          newUrl = pathname.replace('/hu/', `/${userLang}/`);
+        } else if (pathname.includes('/en/')) {
+          newUrl = pathname.replace('/en/', `/${userLang}/`);
         } else {
           // Ha nincs prefix, vagy nem felismerhető formátum, próbáljunk meg egy biztos célpontot
           newUrl = `/${userLang}/me`;
@@ -124,6 +150,9 @@ export class AuthService {
         if (!newUrl.startsWith('/')) {
           newUrl = '/' + newUrl;
         }
+
+        // Dupla perjel eltávolítása az elejéről, ha véletlenül maradt (pl //en/me)
+        newUrl = newUrl.replace(/\/+/g, '/');
 
         console.log(`DEBUG: Redirecting from ${pathname} to ${newUrl}`);
         window.location.href = newUrl;
@@ -185,8 +214,8 @@ export class AuthService {
 
     // Navigate to /login after logout
     this.router.navigate(['/login']).then(() => {
-      // Force reload to ensure a clean state if navigation alone isn't enough
-      // window.location.reload();
+      // Force reload to ensure a clean state and clear any lingering memory-based state
+      window.location.reload();
     });
   }
 
