@@ -54,9 +54,22 @@ export class SubmitDataComponent implements OnInit {
     return this.meterTypeLabels[type] || type;
   }
 
-  // Get the actual meter value for the selected meter type
   get actualValue(): string | null {
-    return this.selectedMeterType ? this.actualMeterValues[this.selectedMeterType] : null;
+    if (!this.selectedMeterType) return null;
+    const rawValue = this.actualMeterValues[this.selectedMeterType];
+
+    if (rawValue && typeof rawValue === 'object') {
+      const obj = rawValue as any;
+      if (obj.meterValue !== undefined) return String(obj.meterValue);
+      if (obj.value !== undefined) return String(obj.value);
+      const keys = Object.keys(obj);
+      if (keys.length > 0) {
+        const firstValue = obj[keys[0]];
+        return (firstValue && typeof firstValue === 'object') ? JSON.stringify(firstValue) : String(firstValue);
+      }
+    }
+
+    return rawValue ? String(rawValue) : null;
   }
 
   onFileSelected(event: Event) {

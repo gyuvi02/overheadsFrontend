@@ -109,7 +109,7 @@ export class LatestValuesComponent implements OnInit {
               let displayValue: any = rawValue;
 
               // Log for debugging
-              console.log(`Raw value for ${dateStr}:`, rawValue);
+              console.log(`DEBUG: Raw value for ${dateStr}:`, rawValue);
 
               // If it's an object, try to extract the 'meterValue' or 'value' property
               if (rawValue && typeof rawValue === 'object') {
@@ -125,6 +125,11 @@ export class LatestValuesComponent implements OnInit {
                     displayValue = rawValue[keys[0]];
                   }
                 }
+              }
+
+              // Extra check: if it is still an object (e.g. nested), stringify it
+              if (displayValue && typeof displayValue === 'object') {
+                displayValue = JSON.stringify(displayValue);
               }
 
               this.meterValues.push({

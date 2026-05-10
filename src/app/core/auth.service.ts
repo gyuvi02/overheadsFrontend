@@ -102,35 +102,30 @@ export class AuthService {
       const currentLang = isEnPage ? 'en' : 'hu';
       const userLang = (loginResponse.apartment.language === 'angol' || loginResponse.apartment.language === 'e' || loginResponse.apartment.language === 'en') ? 'en' : 'hu';
 
-      console.log(`Pathname: ${pathname}, Segments: ${urlSegments}, Current: ${currentLang}, User: ${userLang}`);
+      console.log(`DEBUG: Pathname: ${pathname}, Current: ${currentLang}, User: ${userLang}`);
 
       if (userLang !== currentLang) {
         this.isLoggedInSubject.next(true); // Set logged in state before redirecting
 
+        // Kiszámítjuk a cél URL-t robusztusabban
         let newUrl: string;
-        if (currentLang === 'hu' && userLang === 'en') {
-          // Váltás HU -> EN
-          if (pathname.includes('/hu/')) {
-            newUrl = pathname.replace('/hu/', '/en/');
-          } else if (pathname.endsWith('/hu')) {
-            newUrl = pathname.substring(0, pathname.length - 2) + 'en/me';
-          } else {
-            newUrl = '/en/me';
-          }
-        } else if (currentLang === 'en' && userLang === 'hu') {
-          // Váltás EN -> HU
-          if (pathname.includes('/en/')) {
-            newUrl = pathname.replace('/en/', '/hu/');
-          } else if (pathname.endsWith('/en')) {
-            newUrl = pathname.substring(0, pathname.length - 2) + 'hu/me';
-          } else {
-            newUrl = '/hu/me';
-          }
+
+        // Ha az URL-ben benne van a nyelvprefix
+        if (pathname.includes(`/${currentLang}/`)) {
+          newUrl = pathname.replace(`/${currentLang}/`, `/${userLang}/`);
+        } else if (pathname.endsWith(`/${currentLang}`)) {
+          newUrl = pathname.substring(0, pathname.lastIndexOf(`/${currentLang}`)) + `/${userLang}/me`;
         } else {
+          // Ha nincs prefix, vagy nem felismerhető formátum, próbáljunk meg egy biztos célpontot
           newUrl = `/${userLang}/me`;
         }
 
-        console.log(`Redirecting to: ${newUrl}`);
+        // Biztosítjuk, hogy ne legyen kettős perjel az elején, ha nem kell, de legyen egy, ha hiányzik
+        if (!newUrl.startsWith('/')) {
+          newUrl = '/' + newUrl;
+        }
+
+        console.log(`DEBUG: Redirecting from ${pathname} to ${newUrl}`);
         window.location.href = newUrl;
         return; // Stop execution as we are redirecting
       }
