@@ -78,6 +78,9 @@ export class AuthService {
       this.fetchAllApartments();
       this.componentDisplayService.setActiveComponent(DisplayComponent.GET_ADMIN_DATA);
     } else {
+      // Reset component display state for regular users as well, ensuring we start at SUBMIT_DATA
+      this.componentDisplayService.reset();
+
       // Automatic language redirection for users
       const currentLang = window.location.pathname.startsWith('/en') ? 'en' : 'hu';
       const userLang = (loginResponse.apartment.language === 'angol' || loginResponse.apartment.language === 'e') ? 'en' : 'hu';
@@ -126,14 +129,11 @@ export class AuthService {
   }
 
   logout() {
-    // Clear token from sessionStorage
-    sessionStorage.removeItem('token');
+    // Clear all data from sessionStorage
+    sessionStorage.clear();
 
-    // Clear isAdmin from sessionStorage
-    sessionStorage.removeItem('isAdmin');
-
-    // Clear apartments from sessionStorage
-    sessionStorage.removeItem('apartments');
+    // Reset component display state
+    this.componentDisplayService.reset();
 
     // Clear apartment data
     this.apartmentDataSubject.next(null);

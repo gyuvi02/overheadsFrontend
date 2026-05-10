@@ -31,6 +31,10 @@ export class ComponentDisplayService {
     this.activeComponentSubject.next(component);
   }
 
+  reset(): void {
+    this.activeComponentSubject.next(DisplayComponent.SUBMIT_DATA);
+  }
+
   get activeComponent(): DisplayComponent {
     return this.activeComponentSubject.value;
   }
