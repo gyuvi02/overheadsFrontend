@@ -75,6 +75,7 @@ export class AuthService {
   meterValues$ = this.meterValuesSubject.asObservable();
 
   login(loginResponse: LoginResponse) {
+    console.log('DEBUG: AuthService.login called');
     // Store token in sessionStorage
     sessionStorage.setItem('token', loginResponse.token);
 
@@ -104,6 +105,9 @@ export class AuthService {
     this.meterValuesSubject.next(meterValues);
     sessionStorage.setItem('meterValues', JSON.stringify(meterValues));
 
+    // Update login status immediately before any redirection or navigation
+    this.isLoggedInSubject.next(true);
+
     // If user is admin, fetch all apartments and set active component to GET_ADMIN_DATA
     if (loginResponse.isAdmin) {
       this.fetchAllApartments();
@@ -111,59 +115,9 @@ export class AuthService {
     } else {
       // Reset component display state for regular users as well, ensuring we start at SUBMIT_DATA
       this.componentDisplayService.reset();
-
-      // Automatic language redirection for users
-      const pathname = window.location.pathname;
-      // We check if the URL contains 'en' or 'hu' as a path segment
-      const urlSegments = pathname.split('/');
-      const isEnPage = urlSegments.includes('en');
-      const isHuPage = urlSegments.includes('hu');
-
-      const currentLang = isEnPage ? 'en' : 'hu';
-      const userLang = (loginResponse.apartment.language === 'angol' || loginResponse.apartment.language === 'e' || loginResponse.apartment.language === 'en') ? 'en' : 'hu';
-
-      console.log(`DEBUG: Pathname: ${pathname}, Current: ${currentLang}, User: ${userLang}`);
-
-      if (userLang !== currentLang) {
-        // Fontos: mielőtt átirányítunk, beállítjuk az állapotot, hogy az újratöltéskor már bejelentkezve legyen
-        this.isLoggedInSubject.next(true);
-
-        // Kiszámítjuk a cél URL-t robusztusabban
-        let newUrl: string;
-
-        // Ha az URL-ben benne van a nyelvprefix
-        if (pathname.includes(`/${currentLang}/`)) {
-          newUrl = pathname.replace(`/${currentLang}/`, `/${userLang}/`);
-        } else if (pathname.endsWith(`/${currentLang}`)) {
-          newUrl = pathname.substring(0, pathname.lastIndexOf(`/${currentLang}`)) + `/${userLang}/me`;
-        } else if (pathname.includes('/hu/')) {
-          // Ha véletlenül hu van az URL-ben de nem az a currentLang (biztonsági játék)
-          newUrl = pathname.replace('/hu/', `/${userLang}/`);
-        } else if (pathname.includes('/en/')) {
-          newUrl = pathname.replace('/en/', `/${userLang}/`);
-        } else {
-          // Ha nincs prefix, vagy nem felismerhető formátum, próbáljunk meg egy biztos célpontot
-          newUrl = `/${userLang}/me`;
-        }
-
-        // Biztosítjuk, hogy ne legyen kettős perjel az elején, ha nem kell, de legyen egy, ha hiányzik
-        if (!newUrl.startsWith('/')) {
-          newUrl = '/' + newUrl;
-        }
-
-        // Dupla perjel eltávolítása az elejéről, ha véletlenül maradt (pl //en/me)
-        newUrl = newUrl.replace(/\/+/g, '/');
-
-        console.log(`DEBUG: Redirecting from ${pathname} to ${newUrl}`);
-        window.location.href = newUrl;
-        return; // Stop execution as we are redirecting
-      }
-
       // Set the active component to SUBMIT_DATA after login for non-admin users
       this.componentDisplayService.setActiveComponent(DisplayComponent.SUBMIT_DATA);
     }
-
-    this.isLoggedInSubject.next(true);
 
     // Navigate to /me after successful login
     this.router.navigate(['/me']);
@@ -198,25 +152,61 @@ export class AuthService {
   }
 
   logout() {
+    console.log('DEBUG: AuthService.logout called');
+    this.logoutNoRedirect();
+
+    // Force redirect to login via window.location to ensure fresh start
+    // instead of router navigation which might preserve some in-memory state
+    const pathname = window.location.pathname;
+    let loginUrl = '/hu/login';
+    if (pathname.includes('/en/')) {
+      loginUrl = '/en/login';
+    }
+    window.location.href = loginUrl;
+  }
+
+  logoutNoRedirect() {
     // Clear all data from sessionStorage
     sessionStorage.clear();
 
-    // Reset component display state
-    this.componentDisplayService.reset();
-
-    // Clear apartment data
+    // Reset internal state subjects
     this.apartmentDataSubject.next(null);
-
-    // Clear meter values
     this.meterValuesSubject.next({});
-
     this.isLoggedInSubject.next(false);
 
-    // Navigate to /login after logout
-    this.router.navigate(['/login']).then(() => {
-      // Force reload to ensure a clean state and clear any lingering memory-based state
-      window.location.reload();
-    });
+    // Reset component display state
+    this.componentDisplayService.reset();
+  }
+
+  checkLanguageConsistency() {
+    const apartment = this.apartmentDataSubject.value;
+    if (!apartment || this.isAdmin) return;
+
+    const pathname = window.location.pathname;
+    const urlSegments = pathname.split('/');
+    const isEnPage = urlSegments.includes('en');
+    const isHuPage = urlSegments.includes('hu');
+
+    const currentLang = isEnPage ? 'en' : 'hu';
+    const userLang = (apartment.language === 'angol' || apartment.language === 'e' || apartment.language === 'en') ? 'en' : 'hu';
+
+    if (userLang !== currentLang) {
+      console.log(`DEBUG: Language inconsistency detected. Current: ${currentLang}, User: ${userLang}. Redirecting...`);
+
+      let newUrl: string;
+      if (pathname.includes(`/${currentLang}/`)) {
+        newUrl = pathname.replace(`/${currentLang}/`, `/${userLang}/`);
+      } else if (pathname.includes('/hu/')) {
+        newUrl = pathname.replace('/hu/', `/${userLang}/`);
+      } else if (pathname.includes('/en/')) {
+        newUrl = pathname.replace('/en/', `/${userLang}/`);
+      } else {
+        newUrl = `/${userLang}/me`;
+      }
+
+      newUrl = '/' + newUrl.replace(/\/+/g, '/');
+      window.location.href = newUrl;
+    }
   }
 
   get isLoggedIn(): boolean {

@@ -24,8 +24,9 @@ export class LoginComponent {
 
   onLogin() {
     console.log('Login attempt with:', this.username);
-    // Csak a tokent töröljük, ha van, hogy tiszta lappal induljunk, de ne ürítsük a teljes tárat,
-    // mert az zavart okozhat az aszinkron folyamatokban
+
+    // Csak a tokent távolítjuk el, ha van, de nem töröljük az egész állapotot a kérés előtt,
+    // mert az AuthService.login elvégzi a szükséges frissítéseket.
     sessionStorage.removeItem('token');
 
     this.httpClient.post(`${environment.apiBaseUrl}/v1/login`, {
@@ -39,11 +40,12 @@ export class LoginComponent {
     .subscribe(
       {
         next: (data) => {
-          console.log(data);
+          console.log('Login success data:', data);
           const loginResponse = data as LoginResponse;
           this.authService.login(loginResponse);
         },
         error: (err: HttpErrorResponse) => {
+          console.error('Login error:', err);
           this.apiErrorHandler.handleError(err);
         }
       }

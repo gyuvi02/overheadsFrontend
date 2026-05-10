@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
@@ -44,10 +44,15 @@ import {NewMeterComponent} from './new-meter/new-meter.component';
   templateUrl: './main.component.html',
   styleUrl: './main.component.css'
 })
-export class MainComponent {
+export class MainComponent implements OnInit {
   private authService = inject(AuthService);
   private componentDisplayService = inject(ComponentDisplayService);
   isLoggedIn$ = this.authService.isLoggedIn$;
   activeComponent$ = this.componentDisplayService.activeComponent$;
   DisplayComponent = DisplayComponent;
+
+  ngOnInit() {
+    // Ellenőrizzük a nyelvi konzisztenciát bejelentkezés után
+    this.authService.checkLanguageConsistency();
+  }
 }
