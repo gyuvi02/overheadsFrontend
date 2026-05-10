@@ -53,10 +53,8 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     // Ellenőrizzük a nyelvi konzisztenciát bejelentkezés után
-    // Csak akkor hívjuk meg, ha az URL nem tartalmazza a nyelvváltás folyamatban lévő állapotát (pl. login oldalon vagyunk még)
-    // De mivel ez a MainComponent, ami a /me-n van, itt már biztonságos.
-    setTimeout(() => {
-      this.authService.checkLanguageConsistency();
-    }, 100);
+    // Azonnal meghívjuk, hogy gyorsabb legyen a váltás.
+    // A 100ms-os késleltetést eltávolítottuk, mert a felhasználó szerint lassú volt.
+    this.authService.checkLanguageConsistency();
   }
 }
