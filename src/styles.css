@@ -14,8 +14,8 @@ body {
 }
 
 main {
-  width: 98%;
-  margin: 1rem 1%;
+  width: 100%;
+  margin: 0.5rem 0;
 }
 
 @media (min-width: 768px) {

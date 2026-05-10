@@ -6,7 +6,7 @@
 
 .content-container {
   flex: 1;
-  padding: 0.5rem;
+  padding: 0.25rem;
   margin-bottom: 5vh; /* Add margin to prevent content from being hidden behind the fixed footer */
 }
 
