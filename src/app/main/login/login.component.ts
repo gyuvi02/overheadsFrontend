@@ -1,4 +1,5 @@
-import {Component, DestroyRef, inject} from '@angular/core';
+import {Component, inject} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ButtonComponent } from '../../shared/button/button.component';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
@@ -16,7 +17,6 @@ import { ApiErrorHandlerService } from '../../core/api-error-handler.service';
 })
 export class LoginComponent {
   private httpClient = inject(HttpClient);
-  private destroyRef = inject(DestroyRef);
   private authService = inject(AuthService);
   private apiErrorHandler = inject(ApiErrorHandlerService);
   username: string = '';
@@ -24,13 +24,15 @@ export class LoginComponent {
 
   onLogin() {
     console.log('Login attempt with:', this.username);
-    const loginData = this.httpClient.post(`${environment.apiBaseUrl}/v1/login`, {
+    this.httpClient.post(`${environment.apiBaseUrl}/v1/login`, {
       "username": this.username,
       "password": this.password
     }, {
       headers: {'API-KEY': environment.apiKeyValid},
       responseType: 'json'
-    }).subscribe(
+    })
+    .pipe(takeUntilDestroyed())
+    .subscribe(
       {
         next: (data) => {
           console.log(data);
@@ -41,13 +43,6 @@ export class LoginComponent {
           this.apiErrorHandler.handleError(err);
         }
       }
-    )
-
-    this.destroyRef.onDestroy(() => {
-      loginData.unsubscribe();
-      console.log('Destroying login component');
-    });
-    console.log('Login component destroyed');
-
+    );
   }
 }

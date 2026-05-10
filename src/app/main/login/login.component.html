@@ -1,5 +1,5 @@
 <div class="login-container">
-  <div class="login-form">
+  <form class="login-form" (ngSubmit)="onLogin()">
     <div class="form-group">
       <label for="username" i18n="@@loginUsername">Username</label>
       <div class="input-container">
@@ -12,7 +12,6 @@
           placeholder="Enter your username"
           step="1"
           required
-          (keydown.enter)="onLogin()"
         >
       </div>
     </div>
@@ -29,16 +28,15 @@
           placeholder="Enter your password"
           step="1"
           required
-          (keydown.enter)="onLogin()"
         >
       </div>
     </div>
 
     <div class="button-container">
-      <button appButton (click)="onLogin()" style="background-color: darkgreen;" i18n="@@loginButton">
+      <button appButton type="submit" style="background-color: darkgreen;" i18n="@@loginButton">
         Login
         <span ngProjectAs="icon">→</span>
       </button>
     </div>
-  </div>
+  </form>
 </div>
