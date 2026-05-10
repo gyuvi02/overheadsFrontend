@@ -15,6 +15,7 @@ export interface ApartmentData {
   waterMeterID: string;
   heatingMeterID: string;
   id: string;
+  language?: string;
 }
 
 export interface LoginResponse {
@@ -77,6 +78,15 @@ export class AuthService {
       this.fetchAllApartments();
       this.componentDisplayService.setActiveComponent(DisplayComponent.GET_ADMIN_DATA);
     } else {
+      // Automatic language redirection for users
+      const currentLang = window.location.pathname.startsWith('/en') ? 'en' : 'hu';
+      const userLang = (loginResponse.apartment.language === 'angol' || loginResponse.apartment.language === 'e') ? 'en' : 'hu';
+
+      if (userLang !== currentLang) {
+        window.location.href = `https://omegahouses.org/${userLang}/me`;
+        return; // Stop execution as we are redirecting
+      }
+
       // Set the active component to SUBMIT_DATA after login for non-admin users
       this.componentDisplayService.setActiveComponent(DisplayComponent.SUBMIT_DATA);
     }
