@@ -141,7 +141,7 @@ export class GetAdminListsComponent implements OnInit {
             this.tableData.push({
               id: item.id,      // The record ID from the backend object
               date: displayDate, // The cleaned up date string
-              value: item.value, // The meter reading value
+              value: item.meterValue || item.value, // The meter reading value
               image: item.image || null
             });
           }
@@ -169,11 +169,6 @@ export class GetAdminListsComponent implements OnInit {
   // Helper method to get apartment display name
   getApartmentDisplayName(apartment: Apartment): string {
     return `${apartment.city}, ${apartment.street}`;
-  }
-
-  // Helper method to check if a meter type has an image
-  hasImage(meterType: string): boolean {
-    return this.meterValues[meterType]?.image !== undefined && this.meterValues[meterType]?.image !== null;
   }
 
   // Helper method to download an image

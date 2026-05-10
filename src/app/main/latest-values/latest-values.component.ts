@@ -106,13 +106,20 @@ export class LatestValuesComponent implements OnInit {
 
               // Add to meterValues array
               const rawValue = response[dateStr];
-              const displayValue = (rawValue && typeof rawValue === 'object' && rawValue.value !== undefined)
-                ? rawValue.value
-                : rawValue;
+              let displayValue = rawValue;
+
+              // If it's an object, try to extract the 'meterValue' or 'value' property
+              if (rawValue && typeof rawValue === 'object') {
+                if (rawValue.meterValue !== undefined) {
+                  displayValue = rawValue.meterValue;
+                } else if (rawValue.value !== undefined) {
+                  displayValue = rawValue.value;
+                }
+              }
 
               this.meterValues.push({
                 date: formattedDate,
-                value: displayValue
+                value: String(displayValue)
               });
             } catch (e) {
               console.error('Error parsing date:', dateStr, e);
