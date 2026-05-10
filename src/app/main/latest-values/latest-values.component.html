@@ -23,12 +23,24 @@
           <tr>
             <th i18n="@@date">Date (year.month.day)</th>
             <th i18n="@@submitDataMeterValue">Meter Value</th>
+            <th i18n="@@image">Image</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let value of meterValues">
             <td>{{ value.date }}</td>
             <td>{{ value.value }}</td>
+            <td>
+              <button
+                appButton
+                [disabled]="!hasImage(value)"
+                (click)="downloadImage(value)"
+                class="download-button"
+                i18n="@@download"
+              >
+                Download
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>

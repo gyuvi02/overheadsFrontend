@@ -11,6 +11,8 @@ import {environment} from '../../../environments/environment';
 interface MeterValue {
   date: string;
   value: string;
+  image?: string;
+  rawDate: string;
 }
 
 @Component({
@@ -55,6 +57,31 @@ export class LatestValuesComponent implements OnInit {
     return this.meterTypeLabels[type] || type;
   }
 
+  hasImage(value: MeterValue): boolean {
+    return !!value.image;
+  }
+
+  downloadImage(value: MeterValue): void {
+    if (!value.image) {
+      return;
+    }
+
+    const byteCharacters = atob(value.image);
+    const byteNumbers = new Array(byteCharacters.length);
+
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: 'image/jpeg' });
+
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = `${this.selectedMeterType}_${value.date}.jpg`;
+    link.click();
+  }
+
   onSubmit() {
     if (!this.selectedMeterType) {
       this.popupService.showPopup('Please select a meter type');
@@ -79,7 +106,8 @@ export class LatestValuesComponent implements OnInit {
     this.httpClient.post(`${environment.apiBaseUrl}/v1/user/getLastMeterValues`,
       {
         "apartmentId": apartmentId,
-        "meterType": this.selectedMeterType.split(' ')[0].toLowerCase()
+        "meterType": this.selectedMeterType.split(' ')[0].toLowerCase(),
+        "withImage": "1"
       },
       {
         headers: {
@@ -96,54 +124,40 @@ export class LatestValuesComponent implements OnInit {
           // Clear previous values
           this.meterValues = [];
 
-          // Process the Map<String,String> object
-          // Iterate through the keys (dates) in the response object
+          // Process the response object
+          // The response keys are dates (ISO string), and values can be objects with meterValue and optional image
           Object.keys(response).forEach(dateStr => {
-            // Format date as YYYY.MM.DD
             try {
               const date = new Date(dateStr);
               const formattedDate = `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
 
-              // Add to meterValues array
-              const rawValue = response[dateStr];
-              let displayValue: any = rawValue;
+              const rawData = response[dateStr];
+              let displayValue = '';
+              let imageData = undefined;
 
-              // Log for debugging
-              console.log(`DEBUG: Raw value for ${dateStr}:`, rawValue);
-
-              // If it's an object, try to extract the 'meterValue' or 'value' property
-              if (rawValue && typeof rawValue === 'object') {
-                if (rawValue.meterValue !== undefined) {
-                  displayValue = rawValue.meterValue;
-                } else if (rawValue.value !== undefined) {
-                  displayValue = rawValue.value;
-                } else {
-                  // If it's still an object but doesn't have the expected properties,
-                  // try to find any property that might be the value
-                  const keys = Object.keys(rawValue);
-                  if (keys.length > 0) {
-                    displayValue = rawValue[keys[0]];
-                  }
-                }
-              }
-
-              // Extra check: if it is still an object (e.g. nested), stringify it
-              if (displayValue && typeof displayValue === 'object') {
-                displayValue = JSON.stringify(displayValue);
+              if (rawData && typeof rawData === 'object') {
+                // If the backend returns objects like { meterValue: "123", image: "base64..." }
+                displayValue = rawData.meterValue !== undefined ? rawData.meterValue : (rawData.value !== undefined ? rawData.value : JSON.stringify(rawData));
+                imageData = rawData.image;
+              } else {
+                // Fallback for simple values
+                displayValue = String(rawData);
               }
 
               this.meterValues.push({
                 date: formattedDate,
-                value: String(displayValue)
+                value: displayValue,
+                image: imageData,
+                rawDate: dateStr
               });
             } catch (e) {
-              console.error('Error parsing date:', dateStr, e);
+              console.error('Error parsing response entry:', dateStr, e);
             }
           });
 
           // Sort by date (newest first)
           this.meterValues.sort((a, b) => {
-            return new Date(b.date.replace(/\./g, '-')).getTime() - new Date(a.date.replace(/\./g, '-')).getTime();
+            return new Date(b.rawDate).getTime() - new Date(a.rawDate).getTime();
           });
 
           // Show the table if we have values
