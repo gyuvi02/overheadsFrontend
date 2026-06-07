@@ -64,8 +64,9 @@
     </div>
 
     <div class="button-container">
-      <button appButton (click)="onSubmit()" style="background-color: darkgreen;" i18n="@@submitDataSubmit">
-        Submit
+      <button appButton (click)="onSubmit()" style="background-color: darkgreen;" [disabled]="isLoading" [class.disabled]="isLoading">
+        <span *ngIf="!isLoading" i18n="@@submitDataSubmit">Submit</span>
+        <span *ngIf="isLoading" i18n="@@loadingPleaseWait">Please wait...</span>
         <span ngProjectAs="icon">→</span>
       </button>
     </div>

@@ -30,6 +30,7 @@ export class RegisterMeComponent implements OnInit {
   token: string = '';
   ap: string = '';
   showPassword: boolean = false;
+  isLoading: boolean = false;
 
   // Validation errors
   errors = {
@@ -107,6 +108,10 @@ export class RegisterMeComponent implements OnInit {
   }
 
   onSubmit(): void {
+    if (this.isLoading) {
+      return;
+    }
+
     if (!this.validateForm()) {
       return;
     }
@@ -125,6 +130,8 @@ export class RegisterMeComponent implements OnInit {
       apartmentId: this.ap
     };
 
+    this.isLoading = true;
+
     // Make the HTTP POST request to register the user
     const registerRequest = this.httpClient.post(`${environment.apiBaseUrl}/v1/register`, requestBody, {
       headers: {
@@ -134,6 +141,7 @@ export class RegisterMeComponent implements OnInit {
     }).subscribe({
       next: (response: any) => {
         console.log('Registration successful:', response);
+        this.isLoading = false;
 
         // Show success message
         this.popupService.showPopup('Registration successful! You can now log in.');
@@ -147,6 +155,7 @@ export class RegisterMeComponent implements OnInit {
         }, 1500);
       },
       error: (error: HttpErrorResponse) => {
+        this.isLoading = false;
         console.error('Registration error:', error); // Very useful for debugging! Inspect this in your browser console.
 
         // Check if it's a network error (API not available)

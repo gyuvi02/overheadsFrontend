@@ -27,6 +27,7 @@ export class DeleteApartmentComponent implements OnInit {
   selectedApartmentId: number | null = null;
   selectedApartment: Apartment | null = null;
   showConfirmation: boolean = false;
+  isLoading: boolean = false;
 
   ngOnInit() {
     // Check if apartments are already in sessionStorage
@@ -103,6 +104,10 @@ export class DeleteApartmentComponent implements OnInit {
   }
 
   onConfirmDelete() {
+    if (this.isLoading) {
+      return;
+    }
+
     if (!this.selectedApartment) {
       this.popupService.showPopup('No apartment selected');
       return;
@@ -115,6 +120,8 @@ export class DeleteApartmentComponent implements OnInit {
       return;
     }
 
+    this.isLoading = true;
+
     // Make the HTTP POST request to delete the apartment
     this.httpClient.post(`${environment.apiBaseUrl}/v1/admin/deleteApartment`, this.selectedApartment.id.toString(), {
       headers: {
@@ -125,6 +132,7 @@ export class DeleteApartmentComponent implements OnInit {
     }).subscribe({
       next: (response: any) => {
         console.log('Apartment deleted successfully:', response);
+        this.isLoading = false;
 
         // Delete the apartment list from sessionStorage
         sessionStorage.removeItem('apartments');
@@ -142,6 +150,7 @@ export class DeleteApartmentComponent implements OnInit {
         this.componentDisplayService.setActiveComponent(DisplayComponent.DELETE_APARTMENT);
       },
       error: (error) => {
+        this.isLoading = false;
         console.error('Request error:', error);
         if (error.status === 401) {
           this.popupService.showPopup('Session expired, please, log in again');

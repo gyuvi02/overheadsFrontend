@@ -46,6 +46,7 @@ export class EditApartmentComponent implements OnInit {
   selectedApartmentId: number | null = null;
   selectedApartment: Apartment | null = null;
   originalApartment: Apartment | null = null;
+  isLoading: boolean = false;
 
   ngOnInit() {
     // Check if apartments are already in sessionStorage
@@ -116,6 +117,10 @@ export class EditApartmentComponent implements OnInit {
 
   onSaveChanges() {
 
+    if (this.isLoading) {
+      return;
+    }
+
     if (!this.validateForm(this.selectedApartment)) {
       return;
     }
@@ -166,6 +171,8 @@ export class EditApartmentComponent implements OnInit {
       heatingUnitPrice: Math.round(this.selectedApartment.heatingUnitPrice)
     };
 
+    this.isLoading = true;
+
     // Make the HTTP POST request to save the apartment changes
     this.httpClient.post(`${environment.apiBaseUrl}/v1/admin/editApartment?meterType=null&lastMeterValue=null`, apartmentToSend, { //meter type and consumption is not used here only for new meter registration
       headers: {
@@ -175,6 +182,7 @@ export class EditApartmentComponent implements OnInit {
     }).subscribe({
       next: (response: any) => {
         console.log('Apartment updated successfully:', response);
+        this.isLoading = false;
 
         // Delete the apartment list from sessionStorage
         sessionStorage.removeItem('apartments');
@@ -192,6 +200,7 @@ export class EditApartmentComponent implements OnInit {
         this.componentDisplayService.setActiveComponent(DisplayComponent.EDIT_APARTMENT);
       },
       error: (error) => {
+        this.isLoading = false;
         console.error('Request error:', error);
         if (error.status === 401) {
           this.popupService.showPopup('Session expired, please, log in again');

@@ -14,6 +14,20 @@
   background-color: #551b98;
 }
 
+:host([disabled]),
+:host(.disabled) {
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+:host([disabled]:hover),
+:host(.disabled:hover) {
+  background-color: #cccccc;
+}
+
 .icon {
   display: inline-block;
   margin-left: 0.5rem;

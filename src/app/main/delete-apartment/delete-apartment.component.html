@@ -24,8 +24,11 @@
       <h3>Confirm Deletion</h3>
       <p>Are you sure you want to delete the apartment {{ getApartmentDisplayName(selectedApartment!) }}?</p>
       <div class="confirmation-buttons">
-        <button appButton (click)="onConfirmDelete()">Confirm</button>
-        <button appButton (click)="onCancelDelete()">Cancel</button>
+        <button appButton (click)="onConfirmDelete()" [disabled]="isLoading" [class.disabled]="isLoading">
+          <span *ngIf="!isLoading">Confirm</span>
+          <span *ngIf="isLoading">Please wait...</span>
+        </button>
+        <button appButton (click)="onCancelDelete()" [disabled]="isLoading" [class.disabled]="isLoading">Cancel</button>
       </div>
     </div>
   </div>
