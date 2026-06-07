@@ -26,6 +26,7 @@
   .main-content > app-edit-user,
   .main-content > app-admin-submit-data,
   .main-content > app-create-pdf,
+  .main-content > app-display-pdf,
   .main-content > app-new-meter,
   .main-content > app-add-apartment {
     width: 100%;
@@ -48,6 +49,7 @@
 .main-content > app-edit-user,
 .main-content > app-admin-submit-data,
 .main-content > app-create-pdf,
+.main-content > app-display-pdf,
 .main-content > app-new-meter,
 .main-content > app-add-apartment {
   width: 80%;
