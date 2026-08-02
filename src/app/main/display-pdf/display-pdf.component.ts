@@ -29,17 +29,21 @@ export class DisplayPdfComponent implements OnInit {
   email: string = '';
   apartmentAddress: string = '';
   language: string = '';
+  documentType: string = 'PDF';
+  documentFileName: string = 'document.pdf';
   isSending: boolean = false;
 
   ngOnInit() {
-    const pdfData = sessionStorage.getItem('receiptPdf64');
+    const pdfData = sessionStorage.getItem('documentPdf64') || sessionStorage.getItem('receiptPdf64') || sessionStorage.getItem('invoicePdf64');
     if (pdfData) {
       this.pdfData = pdfData;
       this.createPdfUrl();
 
-      const email = sessionStorage.getItem('receiptEmail');
-      const apartmentAddress = sessionStorage.getItem('receiptApartmentAddress');
-      const language = sessionStorage.getItem('receiptLanguage');
+      const email = sessionStorage.getItem('documentEmail') || sessionStorage.getItem('receiptEmail') || sessionStorage.getItem('invoiceEmail');
+      const apartmentAddress = sessionStorage.getItem('documentApartmentAddress') || sessionStorage.getItem('receiptApartmentAddress') || sessionStorage.getItem('invoiceApartmentAddress');
+      const language = sessionStorage.getItem('documentLanguage') || sessionStorage.getItem('receiptLanguage') || sessionStorage.getItem('invoiceLanguage');
+      const documentType = sessionStorage.getItem('documentType');
+      const documentFileName = sessionStorage.getItem('documentFileName');
 
       if (email) {
         this.email = email;
@@ -51,6 +55,14 @@ export class DisplayPdfComponent implements OnInit {
 
       if (language) {
         this.language = language;
+      }
+
+      if (documentType) {
+        this.documentType = documentType;
+      }
+
+      if (documentFileName) {
+        this.documentFileName = documentFileName;
       }
     } else {
       // If no PDF data is found, go back to create-pdf component
@@ -126,11 +138,42 @@ export class DisplayPdfComponent implements OnInit {
     });
   }
 
+  onDownload() {
+    try {
+      const byteCharacters = atob(this.pdfData);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: 'application/pdf' });
+      const blobUrl = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = this.documentFileName;
+      link.click();
+      URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error('Error downloading PDF:', error);
+      this.popupService.showPopup('Error downloading PDF. Please try again.');
+    }
+  }
+
   onCancel() {
+    sessionStorage.removeItem('documentPdf64');
+    sessionStorage.removeItem('documentEmail');
+    sessionStorage.removeItem('documentApartmentAddress');
+    sessionStorage.removeItem('documentLanguage');
+    sessionStorage.removeItem('documentType');
+    sessionStorage.removeItem('documentFileName');
     sessionStorage.removeItem('receiptPdf64');
     sessionStorage.removeItem('receiptEmail');
     sessionStorage.removeItem('receiptApartmentAddress');
     sessionStorage.removeItem('receiptLanguage');
+    sessionStorage.removeItem('invoicePdf64');
+    sessionStorage.removeItem('invoiceEmail');
+    sessionStorage.removeItem('invoiceApartmentAddress');
+    sessionStorage.removeItem('invoiceLanguage');
 
     // Navigate back to the create-pdf component
     this.componentDisplayService.setActiveComponent(DisplayComponent.CREATE_PDF);

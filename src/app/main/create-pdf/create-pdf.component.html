@@ -1,6 +1,6 @@
 <div class="create-pdf-container" *ngIf="isLoggedIn$ | async">
   <div class="form-container">
-    <h2>Create Accounting Receipt</h2>
+    <h2>Create PDF Documents</h2>
 
     <!-- Apartment selection dropdown -->
     <div class="form-group" *ngIf="!showForm">
@@ -262,6 +262,7 @@
 
       <!-- Submit button -->
       <div class="submit-button-container">
+        <button appButton (click)="onCreateInformationPdf()">Create Information PDF</button>
         <button appButton (click)="onCreateReceipt()">Create Receipt</button>
         <button appButton class="cancel-button" (click)="resetForm()">Cancel</button>
       </div>

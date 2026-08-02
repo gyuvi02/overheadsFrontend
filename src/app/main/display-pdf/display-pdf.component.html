@@ -1,6 +1,6 @@
 <div class="display-pdf-container" *ngIf="isLoggedIn$ | async">
   <div class="pdf-container">
-    <h2>Summary PDF</h2>
+    <h2>{{ documentType }}</h2>
 
     <!-- PDF Viewer -->
     <div class="pdf-viewer" *ngIf="safePdfUrl">
@@ -14,6 +14,7 @@
 
     <!-- Buttons -->
     <div class="button-container">
+      <button appButton (click)="onDownload()" [disabled]="isSending">Download</button>
       <button appButton (click)="onSend()" [disabled]="isSending" [class.disabled]="isSending">
         <span *ngIf="!isSending">Send</span>
         <span *ngIf="isSending">Sending...</span>

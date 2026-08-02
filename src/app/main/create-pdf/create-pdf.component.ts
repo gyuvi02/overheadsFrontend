@@ -390,6 +390,98 @@ export class CreatePdfComponent implements OnInit {
     this.totalSum = (rent + gasCost + electricityCost + waterCost + heatingCost + cleaning + maintenanceFee + otherSum).toString();
   }
 
+  onCreateInformationPdf() {
+    if (!this.selectedApartment) {
+      this.popupService.showPopup('No apartment selected');
+      return;
+    }
+
+    if (!this.validateForm()) {
+      return;
+    }
+
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+      this.popupService.showPopup('Authentication token not found. Please log in again.');
+      return;
+    }
+
+    this.loading = true;
+
+    const invoiceData = {
+      apartmentAddress: `${this.selectedApartment.city}, ${this.selectedApartment.street}`,
+      email: this.userEmail,
+      rent: this.selectedApartment.rent.toString(),
+      previousGas: this.previousGas,
+      previousGasDate: this.previousGasDate,
+      actualGas: this.actualGas,
+      actualGasDate: this.actualGasDate,
+      gasCost: this.gasCost,
+      gasNewMeterConsumption: this.gasNewMeterConsumption,
+      previousElectricity: this.previousElectricity,
+      previousElectricityDate: this.previousElectricityDate,
+      actualElectricity: this.actualElectricity,
+      actualElectricityDate: this.actualElectricityDate,
+      electricityCost: this.electricityCost,
+      electricityNewMeterConsumption: this.electricityNewMeterConsumption,
+      previousWater: this.previousWater,
+      previousWaterDate: this.previousWaterDate,
+      actualWater: this.actualWater,
+      actualWaterDate: this.actualWaterDate,
+      waterCost: this.waterCost,
+      waterNewMeterConsumption: this.waterNewMeterConsumption,
+      previousHeating: this.previousHeating,
+      previousHeatingDate: this.previousHeatingDate,
+      actualHeating: this.actualHeating,
+      actualHeatingDate: this.actualHeatingDate,
+      heatingCost: this.heatingCost,
+      heatingNewMeterConsumption: this.heatingNewMeterConsumption,
+      cleaning: this.cleaning,
+      commonCost: this.maintenanceFee,
+      totalSum: this.totalSum,
+      otherText: this.otherText,
+      otherSum: this.otherSum,
+      language: this.selectedApartment.language,
+      maintenanceFee: this.maintenanceFee
+    };
+
+    this.httpClient.post(`${environment.apiBaseUrl}/v1/admin/createInvoice`, invoiceData, {
+      headers: {
+        'API-KEY': environment.apiKeyValid,
+        'Authorization': `Bearer ${token}`
+      }
+    }).subscribe({
+      next: (response: any) => {
+        console.log('Information PDF created successfully:', response);
+        this.loading = false;
+
+        if (response && response.invoicePdf64) {
+          sessionStorage.setItem('documentPdf64', response.invoicePdf64);
+          sessionStorage.setItem('documentEmail', response.email);
+          sessionStorage.setItem('documentApartmentAddress', response.apartmentAddress);
+          sessionStorage.setItem('documentLanguage', response.language);
+          sessionStorage.setItem('documentType', 'Information PDF');
+          sessionStorage.setItem('documentFileName', 'information-summary.pdf');
+
+          this.componentDisplayService.setActiveComponent(DisplayComponent.DISPLAY_PDF);
+        } else {
+          this.popupService.showPopup('Information PDF created successfully');
+          this.resetForm();
+        }
+      },
+      error: (error) => {
+        this.loading = false;
+        if (error.status === 401) {
+          this.popupService.showPopup('Session expired, please, log in again');
+          this.authService.logout();
+        } else {
+          console.error('Error creating information PDF:', error);
+          this.popupService.showPopup('An error occurred while creating the information PDF. Please try again.');
+        }
+      }
+    });
+  }
+
   onCreateReceipt() {
     if (!this.selectedApartment) {
       this.popupService.showPopup('No apartment selected');
@@ -439,10 +531,12 @@ export class CreatePdfComponent implements OnInit {
         this.loading = false;
 
         if (response && response.pdfBase64) {
-          sessionStorage.setItem('receiptPdf64', response.pdfBase64);
-          sessionStorage.setItem('receiptEmail', this.userEmail);
-          sessionStorage.setItem('receiptApartmentAddress', response.propertyAddress || `${this.selectedApartment?.city}, ${this.selectedApartment?.street}`);
-          sessionStorage.setItem('receiptLanguage', this.selectedApartment?.language || '');
+          sessionStorage.setItem('documentPdf64', response.pdfBase64);
+          sessionStorage.setItem('documentEmail', this.userEmail);
+          sessionStorage.setItem('documentApartmentAddress', response.propertyAddress || `${this.selectedApartment?.city}, ${this.selectedApartment?.street}`);
+          sessionStorage.setItem('documentLanguage', this.selectedApartment?.language || '');
+          sessionStorage.setItem('documentType', 'Accounting Receipt');
+          sessionStorage.setItem('documentFileName', response.receiptNumber ? `${response.receiptNumber}.pdf` : 'accounting-receipt.pdf');
 
           this.componentDisplayService.setActiveComponent(DisplayComponent.DISPLAY_PDF);
         } else {
