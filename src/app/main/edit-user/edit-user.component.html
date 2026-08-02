@@ -34,6 +34,16 @@
     </div>
 
     <div class="form-field">
+      <label for="fullName">Full legal name</label>
+      <input type="text" id="fullName" [(ngModel)]="selectedUser.fullName">
+    </div>
+
+    <div class="form-field">
+      <label for="permanentAddress">Permanent address</label>
+      <input type="text" id="permanentAddress" [(ngModel)]="selectedUser.permanentAddress">
+    </div>
+
+    <div class="form-field">
       <label for="apartmentId">Apartment ID</label>
       <input type="number" id="apartmentId" [(ngModel)]="selectedUser.apartmentId" min="0"
              [value]="selectedUser.apartmentId === 0 ? 'No apartment' : selectedUser.apartmentId">

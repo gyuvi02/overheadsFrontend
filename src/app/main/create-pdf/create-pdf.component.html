@@ -1,6 +1,6 @@
 <div class="create-pdf-container" *ngIf="isLoggedIn$ | async">
   <div class="form-container">
-    <h2>Create Summary PDF</h2>
+    <h2>Create Accounting Receipt</h2>
 
     <!-- Apartment selection dropdown -->
     <div class="form-group" *ngIf="!showForm">
@@ -39,6 +39,31 @@
       <div class="form-field">
         <label for="rent">Rent</label>
         <input type="text" id="rent" [value]="selectedApartment.rent" disabled>
+      </div>
+
+      <div class="meter-row">
+        <div class="form-field">
+          <label for="periodYear">Period year</label>
+          <input type="number" id="periodYear" [(ngModel)]="periodYear" min="2000" step="1">
+        </div>
+        <div class="form-field">
+          <label for="periodMonth">Period month</label>
+          <input type="number" id="periodMonth" [(ngModel)]="periodMonth" min="1" max="12" step="1">
+        </div>
+      </div>
+
+      <div class="meter-row">
+        <div class="form-field">
+          <label for="paymentDate">Payment date</label>
+          <input type="date" id="paymentDate" [(ngModel)]="paymentDate">
+        </div>
+        <div class="form-field">
+          <label for="paymentMethod">Payment method</label>
+          <select id="paymentMethod" [(ngModel)]="paymentMethod">
+            <option value="BANK_TRANSFER">Bank transfer</option>
+            <option value="CASH">Cash</option>
+          </select>
+        </div>
       </div>
 
       <!-- Gas section -->
@@ -237,7 +262,7 @@
 
       <!-- Submit button -->
       <div class="submit-button-container">
-        <button appButton (click)="onCreateInvoice()">Create PDF</button>
+        <button appButton (click)="onCreateReceipt()">Create Receipt</button>
         <button appButton class="cancel-button" (click)="resetForm()">Cancel</button>
       </div>
     </div>

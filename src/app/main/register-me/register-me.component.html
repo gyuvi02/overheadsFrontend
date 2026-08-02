@@ -31,6 +31,34 @@
     </div>
 
     <div class="form-group">
+      <label for="fullName">Full legal name</label>
+      <div class="input-container">
+        <input
+          type="text"
+          id="fullName"
+          name="fullName"
+          [(ngModel)]="fullName"
+          required
+        >
+        <div class="error-message" *ngIf="errors.fullName">{{ errors.fullName }}</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="permanentAddress">Permanent address</label>
+      <div class="input-container">
+        <input
+          type="text"
+          id="permanentAddress"
+          name="permanentAddress"
+          [(ngModel)]="permanentAddress"
+          required
+        >
+        <div class="error-message" *ngIf="errors.permanentAddress">{{ errors.permanentAddress }}</div>
+      </div>
+    </div>
+
+    <div class="form-group">
       <label for="password" i18n="@@loginPassword">Password</label>
       <div class="input-container">
         <div class="password-field">

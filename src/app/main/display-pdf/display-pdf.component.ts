@@ -32,16 +32,14 @@ export class DisplayPdfComponent implements OnInit {
   isSending: boolean = false;
 
   ngOnInit() {
-    // Get the PDF data from sessionStorage
-    const pdfData = sessionStorage.getItem('invoicePdf64');
+    const pdfData = sessionStorage.getItem('receiptPdf64');
     if (pdfData) {
       this.pdfData = pdfData;
       this.createPdfUrl();
 
-      // Get the email, apartmentAddress, and language from sessionStorage
-      const email = sessionStorage.getItem('invoiceEmail');
-      const apartmentAddress = sessionStorage.getItem('invoiceApartmentAddress');
-      const language = sessionStorage.getItem('invoiceLanguage');
+      const email = sessionStorage.getItem('receiptEmail');
+      const apartmentAddress = sessionStorage.getItem('receiptApartmentAddress');
+      const language = sessionStorage.getItem('receiptLanguage');
 
       if (email) {
         this.email = email;
@@ -129,11 +127,10 @@ export class DisplayPdfComponent implements OnInit {
   }
 
   onCancel() {
-    // Clear all invoice data from sessionStorage
-    sessionStorage.removeItem('invoicePdf64');
-    sessionStorage.removeItem('invoiceEmail');
-    sessionStorage.removeItem('invoiceApartmentAddress');
-    sessionStorage.removeItem('invoiceLanguage');
+    sessionStorage.removeItem('receiptPdf64');
+    sessionStorage.removeItem('receiptEmail');
+    sessionStorage.removeItem('receiptApartmentAddress');
+    sessionStorage.removeItem('receiptLanguage');
 
     // Navigate back to the create-pdf component
     this.componentDisplayService.setActiveComponent(DisplayComponent.CREATE_PDF);

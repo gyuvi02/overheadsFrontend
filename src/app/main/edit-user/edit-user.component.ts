@@ -13,6 +13,8 @@ export interface User {
   id: number;
   username: string;
   email: string;
+  fullName: string;
+  permanentAddress: string;
   apartmentId: number;
 }
 
@@ -125,6 +127,8 @@ export class EditUserComponent implements OnInit {
     const isModified =
       this.selectedUser.username !== this.originalUser.username ||
       this.selectedUser.email !== this.originalUser.email ||
+      this.selectedUser.fullName !== this.originalUser.fullName ||
+      this.selectedUser.permanentAddress !== this.originalUser.permanentAddress ||
       this.selectedUser.apartmentId !== this.originalUser.apartmentId;
 
     if (!isModified) {

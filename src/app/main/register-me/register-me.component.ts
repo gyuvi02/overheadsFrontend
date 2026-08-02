@@ -25,6 +25,8 @@ export class RegisterMeComponent implements OnInit {
 
   email: string = '';
   username: string = '';
+  fullName: string = '';
+  permanentAddress: string = '';
   password: string = '';
   confirmPassword: string = '';
   token: string = '';
@@ -35,6 +37,8 @@ export class RegisterMeComponent implements OnInit {
   errors = {
     email: '',
     username: '',
+    fullName: '',
+    permanentAddress: '',
     password: '',
     confirmPassword: ''
   };
@@ -71,6 +75,16 @@ export class RegisterMeComponent implements OnInit {
       isValid = false;
     }
 
+    if (!this.fullName.trim()) {
+      this.errors.fullName = 'Full legal name is required';
+      isValid = false;
+    }
+
+    if (!this.permanentAddress.trim()) {
+      this.errors.permanentAddress = 'Permanent address is required';
+      isValid = false;
+    }
+
     // Validate Password (required)
     if (!this.password) {
       this.errors.password = 'Password is required';
@@ -93,6 +107,8 @@ export class RegisterMeComponent implements OnInit {
     this.errors = {
       email: '',
       username: '',
+      fullName: '',
+      permanentAddress: '',
       password: '',
       confirmPassword: ''
     };
@@ -101,6 +117,8 @@ export class RegisterMeComponent implements OnInit {
   resetForm(): void {
     this.email = '';
     this.username = '';
+    this.fullName = '';
+    this.permanentAddress = '';
     this.password = '';
     this.confirmPassword = '';
     this.resetErrors();
@@ -120,6 +138,8 @@ export class RegisterMeComponent implements OnInit {
     const requestBody = {
       email: this.email,
       username: this.username,
+      fullName: this.fullName.trim(),
+      permanentAddress: this.permanentAddress.trim(),
       password: this.password,
       token: this.token,
       apartmentId: this.ap

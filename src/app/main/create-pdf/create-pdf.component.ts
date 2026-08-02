@@ -80,6 +80,10 @@ export class CreatePdfComponent implements OnInit {
   otherSum: string = '0';
   totalSum: string = '0';
   language: string = 'e';
+  periodYear: number = new Date().getFullYear();
+  periodMonth: number = new Date().getMonth() + 1;
+  paymentDate: string = new Date().toISOString().slice(0, 10);
+  paymentMethod: 'CASH' | 'BANK_TRANSFER' = 'BANK_TRANSFER';
   gasNewMeterConsumption: string = '0';
   electricityNewMeterConsumption: string = '0';
   waterNewMeterConsumption: string = '0';
@@ -386,7 +390,7 @@ export class CreatePdfComponent implements OnInit {
     this.totalSum = (rent + gasCost + electricityCost + waterCost + heatingCost + cleaning + maintenanceFee + otherSum).toString();
   }
 
-  onCreateInvoice() {
+  onCreateReceipt() {
     if (!this.selectedApartment) {
       this.popupService.showPopup('No apartment selected');
       return;
@@ -404,66 +408,45 @@ export class CreatePdfComponent implements OnInit {
 
     this.loading = true;
 
-    const invoiceData = {
-      apartmentAddress: `${this.selectedApartment.city}, ${this.selectedApartment.street}`,
-      email: this.userEmail,
-      rent: this.selectedApartment.rent.toString(),
-      previousGas: this.previousGas,
-      previousGasDate: this.previousGasDate,
-      actualGas: this.actualGas,
-      actualGasDate: this.actualGasDate,
-      gasCost: this.gasCost,
-      gasNewMeterConsumption: this.gasNewMeterConsumption,
-      previousElectricity: this.previousElectricity,
-      previousElectricityDate: this.previousElectricityDate,
-      actualElectricity: this.actualElectricity,
-      actualElectricityDate: this.actualElectricityDate,
-      electricityCost: this.electricityCost,
-      electricityNewMeterConsumption: this.electricityNewMeterConsumption,
-      previousWater: this.previousWater,
-      previousWaterDate: this.previousWaterDate,
-      actualWater: this.actualWater,
-      actualWaterDate: this.actualWaterDate,
-      waterCost: this.waterCost,
-      waterNewMeterConsumption: this.waterNewMeterConsumption,
-      previousHeating: this.previousHeating,
-      previousHeatingDate: this.previousHeatingDate,
-      actualHeating: this.actualHeating,
-      actualHeatingDate: this.actualHeatingDate,
-      heatingCost: this.heatingCost,
-      heatingNewMeterConsumption: this.heatingNewMeterConsumption,
-      cleaning: this.cleaning,
-      commonCost: this.maintenanceFee,
-      totalSum: this.totalSum,
+    const utilityAmount =
+      (parseInt(this.gasCost) || 0) +
+      (parseInt(this.electricityCost) || 0) +
+      (parseInt(this.waterCost) || 0) +
+      (parseInt(this.heatingCost) || 0);
+
+    const receiptData = {
+      apartmentId: this.selectedApartment.id,
+      periodYear: this.periodYear,
+      periodMonth: this.periodMonth,
+      paymentDate: this.paymentDate || null,
+      paymentMethod: this.paymentMethod,
+      rentAmount: this.selectedApartment.rent || 0,
+      utilityAmount,
+      maintenanceFee: parseInt(this.maintenanceFee) || 0,
+      cleaningAmount: parseInt(this.cleaning) || 0,
       otherText: this.otherText,
-      otherSum: this.otherSum,
-      language: this.selectedApartment.language,
-      maintenanceFee: this.maintenanceFee
+      otherAmount: parseInt(this.otherSum) || 0
     };
 
-    // Make the HTTP POST request to create the invoice
-    this.httpClient.post(`${environment.apiBaseUrl}/v1/admin/createInvoice`, invoiceData, {
+    this.httpClient.post(`${environment.apiBaseUrl}/v1/admin/createRentalReceipt`, receiptData, {
       headers: {
         'API-KEY': environment.apiKeyValid,
         'Authorization': `Bearer ${token}`
       }
     }).subscribe({
       next: (response: any) => {
-        console.log('Invoice created successfully:', response);
+        console.log('Receipt created successfully:', response);
         this.loading = false;
 
-        // Check if the response contains the PDF data
-        if (response && response.invoicePdf64) {
-          // Store the PDF data and other necessary data in sessionStorage
-          sessionStorage.setItem('invoicePdf64', response.invoicePdf64);
-          sessionStorage.setItem('invoiceEmail', response.email);
-          sessionStorage.setItem('invoiceApartmentAddress', response.apartmentAddress);
-          sessionStorage.setItem('invoiceLanguage', response.language);
+        if (response && response.pdfBase64) {
+          sessionStorage.setItem('receiptPdf64', response.pdfBase64);
+          sessionStorage.setItem('receiptEmail', this.userEmail);
+          sessionStorage.setItem('receiptApartmentAddress', response.propertyAddress || `${this.selectedApartment?.city}, ${this.selectedApartment?.street}`);
+          sessionStorage.setItem('receiptLanguage', this.selectedApartment?.language || '');
 
-          // Navigate to the display-pdf component
           this.componentDisplayService.setActiveComponent(DisplayComponent.DISPLAY_PDF);
         } else {
-          this.popupService.showPopup('Invoice created successfully');
+          this.popupService.showPopup('Receipt created successfully');
           this.resetForm();
         }
       },
@@ -473,8 +456,9 @@ export class CreatePdfComponent implements OnInit {
           this.popupService.showPopup('Session expired, please, log in again');
           this.authService.logout();
         } else {
-          console.error('Error creating invoice:', error);
-          this.popupService.showPopup('An error occurred while creating the invoice. Please try again.');
+          console.error('Error creating receipt:', error);
+          const errorMessage = error.error?.error || error.error || 'An error occurred while creating the receipt. Please try again.';
+          this.popupService.showPopup(errorMessage);
         }
       }
     });
@@ -564,6 +548,10 @@ export class CreatePdfComponent implements OnInit {
     this.otherText = '';
     this.otherSum = '0';
     this.totalSum = '0';
+    this.periodYear = new Date().getFullYear();
+    this.periodMonth = new Date().getMonth() + 1;
+    this.paymentDate = new Date().toISOString().slice(0, 10);
+    this.paymentMethod = 'BANK_TRANSFER';
     this.showForm = false;
     this.resetErrors();
   }
