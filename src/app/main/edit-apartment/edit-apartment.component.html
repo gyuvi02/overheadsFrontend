@@ -123,7 +123,10 @@
     </div>
 
     <div class="save-button-container" *ngIf="selectedApartment">
-      <button appButton (click)="onSaveChanges()">Save changes</button>
+      <button appButton (click)="onSaveChanges()" [disabled]="isLoading" [class.disabled]="isLoading">
+        <span *ngIf="!isLoading">Save changes</span>
+        <span *ngIf="isLoading">Please wait...</span>
+      </button>
     </div>
   </div>
 </div>

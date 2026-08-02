@@ -21,6 +21,7 @@ export class AddApartmentComponent implements OnInit {
   private popupService = inject(PopupService);
   private componentDisplayService = inject(ComponentDisplayService);
   isLoggedIn$ = this.authService.isLoggedIn$;
+  isLoading: boolean = false;
 
   ngOnInit() {
     // No need to fetch apartments on init for this component
@@ -230,6 +231,10 @@ export class AddApartmentComponent implements OnInit {
   }
 
   onSubmit(): void {
+    if (this.isLoading) {
+      return;
+    }
+
     if (!this.validateForm()) {
       return;
     }
@@ -251,6 +256,8 @@ export class AddApartmentComponent implements OnInit {
       heatingUnitPrice: Math.round(this.apartment.heatingUnitPrice * 100)
     };
 
+    this.isLoading = true;
+
     this.httpClient.post(`${environment.apiBaseUrl}/v1/admin/addApartment`, apartmentToSend, {
       headers: {
         'API-KEY': environment.apiKeyValid,
@@ -259,6 +266,7 @@ export class AddApartmentComponent implements OnInit {
     }).subscribe({
       next: (response: any) => {
         console.log('Apartment added successfully:', response);
+        this.isLoading = false;
 
         // Delete the apartment list from sessionStorage
         sessionStorage.removeItem('apartments');
@@ -273,6 +281,7 @@ export class AddApartmentComponent implements OnInit {
         this.fetchAllApartments();
       },
       error: (error) => {
+        this.isLoading = false;
         if (error.status === 401) {
           this.popupService.showPopup('Session expired, please, log in again');
           this.authService.logout();

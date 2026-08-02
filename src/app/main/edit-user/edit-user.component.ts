@@ -37,6 +37,7 @@ export class EditUserComponent implements OnInit {
   selectedUser: User | null = null;
   originalUser: User | null = null;
   showConfirmation: boolean = false;
+  isLoading: boolean = false;
 
   ngOnInit() {
     console.log('EditUserComponent ngOnInit called'); // <<<--- ADD THIS LOG
@@ -116,6 +117,10 @@ export class EditUserComponent implements OnInit {
   }
 
   onSaveChanges() {
+    if (this.isLoading) {
+      return;
+    }
+
     if (!this.selectedUser || !this.originalUser) {
       this.popupService.showPopup('No user selected');
       return;
@@ -143,6 +148,8 @@ export class EditUserComponent implements OnInit {
       return;
     }
 
+    this.isLoading = true;
+
     // Make the HTTP POST request to save the user changes
     this.httpClient.post(`${environment.apiBaseUrl}/v1/admin/editUser`, this.selectedUser, {
       headers: {
@@ -152,6 +159,7 @@ export class EditUserComponent implements OnInit {
     }).subscribe({
       next: (response: any) => {
         console.log('User updated successfully:', response);
+        this.isLoading = false;
 
         // Delete the users list from sessionStorage
         sessionStorage.removeItem('users');
@@ -163,6 +171,7 @@ export class EditUserComponent implements OnInit {
         this.resetAndReload();
       },
       error: (error) => {
+        this.isLoading = false;
         console.error('Request error:', error);
         if (error.status === 401) {
           this.popupService.showPopup('Session expired, please, log in again');
@@ -185,6 +194,10 @@ export class EditUserComponent implements OnInit {
   }
 
   onConfirmDelete() {
+    if (this.isLoading) {
+      return;
+    }
+
     if (!this.selectedUser) {
       this.popupService.showPopup('No user selected');
       return;
@@ -197,6 +210,8 @@ export class EditUserComponent implements OnInit {
       return;
     }
 
+    this.isLoading = true;
+
     // Make the HTTP POST request to delete the user
     this.httpClient.post(`${environment.apiBaseUrl}/v1/admin/deleteUser`, this.selectedUser.id.toString(), {
       headers: {
@@ -207,6 +222,7 @@ export class EditUserComponent implements OnInit {
     }).subscribe({
       next: (response: any) => {
         console.log('User deleted successfully:', response);
+        this.isLoading = false;
 
         // Delete the users list from sessionStorage
         sessionStorage.removeItem('users');
@@ -218,6 +234,7 @@ export class EditUserComponent implements OnInit {
         this.resetAndReload();
       },
       error: (error) => {
+        this.isLoading = false;
         console.error('Request error:', error);
         if (error.status === 401) {
           this.popupService.showPopup('Session expired, please, log in again');

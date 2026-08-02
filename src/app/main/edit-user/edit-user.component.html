@@ -49,8 +49,11 @@
              [value]="selectedUser.apartmentId === 0 ? 'No apartment' : selectedUser.apartmentId">
     </div>
     <div class="button-container">
-      <button appButton (click)="onSaveChanges()">Save</button>
-      <button appButton class="delete-button" (click)="onDeleteUser()">Delete</button>
+      <button appButton (click)="onSaveChanges()" [disabled]="isLoading" [class.disabled]="isLoading">
+        <span *ngIf="!isLoading">Save</span>
+        <span *ngIf="isLoading">Please wait...</span>
+      </button>
+      <button appButton class="delete-button" (click)="onDeleteUser()" [disabled]="isLoading" [class.disabled]="isLoading">Delete</button>
     </div>
   </div>
 </div>
@@ -61,8 +64,11 @@
     <h3>Confirm Deletion</h3>
     <p>Are you sure you want to delete the user {{ selectedUser?.username }}?</p>
     <div class="confirmation-buttons">
-      <button appButton (click)="onConfirmDelete()">Confirm</button>
-      <button appButton (click)="onCancelDelete()">Cancel</button>
+      <button appButton (click)="onConfirmDelete()" [disabled]="isLoading" [class.disabled]="isLoading">
+        <span *ngIf="!isLoading">Confirm</span>
+        <span *ngIf="isLoading">Please wait...</span>
+      </button>
+      <button appButton (click)="onCancelDelete()" [disabled]="isLoading" [class.disabled]="isLoading">Cancel</button>
     </div>
   </div>
 </div>

@@ -102,7 +102,10 @@
       </div>
 
       <div class="submit-button-container">
-        <button appButton (click)="onSubmit()">Submit</button>
+        <button appButton (click)="onSubmit()" [disabled]="isLoading" [class.disabled]="isLoading">
+          <span *ngIf="!isLoading">Submit</span>
+          <span *ngIf="isLoading">Please wait...</span>
+        </button>
       </div>
     </div>
   </div>
